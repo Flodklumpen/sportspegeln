@@ -1,6 +1,6 @@
 # TDDD27_2021_sportstegen
 
-Project for course TDDD27 Advanced Web Programming
+_Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions.
 
 ## TODO (prel.):
 
