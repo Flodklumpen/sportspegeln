@@ -4,9 +4,9 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 
 ## TODO (prel.):
 
-- [ ] Write guide/instructions for merging and commiting (ex: [WIP], [FIX], [FEAT], [TEST], [MERGE] etc.)
-- [ ] Merging: rebase without squashing commits, merge without deleting source branch
-- [ ] Write down background of project (course instructions etc)
+- [X] Write guide/instructions for merging and commiting (ex: [WIP], [FIX], [FEAT], [TEST], [MERGE] etc.)
+- [X] Merging: rebase without squashing commits, merge without deleting source branch
+- [X] Write down background of project.
 - [ ] Determine frameworks
 - [ ] Describe project idea
 - [ ] write technichal and functional specification (in README)
@@ -53,5 +53,7 @@ Follow these steps when merging branch _B_ into master:
 **In web application:**
 
 4. Create a merge request.
-5. **_some more rules for merging_**
+5. Make sure **not** to squash commits and **don't** delete the source branch.
+6. Select both lab partners as approvers.
+7. Merge when the request is approved by both partners.
 
