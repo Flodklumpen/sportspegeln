@@ -25,7 +25,7 @@ What will we use?
 
 ### Commit messages
 
-Commit messages shall be written on the following format: **[<TAG>] <description>**
+Commit messages shall be written on the following format: **[\<TAG\>] \<description\>**
 
 | Tag | Usage |
 | ------ | ------ |
