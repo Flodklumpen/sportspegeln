@@ -10,8 +10,9 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 - [X] Determine frameworks
 - [X] Describe project idea
 - [X] write technichal and functional specification (in README)
-- [ ] Fix CI/CD (maybe?)
+- [X] Discusse CI
 - [ ] Decide on a code/file structure
+- [ ] Make skeleton for CI (for selenium)
 
 ## Functional specification
 
