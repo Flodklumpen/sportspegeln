@@ -1,6 +1,6 @@
 # TDDD27_2021_sportstegen
 
-_Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions.
+_Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions, primarily tennis. 
 
 ## TODO (prel.):
 
@@ -17,9 +17,17 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 
 What will the website do?
 
+This website will primarily be used for tournements in tennis, but there is room for extensions in other sports. 
+
 ## Technichal specification
 
-What will we use? 
+- Framework client-side: React + Redux
+- We use Auth0 to ensure a secure sign in.
+- Server: Flask
+- Database: SQLAlchemy
+- Rest API: TODO: **fråga om vi behöver specificera.**
+
+For testing we will use Postman and Selenium. 
 
 ## Git info
 
