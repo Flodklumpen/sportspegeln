@@ -7,15 +7,17 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 - [X] Write guide/instructions for merging and commiting (ex: [WIP], [FIX], [FEAT], [TEST], [MERGE] etc.)
 - [X] Merging: rebase without squashing commits, merge without deleting source branch
 - [X] Write down background of project.
-- [ ] Determine frameworks
-- [ ] Describe project idea
-- [ ] write technichal and functional specification (in README)
+- [X] Determine frameworks
+- [X] Describe project idea
+- [X] write technichal and functional specification (in README)
 - [ ] Fix CI/CD (maybe?)
 - [ ] Decide on a code/file structure
 
 ## Functional specification
 
-What will the website do?
+This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics. 
+
+### Possible extensions
 
 This website will primarily be used for tournements in tennis, but there is room for extensions in other sports. 
 
@@ -25,9 +27,7 @@ This website will primarily be used for tournements in tennis, but there is room
 - We use Auth0 to ensure a secure sign in.
 - Server: Flask
 - Database: SQLAlchemy
-- Rest API: TODO: **fråga om vi behöver specificera.**
-
-For testing we will use Postman and Selenium. 
+- Testing: Postman and Selenium. 
 
 ## Git info
 
