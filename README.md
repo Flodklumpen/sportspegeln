@@ -18,9 +18,15 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 
 This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics. 
 
+### "Smaller" funtional requirements
+
+- The results of the tournament will be updated automatically, without having to reload the page
+- The arrangement of the page shall look "good" when resizing the window (responsive design)
+
 ### Possible extensions
 
-This website will primarily be used for tournements in tennis, but there is room for extensions in other sports. 
+- Implementation of client-side routing
+- This website will primarily be used for tournements in tennis, but there is room for extensions in other sports.
 
 ## Technichal specification
 
@@ -28,7 +34,24 @@ This website will primarily be used for tournements in tennis, but there is room
 - We use Auth0 to ensure a secure sign in.
 - Server: Flask
 - Database: SQLAlchemy
-- Testing: Postman and Selenium. 
+- Testing: Postman and Selenium.
+
+### Techniques for streamlining
+
+- Use seeders and migration of the database, to streamline changes to the database.
+- Write scripts for buildning and running the client/server
+- Write a simple serverstub for the client
+- Use a specific file/files for contact between frontend and backend
+- Use external libraries for styling the components (like Material UI)
+
+## Work and time management
+
+We will use a backlog of issues to work from, that shall be created together. We will work separetely on issues and test/control the code of the other person before it is merged into master to ensure that both lab pertners understand every part of the code. For the same reason we will take turns working on frontend and backend.
+
+### Milestones (preliminary)
+
+- **Mid course screencast (May 8th):** Have a basic client and server that can communicate with each other
+- **One week before final deadline (May 28th):** Everything except individual screencasts done
 
 ## Git info
 
