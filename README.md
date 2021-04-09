@@ -6,6 +6,8 @@ _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programmi
 
 This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics. 
 
+The matches in the tournaments are timebased and the player who has won the most games wins the match. All tournaments are played as a single format. 
+
 ### "Smaller" funtional requirements
 
 - The results of the tournament will be updated automatically, without having to reload the page
