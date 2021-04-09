@@ -2,18 +2,6 @@
 
 _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions, primarily tennis. 
 
-## TODO (prel.):
-
-- [X] Write guide/instructions for merging and commiting (ex: [WIP], [FIX], [FEAT], [TEST], [MERGE] etc.)
-- [X] Merging: rebase without squashing commits, merge without deleting source branch
-- [X] Write down background of project.
-- [X] Determine frameworks
-- [X] Describe project idea
-- [X] write technichal and functional specification (in README)
-- [X] Discusse CI
-- [ ] Decide on a code/file structure
-- [ ] Make skeleton for CI (for selenium)
-
 ## Functional specification
 
 This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics. 
