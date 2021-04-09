@@ -79,3 +79,8 @@ Follow these steps when merging branch _B_ into master:
 6. Select both lab partners as approvers.
 7. Merge when the request is approved by both partners.
 
+## Installation
+
+While in root directory, write in terminal:
+`npm install`
+
