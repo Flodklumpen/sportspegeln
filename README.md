@@ -82,5 +82,9 @@ Follow these steps when merging branch _B_ into master:
 ## Installation
 
 While in root directory, write in terminal:
+
 `npm install`
 
+`cd sportstegen`
+
+`npm install`
