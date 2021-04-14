@@ -1,0 +1,5 @@
+*.db
+*.idea
+/sportstegen/api/venv
+sportstegen/api/__pycache__/
+/node_modules
