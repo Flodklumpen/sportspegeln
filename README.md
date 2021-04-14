@@ -1,12 +1,12 @@
 # TDDD27_2021_sportstegen
 
-_Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions, primarily tennis. 
+_Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions, primarily tennis.
 
 ## Functional specification
 
-This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics. 
+This website enables users to organize a competition's order during a tournement. As a compeditor you can challange other compeditors that are up to three places before you in the competition. After your match you can write in the results and the tournement list will automaticaly be updated. to use this website you need to create a user and log in. When you are logged in you can view the tournament list and the results from all the games that has been played in that tournament. The website saves information about the game results to show statistics.
 
-The matches in the tournaments are timebased and the player who has won the most games wins the match. All tournaments are played as a single format. 
+The matches in the tournaments are timebased and the player who has won the most games wins the match. All tournaments are played as a single format.
 
 ### "Smaller" funtional requirements
 
@@ -86,6 +86,20 @@ While in root directory, write in terminal:
 
 `npm install`
 
-`cd sportstegen`
+## Scripts to run, build and test client
 
-`npm install`
+The following scripts can be run in the root directory. For more information, see [React's website](https://create-react-app.dev/docs/available-scripts/)
+
+To run the app in development mode (open [http://localhost:3000](http://localhost:3000) to view it in the browser):
+
+`npm start`
+
+To launch the test runner:
+
+`npm test`
+
+To build the app for production:
+
+`npm run build`
+
+One can also run `npm run eject` if one is not satisfied with the build tool. **Note: it is a one-way operation!**
