@@ -5,7 +5,6 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    # TODO: Implement this.
-    pass
+    email = db.Column(db.String(120), primary_key=True)
 
 # see different relationships here: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/

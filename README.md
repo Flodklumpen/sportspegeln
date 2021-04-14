@@ -60,6 +60,7 @@ Commit messages shall be written on the following format: **[\<TAG\>] \<descript
 | STYLE | Formatting (e.g. missing semicolons) |
 | TEST | Add or edit tests |
 | WIP | Work in progress |
+| STRUCTURE | Set up file structure |
 | OTHER | Anything that doesn't fit the other tags |
 
 ### Merging
