@@ -103,3 +103,23 @@ To build the app for production:
 `npm run build`
 
 One can also run `npm run eject` if one is not satisfied with the build tool. **Note: it is a one-way operation!**
+
+## Migration
+
+When in root directory:
+
+`cd api/`
+
+Choose one:
+
+- Create an empty revision script:
+
+`flask db revision`
+
+- Create a revision script which is populated with changes detected automatically:
+
+`flask db migrate`
+
+Upgrade the database:
+
+`flask db upgrade`
