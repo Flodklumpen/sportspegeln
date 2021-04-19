@@ -28,3 +28,5 @@ yarn-error.log*
 *.idea
 /api/venv
 /api/__pycache__/
+/api/migrations/__pycache__/
+/api/migrations/versions/__pycache__/
