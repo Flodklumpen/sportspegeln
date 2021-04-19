@@ -1,6 +1,3 @@
-image: node:latest
-image: python:latest
-
 stages:
   - test
 
@@ -10,11 +7,13 @@ cache:
   - node_modules/
 
 test client:
+  image: node:latest
   stage: test
   script: 
     - npm install && npm run build && npm test
 
 test server:
+  image: python:latest
   stage: test
   script:
-    - pip install -r requirements.txt && cd tests/ && python -m unittest discover .
+    - pip install -r api/requirements.txt && cd tests/ && python -m unittest discover .
