@@ -1,0 +1,12 @@
+HOW TO USE AUTH0 
+a guide by someone who cannot use auth0
+
+- sign in / sign up. I used google account
+- create a tenant domain by telling them your region (EU)
+- följ deras quickstart guide
+
+
+
+- IMPORTANT: install packages using 
+	npm install --save <package>
+  to update package file
