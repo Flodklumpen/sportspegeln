@@ -1,11 +1,10 @@
 import os
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_migrate import Migrate
-from models import db
+from models import db, User
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
 from flask_seeder import FlaskSeeder
-
 
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
