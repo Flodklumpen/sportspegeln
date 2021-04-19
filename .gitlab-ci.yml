@@ -1,4 +1,5 @@
 image: node:latest
+image: python:latest
 
 stages:
   - test
@@ -13,3 +14,7 @@ test client:
   script: 
     - npm install && npm run build && npm test
 
+test server:
+  stage: test
+  script:
+    - pip install -r requirements.txt && cd tests/ && python -m unittest discover .
