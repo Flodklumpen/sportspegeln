@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from models import db
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
+from flask_seeder import FlaskSeeder
 
 
 @event.listens_for(Engine, "connect")
@@ -25,6 +26,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(_basedir, 'a
 migrate = Migrate(app, db)
 
 db.init_app(app)
+
+seeder = FlaskSeeder()
+seeder.init_app(app, db)
 
 
 if __name__ == '__main__':

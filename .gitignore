@@ -30,3 +30,4 @@ yarn-error.log*
 /api/__pycache__/
 /api/migrations/__pycache__/
 /api/migrations/versions/__pycache__/
+/api/seeds/__pycache__/
