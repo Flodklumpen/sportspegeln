@@ -10,13 +10,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Auth0Provider
-            domain={process.env.REACT_APP_AUTH0_DOMAIN}
-            clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-            redirectUri={window.location.origin}
-        >
-            <Login />
-        </Auth0Provider>
+        <Login />
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>

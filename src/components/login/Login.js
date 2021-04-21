@@ -3,17 +3,29 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export function Login() {
 
-    const { isAuthenticated } = useAuth0();
+    if (!navigator.userAgent.includes('jsdom')) {
+        const { isAuthenticated } = useAuth0();
 
-    console.log(isAuthenticated);
+        console.log(isAuthenticated);
 
-    return (
-        <div>
-            <LoginButton />
-            <LogoutButton />
-            <TempProfile />
-        </div>
-    );
+        return (
+            <Auth0Provider
+                domain={process.env.REACT_APP_AUTH0_DOMAIN}
+                clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+                redirectUri={window.location.origin}
+            >
+                <div>
+                    <LoginButton />
+                    <LogoutButton />
+                    <TempProfile />
+                </div>
+            </Auth0Provider>
+        );
+    } else {
+        return (
+            <p>Don't load auth0</p>
+        );
+    }
 };
 
 export function LoginButton() {
