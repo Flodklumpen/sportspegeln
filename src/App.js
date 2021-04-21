@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import { Login } from './components/login/Login';
 import './App.css';
-import { Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
 
