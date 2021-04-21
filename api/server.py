@@ -1,3 +1,7 @@
+"""
+TODO: Find out if this file can be removed
+"""
+
 import os
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate

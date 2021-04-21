@@ -4,7 +4,7 @@ from sqlalchemy import exc
 import datetime
 import sys
 sys.path.append("../api")
-from models import db, User, Owner, Competitor, Tournament, Match, Competing
+from models.base import db, User, Owner, Competitor, Tournament, Match, Competing
 
 # for development purposes because of pycharm...
 # from sqlalchemy.orm import Query, query = Query
