@@ -18,7 +18,7 @@ class Owner(db.Model):
 
 class Competing(db.Model):
     competitor = db.Column(db.String(120), db.ForeignKey('competitor.email'), primary_key=True)
-    tournament = db.Column('tourn', db.Integer, db.ForeignKey('tournament.id'), primary_key=True)
+    tournament = db.Column(db.Integer, db.ForeignKey('tournament.id'), primary_key=True)
 
 
 class Competitor(db.Model):
