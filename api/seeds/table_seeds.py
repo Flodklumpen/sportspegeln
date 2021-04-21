@@ -16,8 +16,8 @@ class UserSeeder(Seeder):
             cls=User,
             init={
                 "email": generator.Email(),
-                "first_name": generator.String("[a-w]{4}"),
-                "family_name": generator.String("[a-w]{4}")
+                "first_name": generator.String("[a-w]{5}"),
+                "family_name": generator.String("[a-w]{5}")
             }
         )
 

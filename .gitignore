@@ -26,6 +26,7 @@ yarn-error.log*
 
 *.db
 *.idea
+
 /api/venv
 /api/__pycache__/
 /api/migrations/__pycache__/
