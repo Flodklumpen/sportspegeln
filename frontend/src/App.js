@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import { Menu } from "./components/menu/Menu";
 import { Counter } from './features/counter/Counter';
 import { Login } from './components/login/Login';
 import './App.css';
@@ -10,6 +11,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Login />
+        <Menu />
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
