@@ -1,5 +1,5 @@
 from flask_seeder import Seeder, Faker, generator
-from models import User, Owner
+from api.models.base import User, Owner
 
 
 # All seeders inherit from Seeder
