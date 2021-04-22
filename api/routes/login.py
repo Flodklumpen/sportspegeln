@@ -13,12 +13,3 @@ def register():
     else:
         register_user(data['email'], data['given_name'], data['family_name'])
         return jsonify({'message': "User added"}), 200
-
-    with app.app_context():
-        if db.session.query(User.email).filter_by(email=data['email']).first() is not None:
-            #User exists
-            return jsonify({'message': "User exists"}), 200
-        else:
-            db.session.add(User(email=data['email'], first_name=data['given_name'], family_name=data['family_name']))
-            db.session.commit()
-            return jsonify({'message': "User added"}), 200
