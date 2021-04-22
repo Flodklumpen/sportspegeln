@@ -1,17 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
 
 # testing
-/coverage
-/tests/:memory
-/tests/__pycache__/
+/backend/coverage
+/backend/tests/:memory
+/backend/tests/__pycache__/
 
 # production
-/build
+/frontend/build
 
 # misc
 .DS_Store
@@ -27,11 +27,7 @@ yarn-error.log*
 *.db
 *.idea
 
-/api/venv
-/api/__pycache__/
-/api/migrations/__pycache__/
-/api/migrations/versions/__pycache__/
-/api/seeds/__pycache__/
-.env
+/backend/venv
+/frontend/.env
 
 *__pycache__/

@@ -1,2 +1,2 @@
 #!/bin/sh
-pip3 install -r ../api/requirements.txt
+pip3 install -r ../backend/requirements.txt

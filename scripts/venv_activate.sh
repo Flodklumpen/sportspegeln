@@ -2,4 +2,4 @@
 
 # run with:
 # . venv_activate.sh
-source ../api/venv/bin/activate
+source ../backend/venv/bin/activate
