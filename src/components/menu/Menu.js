@@ -4,10 +4,6 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import './menu.css';
 
-function homeHandler() {
-  return alert(`selected home`);
-}
-
 export function Menu() {
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
 
