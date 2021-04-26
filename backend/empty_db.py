@@ -1,5 +1,5 @@
-from server import *
-from models import db, User, Owner, Competitor, Tournament, Match, Competing
+from run_server import *
+from api.models.base import db, User, Owner, Competitor, Tournament, Match, Competing
 
 with app.app_context():
     users = db.session.query(User).all()

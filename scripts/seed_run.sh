@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd ../api/
+cd ../backend/
 flask seed run

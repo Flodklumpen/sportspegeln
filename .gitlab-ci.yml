@@ -9,11 +9,11 @@ cache:
 test client:
   image: node:latest
   stage: test
-  script: 
-    - npm install && npm run build && npm test
+  script:
+    - cd frontend && npm install && npm run build && npm test
 
 test server:
   image: python:latest
   stage: test
   script:
-    - pip install -r api/requirements.txt && cd tests/ && python -m unittest discover .
+    - cd backend && pip install -r requirements.txt && cd tests/ && python -m unittest discover .
