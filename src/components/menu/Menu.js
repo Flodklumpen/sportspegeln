@@ -2,10 +2,13 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import './menu.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { switchTabHome, selectSwitchTab } from './features/tabSelectSlice';
 
 export function Menu() {
-  const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
+  const dispatch = useDispatch();
+  const text = useSelector(selectSwitchTab);
+  console.log("läs här: ", text);
 
   return (
     <div>
@@ -15,9 +18,9 @@ export function Menu() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Container>
             <Nav className="m-auto">
-              <Nav.Link eventKey="home" onSelect={handleSelect}>Hem</Nav.Link>
+              <Nav.Link href="#home" onSelect={() => dispatch(switchTabHome())}>Hem</Nav.Link>
               <Nav.Link href="#profile">Profil</Nav.Link>
-              <Nav.Link href="#">Logga ut</Nav.Link>
+              <Nav.Link href="#logout">Logga ut</Nav.Link>
             </Nav>
           </Container>
         </Navbar.Collapse>

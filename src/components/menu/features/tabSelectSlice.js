@@ -1,21 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    status: 'home',
-    value: 'home'
+    value: 'home',
 };
 
 export const tabSelectSlice = createSlice({
     name: "tabSelect",
     initialState,
     reducers: {
-        switchTab: (state, action) => {
-            if (state.value === "New value") {
-                state.value = "Start value";
-            } else {
-                state.value = "New value";
-            }
-        },
+        switchTabHome: (state) => {
+            state.value = "home";
+            console.log("Redirect to home");
+        }
     },
 });
 
+export const { switchTabHome } = tabSelectSlice.actions;
+
+export const selectSwitchTab = (state) => state.tabSelect;
+
+export default tabSelectSlice.reducer;
