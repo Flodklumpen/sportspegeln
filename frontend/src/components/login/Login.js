@@ -1,12 +1,10 @@
 import React from 'react';
 import { useAuth0, Auth0Provider } from "@auth0/auth0-react";
+import { LogInLogOut } from "./features/LogInLogOut";
 
 export function Login() {
-    const { isAuthenticated } = useAuth0();
 
     if (!navigator.userAgent.includes('jsdom')) {
-
-        console.log(isAuthenticated);
 
         return (
             <Auth0Provider
@@ -15,8 +13,7 @@ export function Login() {
                 redirectUri={window.location.origin}
             >
                 <div>
-                    <LoginButton />
-                    <LogoutButton />
+                    <LogInLogOut />
                     <TempProfile />
                 </div>
             </Auth0Provider>
@@ -26,25 +23,7 @@ export function Login() {
             <p>Don't load auth0</p>
         );
     }
-};
-
-export function LoginButton() {
-
-    const { loginWithRedirect } = useAuth0();
-
-    return (
-        <button onClick={() => loginWithRedirect()}>Log in</button>
-    );
-};
-
-export function LogoutButton() {
-
-    const { logout } = useAuth0();
-
-    return (
-        <button onClick={() => logout({ returnTo: window.location.origin })}>Log out</button>
-    );
-};
+}
 
 // This function will not be used in the final product. USed now to ensure that
 // we get all information
@@ -69,4 +48,4 @@ function TempProfile() {
             </div>
     )
     );
-};
+}
