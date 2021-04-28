@@ -33,6 +33,18 @@ def is_competitor(competitor_email):
 def is_competing(comp_email, tournament_id):
     return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
 
+def create_match(tournament_id, date, time, challenger_email, defender_email):
+    match = Match(
+        tournament=tournament_id,
+        date_played=date,
+        time_played=time,
+        challenger=challenger_email,
+        defender=defender_email
+    )
+    db.session.add(match)
+    db.session.commit()
+    return match.id
+
 def create_competing(competitor_email, tournament_id):
     db.session.add(Competing(competitor=competitor_email, tournament=tournament_id));
     db.session.commit()
