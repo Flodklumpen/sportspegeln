@@ -5,11 +5,9 @@ from . import routes_help
 
 tournament_bp = Blueprint('tournament_bp', __name__)
 
-@tournament_bp.route('/create', methods=['POST'])
+@tournament_bp.route('/create_tournament', methods=['POST'])
 def create_tournament():
     data = request.get_json()
-    # make sure that end_date can be empty
-    # can allow start date to be empty? in that case take current date?
     required_fields = ['owner', 'tournament_name']
 
     if not routes_help.existing_fields(data, required_fields):
@@ -47,6 +45,34 @@ def create_tournament():
         query.create_owner(data['owner'])
 
     # create tournament
-    query.create_tournament(data['tournament_name'], data['owner'], start_date, end_date)
+    tournament_id = query.create_tournament(data['tournament_name'], data['owner'], start_date, end_date)
 
-    return jsonify({'message': 'Tournament created'}), 200
+    return jsonify({'message': 'Tournament created', 'data': tournament_id}), 200
+
+@tournament_bp.route('/add_competitor', methods=['POST'])
+def add_competitor():
+    data = request.get_json()
+    fields = ['competitor', 'tournament_id']
+
+    if not routes_help.existing_fields(data, fields):
+        return jsonify({'message': "Missing field(s)"}), 400
+
+    if not routes_help.filled_fields(data, fields):
+        return jsonify({'message': "Field(s) not filled"}), 400
+
+    # ensure that competitor is a user
+    if not query.is_user_registered(data['competitor']):
+        return jsonify({'message': 'Competitor is not registered as user'}), 404
+
+    #ensure that tournament exists
+    if not query.is_tournament(data['tournament_id']):
+        return jsonify({'message': 'Tournament does not exist'}), 404
+
+    # create competitor of user if they are not already
+    if not query.is_competitor(data['competitor']):
+        query.create_competitor(data['competitor'])
+
+    if not query.is_competing(data['competitor'], data['tournament_id']):
+        query.create_competing(data['competitor'], data['tournament_id'])
+
+    return jsonify({'message': 'Competitor added'}), 200
