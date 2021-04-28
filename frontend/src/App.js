@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import { Menu } from "./components/menu/Menu";
 import { Counter } from './features/counter/Counter';
+import { Tournament} from "./components/tournament/Tournament";
 import './App.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Menu />
+        <Tournament />
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />
         <p>
