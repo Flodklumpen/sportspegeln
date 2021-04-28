@@ -30,7 +30,7 @@ class CreateTournamentTest(MainTest):
     def test_missing_fields(self):
         with self.app.test_client() as c:
             response = c.post(
-                '/tournament/create',
+                '/tournament/create_tournament',
                 data=json.dumps({}),
                 content_type='application/json',
             )
@@ -39,7 +39,7 @@ class CreateTournamentTest(MainTest):
     def test_missing_data(self):
         with self.app.test_client() as c:
             response = c.post(
-                '/tournament/create',
+                '/tournament/create_tournament',
                 data=json.dumps({"tournament_name":"", "owner": ""}),
                 content_type='application/json',
             )
@@ -48,7 +48,7 @@ class CreateTournamentTest(MainTest):
     def test_not_user(self):
         with self.app.test_client() as c:
             response = c.post(
-                '/tournament/create',
+                '/tournament/create_tournament',
                 data=json.dumps({"tournament_name":"test not user", "owner": "testy1@example.com"}),
                 content_type='application/json',
             )
@@ -57,7 +57,7 @@ class CreateTournamentTest(MainTest):
     def test_no_dates(self):
         with self.app.test_client() as c:
             response = c.post(
-                '/tournament/create',
+                '/tournament/create_tournament',
                 data=json.dumps({"tournament_name":"test no dates", "owner": "testperson@example.com"}),
                 content_type='application/json',
             )
@@ -66,7 +66,7 @@ class CreateTournamentTest(MainTest):
     def test_dates(self):
         with self.app.test_client() as c:
             response = c.post(
-                '/tournament/create',
+                '/tournament/create_tournament',
                 data=json.dumps({
                     "tournament_name":"test dates",
                     "owner": "testperson@example.com",
