@@ -16,10 +16,6 @@ export const tabSelectSlice = createSlice({
             state.value = "profile";
             console.log("Redirect to profile");
         },
-        switchTabLogOut: (state) => {
-            state.value = "log-out";
-            console.log("Redirect to log out");
-        }
     },
 });
 

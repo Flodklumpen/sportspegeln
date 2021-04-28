@@ -1,7 +1,7 @@
 import {useAuth0} from "@auth0/auth0-react";
 import React from "react";
 
-export function LogInLogOut() {
+export function ToggleLogInButton() {
   const { isAuthenticated } = useAuth0();
 
   if (isAuthenticated) {
@@ -20,16 +20,16 @@ export function LogInLogOut() {
 }
 
 export function LoginButton() {
-    const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
 
-    return (
-        <button onClick={() => loginWithRedirect()}>Log in</button>
-    );
+  return (
+    <div onClick={() => loginWithRedirect()}>Logga in</div>
+  );
 }
 export function LogoutButton() {
-    const { logout } = useAuth0();
+  const { logout } = useAuth0();
 
-    return (
-        <button onClick={() => logout({ returnTo: window.location.origin })}>Log out</button>
-    );
+  return (
+    <div onClick={() => logout({ returnTo: window.location.origin })}>Logga ut</div>
+  );
 }
