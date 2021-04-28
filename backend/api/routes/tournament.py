@@ -1,18 +1,9 @@
 from datetime import date, datetime
 from flask import Blueprint, request, jsonify
 from ..models import query
+from .routes_help import existing_fields, filled_fields
 
 tournament_bp = Blueprint('tournament_bp', __name__)
-
-def existing_fields(data, fields):
-    return all(elem in data for elem in fields)
-
-
-def filled_fields(data, fields):
-    for field in fields:
-        if not data[field]:
-            return False
-    return True
 
 @tournament_bp.route('/create', methods=['POST'])
 def create_tournament():
