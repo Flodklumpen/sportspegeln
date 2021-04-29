@@ -1,18 +1,8 @@
 from flask import Blueprint, request, jsonify
 from ..models.query import *
+from .routes_help import existing_fields, filled_fields
 
 login_bp = Blueprint('login_bp', __name__)
-
-def existing_fields(data, fields):
-    return all(elem in data for elem in fields)
-
-
-def filled_fields(data, fields):
-    for field in fields:
-        if not data[field]:
-            return False
-    return True
-
 
 @login_bp.route('/register', methods=['POST'])
 def register():
