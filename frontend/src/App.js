@@ -60,6 +60,7 @@ function App() {
           </a>
         </span>
       </header>
+      <Profile />
     </div>
     */
   );
