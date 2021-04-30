@@ -49,6 +49,7 @@ def create_tournament():
 
     return jsonify({'message': 'Tournament created', 'data': tournament_id}), 200
 
+
 @tournament_bp.route('/add_competitor', methods=['POST'])
 def add_competitor():
     data = request.get_json()
@@ -76,3 +77,43 @@ def add_competitor():
         query.create_competing(data['competitor'], data['tournament_id'])
 
     return jsonify({'message': 'Competitor added'}), 200
+
+
+@tournament_bp.route('/create_match', methods=['POST'])
+def create_match():
+
+    data = request.get_json()
+    fields = ['tournament_id', 'challenger', 'defender']
+
+    if not routes_help.existing_fields(data, required_fields):
+        return jsonify({'message': "Missing required field(s)"}), 400
+
+    if not routes_help.filled_fields(data, required_fields):
+        return jsonify({'message': "Required field(s) not filled"}), 400
+
+    # check so that both challenger and defender are registered in the tournament
+    # this also ensures that they are both users
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournament'}), 400
+
+    #check that tournament exists
+    if not query.is_tournament(data['tournament_id']):
+        return jsonify({'message': 'Tournament does not exist'}), 404
+
+    if not 'date' in data or not data['date']:
+        date = None
+    else:
+        date = routes_help.get_date_from_string(data['date'])
+        if date is None:
+            return jsonify({'message': 'Bad format of date'}), 400
+
+    if not 'time' in data or not data['time']:
+        time = None
+    else:
+        time = routes_help.get_time_from_string(data['time'])
+        if time is None:
+            return jsonify({'message': 'Bad format of time'}), 400
+
+    match_id = query.create_match(data['tournament_id'], date, time, data['challenger'], data['defender'])
+
+    return jsonify({'message': 'Match created', 'data': match_id}), 200
