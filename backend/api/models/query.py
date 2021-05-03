@@ -1,4 +1,4 @@
-from .base import db, User, Tournament, Owner, Competitor, Competing
+from .base import db, User, Tournament, Owner, Competitor, Competing, Match
 
 """Functions to create objects in the database"""
 
