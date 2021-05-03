@@ -39,8 +39,9 @@ class Tournament(db.Model):
 class Match(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tournament = db.Column(db.Integer, db.ForeignKey('tournament.id'), primary_key=True)
-    date = db.Column(db.Date)
-    time = db.Column(db.Time)
+    date_played = db.Column(db.Date)
+    time_played = db.Column(db.Time)
+    timestamp_reported = db.Column(db.DateTime)
     challenger = db.Column(db.String(120), db.ForeignKey('competitor.email'), nullable=False)
     defender = db.Column(db.String(120), db.ForeignKey('competitor.email'), nullable=False)
     score_challenger = db.Column(db.Integer)
