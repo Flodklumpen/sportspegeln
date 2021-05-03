@@ -1,14 +1,12 @@
-/*
-this.props.[variable] can get variable
-use slice to decide state on mobile (hidden/shown)
-*/
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import {
-  futureMatchList,
-  pastMatchList,
-  ownedTournamentsList,
-  competingTournamentList,
+  futureMatchReducer,
+  pastMatchReducer,
+  ownedTournamentReducer,
+  competingTournamentReducer,
   selectFutureMatch,
   selectPastMatch,
   selectOwnedTournament,
@@ -37,40 +35,68 @@ export function ProfileList() {
       'opponent': 'Bobby'
     }
   ]
+
   const matchList = futureMatches.map((futureMatch) =>
     <li>
       {futureMatch.date} {futureMatch.time} Mot {futureMatch.opponent}
     </li>
   );
 
-  const futureMatchClass = useSelector(selectFutureMatch);
-  const pastMatchClass = useSelector(selectPastMatch);
-  const ownedTournamentsClass = useSelector(selectOwnedTournament);
-  const competingTournamentClass = useSelector(selectCompetingTournament);
+  const futureMatch = useSelector(selectFutureMatch);
+  const pastMatch = useSelector(selectPastMatch);
+  const ownedTournament = useSelector(selectOwnedTournament);
+  const competingTournament = useSelector(selectCompetingTournament);
+
   const dispatch = useDispatch();
+
+  const listMaker = (listName, title, list) => {
+    let onClickFunction;
+    let resource;
+    switch(listName) {
+      case "futureMatch":
+        onClickFunction = ()=>dispatch(futureMatchReducer());
+        resource = futureMatch;
+        break;
+      case "pastMatch":
+        onClickFunction = ()=>dispatch(pastMatchReducer());
+        resource = pastMatch;
+        break;
+      case "ownedTournament":
+        onClickFunction = ()=>dispatch(ownedTournamentReducer());
+        resource = ownedTournament;
+        break;
+      case "competingTournament":
+        onClickFunction = ()=>dispatch(competingTournamentReducer());
+        resource = competingTournament;
+        break;
+      default:
+        return (<div>Unknown</div>);
+    }
+    return (
+      <div>
+        <Row>
+          <Col xs={10}>
+            <h2>
+              {title}
+            </h2>
+          </Col>
+          <Col xs={2}>
+            <img className="d-block d-md-none" onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+          </Col>
+        </Row>
+        <Row>
+          <ul className={resource.class}>{list}</ul>
+        </Row>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h2>
-        Kommande matcher
-      </h2>
-      <button className="d-block d-md-none" onClick={()=>dispatch(futureMatchList())}>click</button>
-      <ul className={futureMatchClass}>{matchList}</ul>
-      <h2>
-        Tidigare matcher
-      </h2>
-      <button className="d-block d-md-none" onClick={()=>dispatch(pastMatchList())}>click</button>
-      <ul className={pastMatchClass}>{matchList}</ul>
-      <h2>
-        Turneringar jag äger
-      </h2>
-      <button className="d-block d-md-none" onClick={()=>dispatch(ownedTournamentsList())}>click</button>
-      <ul className={ownedTournamentsClass}>{matchList}</ul>
-      <h2>
-        Turneringar jag tävlar i
-      </h2>
-      <button className="d-block d-md-none" onClick={()=>dispatch(competingTournamentList())}>click</button>
-      <ul className={competingTournamentClass}>{matchList}</ul>
+      {listMaker("futureMatch", "Kommande matcher", matchList)}
+      {listMaker("pastMatch", "Tidigare matcher", matchList)}
+      {listMaker("ownedTournament", "Turneringar jag äger", matchList)}
+      {listMaker("competingTournament", "Turneringar jag tävlar i", matchList)}
     </div>
   );
 

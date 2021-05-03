@@ -1,52 +1,58 @@
 import { createSlice } from '@reduxjs/toolkit';
+import ArrowDown from './caret-down.svg';
+import ArrowUp from './caret-up.svg';
 
 const initialState = {
-  futureMatchClass: "d-none d-md-block",
-  pastMatchClass: "d-none d-md-block",
-  ownedTournamentsClass: "d-none d-md-block",
-  competingTournamentClass: "d-none d-md-block"
+  futureMatch: {
+    class: "d-none d-md-block",
+    arrow: ArrowDown
+  },
+  pastMatch: {
+    class: "d-none d-md-block",
+    arrow: ArrowDown
+  },
+  ownedTournament: {
+    class: "d-none d-md-block",
+    arrow: ArrowDown
+  },
+  competingTournament: {
+    class: "d-none d-md-block",
+    arrow: ArrowDown
+  }
+}
+
+const reducerHelp = (state) => {
+  if (state.class === "d-none d-md-block") {
+    state.class = "d-block d-md-block";
+    state.arrow = ArrowUp;
+  } else {
+    state.class = "d-none d-md-block";
+    state.arrow = ArrowDown;
+  }
 }
 
 export const profileListSlice = createSlice({
   name: "profileList",
   initialState,
   reducers: {
-    futureMatchList: (state) => {
-      if (state.futureMatchClass === "d-none d-md-block") {
-        state.futureMatchClass = "d-block d-md-block";
-      } else {
-        state.futureMatchClass = "d-none d-md-block";
-      }
-    },
-    pastMatchList: (state) => {
-      if (state.pastMatchClass === "d-none d-md-block") {
-        state.pastMatchClass = "d-block d-md-block";
-      } else {
-        state.pastMatchClass = "d-none d-md-block";
-      }
-    },
-    ownedTournamentsList: (state) => {
-      if (state.ownedTournamentsClass === "d-none d-md-block") {
-        state.ownedTournamentsClass = "d-block d-md-block";
-      } else {
-        state.ownedTournamentsClass = "d-none d-md-block";
-      }
-    },
-    competingTournamentList: (state) => {
-      if (state.competingTournamentClass === "d-none d-md-block") {
-        state.competingTournamentClass = "d-block d-md-block";
-      } else {
-        state.competingTournamentClass = "d-none d-md-block";
-      }
-    },
+    futureMatchReducer: (state) => { reducerHelp(state.futureMatch) },
+    pastMatchReducer: (state) => { reducerHelp(state.pastMatch) },
+    ownedTournamentReducer: (state) => { reducerHelp(state.ownedTournament) },
+    competingTournamentReducer: (state) => { reducerHelp(state.competingTournament) },
   },
 });
 
-export const { futureMatchList, pastMatchList, ownedTournamentsList, competingTournamentList } = profileListSlice.actions;
+export const {
+  futureMatchReducer,
+  pastMatchReducer,
+  ownedTournamentReducer,
+  competingTournamentReducer
+} = profileListSlice.actions;
 
-export const selectFutureMatch = (state) => state.profileList.futureMatchClass;
-export const selectPastMatch = (state) => state.profileList.pastMatchClass;
-export const selectOwnedTournament = (state) => state.profileList.ownedTournamentsClass;
-export const selectCompetingTournament = (state) => state.profileList.competingTournamentClass;
+
+export const selectFutureMatch = (state) => state.profileList.futureMatch;
+export const selectPastMatch = (state) => state.profileList.pastMatch;
+export const selectOwnedTournament = (state) => state.profileList.ownedTournament;
+export const selectCompetingTournament = (state) => state.profileList.competingTournament;
 
 export default profileListSlice.reducer;
