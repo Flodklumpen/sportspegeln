@@ -44,6 +44,4 @@ export function StoreProfileData() {
 	}
 
 	return null;
-
-
 }
