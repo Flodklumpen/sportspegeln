@@ -18,13 +18,9 @@ export function Tournament() {
     if (!form.noEnd.checked && form.endDate.value === '') {
       form.endDate.setAttribute("required", true);
       form.noEnd.setAttribute("required", true);
-    }
-
-    else if (form.noEnd.checked) {
+    } else if (form.noEnd.checked) {
       form.endDate.removeAttribute("required");
-    }
-
-    else if (form.endDate.value !== '') {
+    } else if (form.endDate.value !== '') {
       form.noEnd.removeAttribute("required");
     }
 
