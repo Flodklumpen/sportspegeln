@@ -83,7 +83,7 @@ def add_competitor():
 def create_match():
 
     data = request.get_json()
-    fields = ['tournament_id', 'challenger', 'defender']
+    required_fields = ['tournament_id', 'challenger', 'defender']
 
     if not routes_help.existing_fields(data, required_fields):
         return jsonify({'message': "Missing required field(s)"}), 400
@@ -94,7 +94,7 @@ def create_match():
     # check so that both challenger and defender are registered in the tournament
     # this also ensures that they are both users
     if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
-        return jsonify({'message': 'Challenger and/or defender are not registered in this tournament'}), 400
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournament'}), 404
 
     #check that tournament exists
     if not query.is_tournament(data['tournament_id']):
@@ -114,6 +114,8 @@ def create_match():
         if time is None:
             return jsonify({'message': 'Bad format of time'}), 400
 
-    match_id = query.create_match(data['tournament_id'], date, time, data['challenger'], data['defender'])
+    id = query.get_next_match_id(data['tournament_id'])
 
-    return jsonify({'message': 'Match created', 'data': match_id}), 200
+    query.create_match(id, data['tournament_id'], date, time, data['challenger'], data['defender'])
+
+    return jsonify({'message': 'Match created', 'data': id}), 200
