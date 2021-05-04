@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import styles from './../Profile.module.css';
 import {
   futureMatchReducer,
   pastMatchReducer,
@@ -19,26 +20,66 @@ export function ProfileList() {
     {
       'tournament_name': 'Turnering 1',
       'date': '2021-04-03',
-      'time': '15:30',
+      'time': '15.30',
       'opponent': 'Lars'
-    },
+    }
+  ];
+
+  const pastMatches = [
     {
       'tournament_name': 'Turnering 1',
-      'date': '',
-      'time': '',
-      'opponent': 'Märta'
-    },
-    {
-      'tournament_name': 'Turnering 4',
-      'date': '2022-04-20',
-      'time': '18.00',
-      'opponent': 'Bobby'
+      'date': '2021-04-03',
+      'time': '15.30',
+      'opponent': 'Lars',
+      'result': 'Vann'
     }
-  ]
+  ];
 
-  const matchList = futureMatches.map((futureMatch) =>
+  const ownedTournaments = [
+    {
+      'tournament_name': 'Min turnering',
+      'start_date': '2020-01-01',
+      'end_date': '2020-03-14',
+    }
+  ];
+
+  const competingTournaments = [
+    {
+      'tournament_name': 'Någon annans turnering',
+      'start_date': '2020-01-01',
+      'end_date': '2020-03-14',
+    }
+  ];
+
+  const futureMatchList = futureMatches.map((futureMatch) =>
     <li>
-      {futureMatch.date} {futureMatch.time} Mot {futureMatch.opponent}
+      <b>Mot {futureMatch.opponent}</b><br />
+      {futureMatch.date} kl. {futureMatch.time}<br />
+      Turnering: {futureMatch.tournament_name}
+    </li>
+  );
+
+  const pastMatchList = pastMatches.map((pastMatch) =>
+    <li>
+      <b>Mot {pastMatch.opponent}</b><br />
+      {pastMatch.date} kl. {pastMatch.time}<br />
+      Turnering: {pastMatch.tournament_name}<br />
+      Resultat: {pastMatch.result}
+    </li>
+  );
+
+  const ownedTournamentsList = ownedTournaments.map((ownedTournament) =>
+    <li>
+      <b>{ownedTournament.tournament_name}</b><br />
+      {ownedTournament.start_date} - {ownedTournament.end_date}<br />
+      Hantera turnering
+    </li>
+  );
+
+  const competingTournamentsList = competingTournaments.map((competingTournament) =>
+    <li>
+      <b>{competingTournament.tournament_name}</b><br />
+      {competingTournament.start_date} - {competingTournament.end_date}<br />
     </li>
   );
 
@@ -81,7 +122,7 @@ export function ProfileList() {
             </h2>
           </Col>
           <Col xs={2}>
-            <img className="d-block d-md-none" onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+            <img className={`d-block d-md-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
           </Col>
         </Row>
         <Row>
@@ -93,10 +134,10 @@ export function ProfileList() {
 
   return (
     <div>
-      {listMaker("futureMatch", "Kommande matcher", matchList)}
-      {listMaker("pastMatch", "Tidigare matcher", matchList)}
-      {listMaker("ownedTournament", "Turneringar jag äger", matchList)}
-      {listMaker("competingTournament", "Turneringar jag tävlar i", matchList)}
+      {listMaker("futureMatch", "Kommande matcher", futureMatchList)}
+      {listMaker("pastMatch", "Tidigare matcher", pastMatchList)}
+      {listMaker("ownedTournament", "Turneringar jag äger", ownedTournamentsList)}
+      {listMaker("competingTournament", "Turneringar jag tävlar i", competingTournamentsList)}
     </div>
   );
 

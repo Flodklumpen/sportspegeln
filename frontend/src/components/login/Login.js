@@ -1,27 +1,14 @@
 import React from 'react';
-import { useAuth0, Auth0Provider } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { ToggleLogInButton } from "./features/ToggleLogInButton";
 
 export function Login() {
-
-	if (!navigator.userAgent.includes('jsdom')) {
-			return (
-				<Auth0Provider
-					domain={process.env.REACT_APP_AUTH0_DOMAIN}
-					clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-					redirectUri={window.location.origin}
-				>
-					<div>
-						<ToggleLogInButton />
-						<StoreProfileData />
-					</div>
-				</Auth0Provider>
-			);
-	} else {
 		return (
-			<p>Don't load auth0</p>
+				<div>
+					<ToggleLogInButton />
+					<StoreProfileData />
+				</div>
 		);
-	}
 }
 
 // TODO: send this information to backend

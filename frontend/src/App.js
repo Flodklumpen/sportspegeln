@@ -1,19 +1,31 @@
 import React from 'react';
+
+//import logo from './logo.svg';
 import { Menu } from "./components/menu/Menu";
+//import { Counter } from './features/counter/Counter';
 import './App.css';
-/*
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-*/
+import { Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
-
-  return (
-    <div className="App">
-      <nav className="App-nav">
-        <Menu />
-      </nav>
-    </div>
+  if (!navigator.userAgent.includes('jsdom')) {
+    return (
+      <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      redirectUri={window.location.origin}
+      >
+        <div className="App">
+          <nav className="App-nav">
+            <Menu />
+          </nav>
+        </div>
+      </Auth0Provider>
+    );
+  } else {
+    return (
+      <div>Do not use auth0</div>
+    );
+  }
 
         /*
         <img src={logo} className="App-logo" alt="logo" />
