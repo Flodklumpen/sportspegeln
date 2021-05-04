@@ -31,13 +31,8 @@ export function Menu() {
         </Navbar>
       </div>
       <div className={styles.content}>
-<<<<<<< HEAD
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
-=======
-        <Route exact path="/home" component={Home}/>
-        <Route path="/profile" component={Profile}/>
->>>>>>> [STYLE] Renamed .module.css files
       </div>
     </HashRouter>
   );
