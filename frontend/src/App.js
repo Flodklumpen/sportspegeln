@@ -7,7 +7,7 @@ import './App.css';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 function App() {
-  if (!navigator.userAgent.includes('jsdom')) {
+  //if (!navigator.userAgent.includes('jsdom')) {
     return (
       <Auth0Provider
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
@@ -21,11 +21,11 @@ function App() {
         </div>
       </Auth0Provider>
     );
-  } else {
+  /*} else {
     return (
       <div>Do not use auth0</div>
     );
-  }
+  }*/
 
         /*
         <img src={logo} className="App-logo" alt="logo" />
