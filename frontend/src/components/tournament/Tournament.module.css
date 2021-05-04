@@ -1,12 +1,12 @@
 
-#create-tournament {
+.createTournament {
     margin-top: 2%;
 }
 
-#submit-area {
+.submitArea {
     margin-left: 52%;
 }
 
-.submit-buttons {
+.submitButtons {
     padding-inline: 3px;
 }
