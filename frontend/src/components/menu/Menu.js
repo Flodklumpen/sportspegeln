@@ -24,7 +24,8 @@ export function Menu() {
               <Nav className="m-auto">
                 <Nav.Link href="#/">Hem</Nav.Link>
                 <Nav.Link href="#/profile">Profil</Nav.Link>
-                <Nav.Link href="#/login"><Login /></Nav.Link>
+                {/*<Nav.Link href="#/login"><Login /></Nav.Link>*/}
+                <Nav.Link><Login /></Nav.Link>
               </Nav>
             </Container>
           </Navbar.Collapse>
