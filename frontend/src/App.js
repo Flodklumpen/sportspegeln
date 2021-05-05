@@ -15,7 +15,7 @@ function App() {
     >
       <div className="App">
         {/*<nav className="App-nav">*/}
-        <nav>
+        <nav className="App-nav">
           <Menu />
         </nav>
       </div>

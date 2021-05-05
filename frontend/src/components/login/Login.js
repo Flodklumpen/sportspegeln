@@ -6,13 +6,13 @@ export function Login() {
 		return (
 				<div>
 					<ToggleLogInButton />
-					<StoreProfileData />
+					{StoreProfileData()}
 				</div>
 		);
 }
 
 // TODO: send this information to backend
-export function StoreProfileData() {
+function StoreProfileData() {
 	const { user, isAuthenticated } = useAuth0();
 
 	if (isAuthenticated) {
@@ -21,13 +21,13 @@ export function StoreProfileData() {
 		const familyName = user.family_name;
 
 		/* This is only returned to avoid warnings */
-		return (
+		/*return (
 			<div>
         Email: { email } <br />
         Förnamn: { firstName } <br />
         Efternamn: { familyName } <br />
       </div>
-		);
+		);*/
 	}
 
 	return null;
