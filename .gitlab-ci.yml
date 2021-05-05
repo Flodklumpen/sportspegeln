@@ -1,19 +1,37 @@
 stages:
   - test
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - node_modules/
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 test client:
   image: node:latest
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - frontend/node_modules/
   stage: test
   script:
-    - cd frontend && export REACT_APP_AUTH0_DOMAIN=$AUTH0_DOMAIN && export REACT_APP_AUTH0_CLIENT_ID=$CLIENT_ID && npm install && npm run build && npm test
+    - cd frontend
+    - export REACT_APP_AUTH0_DOMAIN=$AUTH0_DOMAIN
+    - export REACT_APP_AUTH0_CLIENT_ID=$CLIENT_ID
+    - npm install
+    - npm run build
+    - npm test
 
 test server:
   image: python:latest
+  cache:
+    paths:
+      - .cache/pip
+      - backend/venv
   stage: test
+  before_script:
+    - cd backend
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
   script:
-    - cd backend && pip install -r requirements.txt && cd tests/ && python -m unittest discover .
+    - cd tests/
+    - python -m unittest discover .
