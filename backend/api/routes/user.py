@@ -2,10 +2,10 @@ from flask import Blueprint, request, jsonify
 from ..models import query
 from . import routes_help
 
-login_bp = Blueprint('login_bp', __name__)
+user_bp = Blueprint('user_bp', __name__)
 
 
-@login_bp.route('/register', methods=['POST'])
+@user_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
     fields = ['given_name', 'family_name', 'email']
@@ -23,7 +23,7 @@ def register():
         return jsonify({'message': "User added"}), 200
 
 
-@login_bp.route('/get_user_info', methods=['GET'])
+@user_bp.route('/get_user_info', methods=['GET'])
 def get_user_info():
     email = request.args.get('email')
     if not email:
