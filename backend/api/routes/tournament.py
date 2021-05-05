@@ -5,6 +5,7 @@ from . import routes_help
 
 tournament_bp = Blueprint('tournament_bp', __name__)
 
+
 @tournament_bp.route('/create_tournament', methods=['POST'])
 def create_tournament():
     data = request.get_json()
@@ -96,7 +97,7 @@ def create_match():
     if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
         return jsonify({'message': 'Challenger and/or defender are not registered in this tournament'}), 404
 
-    #check that tournament exists
+    # check that tournament exists
     if not query.is_tournament(data['tournament_id']):
         return jsonify({'message': 'Tournament does not exist'}), 404
 

@@ -1,0 +1,15 @@
+.profileText {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: calc(5px + 1vmin);
+}
+
+.list {
+  text-align: left;
+  font-size: calc(5px + 1vmin);
+}
+
+.show_more_button {
+  width: 35px;
+}

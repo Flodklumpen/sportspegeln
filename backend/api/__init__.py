@@ -1,6 +1,7 @@
 from flask import Flask
 import os
 
+
 def create_app():
     from . import models, routes
     app = Flask(__name__)

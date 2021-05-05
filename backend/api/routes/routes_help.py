@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def existing_fields(data, fields):
     return all(elem in data for elem in fields)
 
@@ -9,6 +10,7 @@ def filled_fields(data, fields):
         if not data[field]:
             return False
     return True
+
 
 def get_date_from_string(string_date):
     """
@@ -20,6 +22,7 @@ def get_date_from_string(string_date):
     except ValueError:
         return None
 
+
 def get_time_from_string(string_time):
     """
     Ensures that the given time is on format HH-MM
@@ -29,6 +32,7 @@ def get_time_from_string(string_time):
         return time
     except ValueError:
         return None
+
 
 def is_date_before(first_date, second_date):
     return first_date < second_date

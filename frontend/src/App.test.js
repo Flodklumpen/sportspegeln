@@ -1,15 +1,22 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 
-test('renders learn react link', () => {
-  const { getByText } = render(
+//maybe ugly hack? allows us to run tests using Auth0.
+window.crypto = {
+  subtle: {},
+};
+
+test('renders learn react link', async () => {
+  const promise = Promise.resolve();
+
+  render(
     <Provider store={store}>
       <App />
     </Provider>
   );
 
-  //expect(getByText(/learn/i)).toBeInTheDocument();
+  await act(() => promise);
 });
