@@ -4,10 +4,12 @@ stages:
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+
 test client:
   image: node:latest
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
     paths:
       - frontend/node_modules/
   stage: test
