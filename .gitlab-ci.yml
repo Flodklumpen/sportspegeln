@@ -22,7 +22,6 @@ test client:
 test server:
   image: python:latest
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .cache/pip
       - backend/venv
