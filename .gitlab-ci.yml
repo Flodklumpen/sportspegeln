@@ -4,15 +4,12 @@ stages:
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-  - frontend/node_modules/
-  - .cache/pip
-  - backend/venv
-
 test client:
   image: node:latest
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - frontend/node_modules/
   stage: test
   script:
     - cd frontend
@@ -24,6 +21,10 @@ test client:
 
 test server:
   image: python:latest
+  cache:
+    paths:
+      - .cache/pip
+      - backend/venv
   stage: test
   before_script:
     - cd backend
