@@ -10,10 +10,18 @@ test client:
   image: node:latest
   stage: test
   script:
-    - cd frontend && export REACT_APP_AUTH0_DOMAIN=$AUTH0_DOMAIN && export REACT_APP_AUTH0_CLIENT_ID=$CLIENT_ID && npm install && npm run build && npm test
+    - cd frontend
+    - export REACT_APP_AUTH0_DOMAIN=$AUTH0_DOMAIN
+    - export REACT_APP_AUTH0_CLIENT_ID=$CLIENT_ID
+    - npm install
+    - npm run build
+    - npm test
 
 test server:
   image: python:latest
   stage: test
   script:
-    - cd backend && pip install -r requirements.txt && cd tests/ && python -m unittest discover .
+    - cd backend
+    - pip install -r requirements.txt
+    - cd tests/
+    - python -m unittest discover .
