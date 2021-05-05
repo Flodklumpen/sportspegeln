@@ -1,10 +1,15 @@
 stages:
   - test
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - node_modules/
+  - frontend/node_modules/
+  - .cache/pip
+  - backend/venv
 
 test client:
   image: node:latest
@@ -20,8 +25,12 @@ test client:
 test server:
   image: python:latest
   stage: test
-  script:
+  before_script:
     - cd backend
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
     - pip install -r requirements.txt
+  script:
     - cd tests/
     - python -m unittest discover .
