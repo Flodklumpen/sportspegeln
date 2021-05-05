@@ -69,6 +69,17 @@ def is_competing(comp_email, tournament_id):
 def is_competing(comp_email, tournament_id):
     return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
 
+"""Functions to get information from the database"""
+
+def get_user_info(user_email):
+    result = db.session.query(User.first_name, User.family_name).filter_by(email=user_email).first()
+    if result is not None:
+        user_info = {}
+        user_info['first_name'] = result[0]
+        user_info['family_name'] = result[1]
+        return user_info
+    else:
+        return None
 
 """ Miscellanious functions """
 
