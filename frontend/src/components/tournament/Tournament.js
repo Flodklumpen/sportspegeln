@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import './Tournament.css';
+import styles from './Tournament.module.css';
 
 export function Tournament() {
   const [show, setShow] = useState(false);
@@ -42,7 +42,7 @@ export function Tournament() {
 
   return (
     <div>
-      <Button id="create-tournament" variant="primary" onClick={() => {setShow(true); setValidated(false);}}>
+      <Button className={styles.createTournament} variant="primary" onClick={() => {setShow(true); setValidated(false);}}>
         Skapa turnering
       </Button>
 
@@ -77,13 +77,13 @@ export function Tournament() {
             </Form.Row>
 
             <Form.Row id="form-submit">
-              <Form.Group className="submit-buttons">
+              <Form.Group className={styles.submitArea}>
                 <Button variant="primary" type="submit">
                   Skapa turnering
                 </Button>
               </Form.Group>
 
-              <Form.Group className="submit-buttons">
+              <Form.Group className={styles.submitButtons}>
                 <Button variant="secondary" onClick={handleClose}>
                   Avbryt
                 </Button>

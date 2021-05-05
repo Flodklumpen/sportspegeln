@@ -1,6 +1,5 @@
 import React from 'react';
 import { Menu } from "./components/menu/Menu";
-import { Tournament} from "./components/tournament/Tournament";
 import './App.css';
 /*
 import logo from './logo.svg';
@@ -14,9 +13,6 @@ function App() {
       <nav className="App-nav">
         <Menu />
       </nav>
-      <section>
-        <Tournament />
-      </section>
     </div>
 
         /*
