@@ -20,14 +20,14 @@ export function Profile() {
       <div>
         <Container>
           <Row>
-            <Col sm={12} md={4} className={styles.profiletext}>
+            <Col xs={12} sm={4} className={styles.profiletext}>
               <div>
                 <img src={user.picture} alt={user.name} /><br />
                 {user.name}<br />
                 {user.email}<br />
               </div>
             </Col>
-            <Col sm={12} md={8} className={styles.list}>
+            <Col xs={12} sm={8} className={styles.list}>
               <ProfileList/>
             </Col>
           </Row>

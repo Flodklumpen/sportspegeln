@@ -4,29 +4,29 @@ import ArrowUp from './caret-up.svg';
 
 const initialState = {
   futureMatch: {
-    class: "d-none d-md-block",
+    class: "d-none d-sm-block",
     arrow: ArrowDown
   },
   pastMatch: {
-    class: "d-none d-md-block",
+    class: "d-none d-sm-block",
     arrow: ArrowDown
   },
   ownedTournament: {
-    class: "d-none d-md-block",
+    class: "d-none d-sm-block",
     arrow: ArrowDown
   },
   competingTournament: {
-    class: "d-none d-md-block",
+    class: "d-none d-sm-block",
     arrow: ArrowDown
   }
 }
 
 const reducerHelp = (state) => {
-  if (state.class === "d-none d-md-block") {
-    state.class = "d-block d-md-block";
+  if (state.class === "d-none d-sm-block") {
+    state.class = "d-block d-sm-block";
     state.arrow = ArrowUp;
   } else {
-    state.class = "d-none d-md-block";
+    state.class = "d-none d-sm-block";
     state.arrow = ArrowDown;
   }
 }

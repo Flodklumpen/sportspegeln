@@ -15,7 +15,7 @@ export function Menu() {
 
   return (
     <HashRouter>
-      <div>
+      <div className={styles.nav}>
         <Navbar bg="light" expand="sm" fixed="top" collapseOnSelect="true">
           <Navbar.Brand href="#/">SportStegen</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

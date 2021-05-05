@@ -122,7 +122,7 @@ export function ProfileList() {
             </h2>
           </Col>
           <Col xs={2}>
-            <img className={`d-block d-md-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+            <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
           </Col>
         </Row>
         <Row>
