@@ -112,7 +112,7 @@ export function ProfileList() {
         break;
       default:
         return (<div>Unknown</div>);
-    };
+    }
     return (
       <div>
         <Row>
@@ -130,7 +130,7 @@ export function ProfileList() {
         </Row>
       </div>
     );
-  }
+  };
 
   return (
     <div>

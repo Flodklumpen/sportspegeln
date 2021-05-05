@@ -20,7 +20,7 @@ export function Profile() {
       <div>
         <Container>
           <Row>
-            <Col xs={12} sm={4} className={styles.profiletext}>
+            <Col xs={12} sm={4} className={styles.profileText}>
               <div>
                 <img src={user.picture} alt={user.name} /><br />
                 {user.name}<br />

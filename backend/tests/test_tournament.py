@@ -5,6 +5,7 @@ sys.path.append("..")
 from api.models.base import db, User
 from api import routes
 
+
 class MainTest(unittest.TestCase):
 
     TESTING = True
@@ -24,6 +25,7 @@ class MainTest(unittest.TestCase):
     def tearDown(self):
         with self.app.app_context():
             db.drop_all()
+
 
 class CreateTournamentTest(MainTest):
 
@@ -76,6 +78,7 @@ class CreateTournamentTest(MainTest):
                 content_type='application/json',
             )
             self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,6 +2,7 @@ from .base import db, User, Tournament, Owner, Competitor, Competing, Match
 
 """Functions to create objects in the database"""
 
+
 def register_user(user_email, user_fname, user_lname):
     db.session.add(User(email=user_email, first_name=user_fname, family_name=user_lname))
     db.session.commit()
@@ -23,6 +24,7 @@ def create_competitor(competitor_email):
     db.session.add(Competitor(email=competitor_email));
     db.session.commit()
 
+
 def create_competing(competitor_email, tournament_id):
     db.session.add(Competing(competitor=competitor_email, tournament=tournament_id));
     db.session.commit()
@@ -40,7 +42,9 @@ def create_match(match_id, tournament_id, date, time, challenger_email, defender
     db.session.add(match)
     db.session.commit()
 
-"""Functions to check if a given object is in the database"""
+
+""" Functions to check if a given object is in the database """
+
 
 def is_user_registered(user_email):
     return (db.session.query(User.email).filter_by(email=user_email).first() is not None)
@@ -57,15 +61,17 @@ def is_tournament(tour_id):
 def is_competitor(competitor_email):
     return (db.session.query(Competitor.email).filter_by(email=competitor_email).first() is not None)
 
-def is_competing(comp_email, tournament_id):
-    return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
-
 
 def is_competing(comp_email, tournament_id):
     return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
 
 
-"""Miscellanious functions"""
+def is_competing(comp_email, tournament_id):
+    return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
+
+
+""" Miscellanious functions """
+
 
 def get_next_match_id(tournament_id):
     result = db.session.query(Match.id).filter_by(tournament=tournament_id).all()

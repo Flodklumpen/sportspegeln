@@ -4,6 +4,7 @@ from .routes_help import existing_fields, filled_fields
 
 login_bp = Blueprint('login_bp', __name__)
 
+
 @login_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
