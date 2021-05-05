@@ -20,10 +20,10 @@ export function ToggleLogInButton() {
 }
 
 export function LoginButton() {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithPopup } = useAuth0();
 
   return (
-    <div onClick={() => loginWithRedirect()}>Logga in</div>
+    <div onClick={() => loginWithPopup()}>Logga in</div>
   );
 }
 export function LogoutButton() {
