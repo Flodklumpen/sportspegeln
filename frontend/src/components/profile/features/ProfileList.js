@@ -52,7 +52,7 @@ export function ProfileList() {
   ];
 
   const futureMatchList = futureMatches.map((futureMatch) =>
-    <li>
+    <li key="{futureMatch}">
       <b>Mot {futureMatch.opponent}</b><br />
       {futureMatch.date} kl. {futureMatch.time}<br />
       Turnering: {futureMatch.tournament_name}
@@ -60,7 +60,7 @@ export function ProfileList() {
   );
 
   const pastMatchList = pastMatches.map((pastMatch) =>
-    <li>
+    <li key="{pastMatch}">
       <b>Mot {pastMatch.opponent}</b><br />
       {pastMatch.date} kl. {pastMatch.time}<br />
       Turnering: {pastMatch.tournament_name}<br />
@@ -69,7 +69,7 @@ export function ProfileList() {
   );
 
   const ownedTournamentsList = ownedTournaments.map((ownedTournament) =>
-    <li>
+    <li key="{ownedTournament}">
       <b>{ownedTournament.tournament_name}</b><br />
       {ownedTournament.start_date} - {ownedTournament.end_date}<br />
       Hantera turnering
@@ -77,7 +77,7 @@ export function ProfileList() {
   );
 
   const competingTournamentsList = competingTournaments.map((competingTournament) =>
-    <li>
+    <li key="{competingTournament}">
       <b>{competingTournament.tournament_name}</b><br />
       {competingTournament.start_date} - {competingTournament.end_date}<br />
     </li>
@@ -112,7 +112,7 @@ export function ProfileList() {
         break;
       default:
         return (<div>Unknown</div>);
-    }
+    };
     return (
       <div>
         <Row>

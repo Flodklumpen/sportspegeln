@@ -19,6 +19,9 @@ function StoreProfileData() {
 		const email = user.email;
 		const firstName = user.given_name;
 		const familyName = user.family_name;
+		console.log(email);
+		console.log(firstName);
+		console.log(familyName);
 
 		/* This is only returned to avoid warnings */
 		/*return (

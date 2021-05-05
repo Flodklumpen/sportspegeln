@@ -19,7 +19,7 @@ const initialState = {
     class: "d-none d-sm-block",
     arrow: ArrowDown
   }
-}
+};
 
 const reducerHelp = (state) => {
   if (state.class === "d-none d-sm-block") {
@@ -29,7 +29,7 @@ const reducerHelp = (state) => {
     state.class = "d-none d-sm-block";
     state.arrow = ArrowDown;
   }
-}
+};
 
 export const profileListSlice = createSlice({
   name: "profileList",
