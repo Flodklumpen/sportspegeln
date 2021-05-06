@@ -30,5 +30,6 @@ yarn-error.log*
 /backend/venv
 /frontend/.env
 /backend/.env
+/backend/tests/.env
 
 *__pycache__/
