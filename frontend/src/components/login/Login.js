@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import { ToggleLogInButton } from "./features/ToggleLogInButton";
+import { RegisterUser } from "./features/registerUser/RegisterUser";
 
 export function Login() {
 		return (
@@ -22,16 +23,11 @@ function StoreProfileData() {
 		console.log(email);
 		console.log(firstName);
 		console.log(familyName);
-
-		/* This is only returned to avoid warnings */
-		/*return (
-			<div>
-        Email: { email } <br />
-        Förnamn: { firstName } <br />
-        Efternamn: { familyName } <br />
-      </div>
-		);*/
 	}
 
-	return null;
+	return (
+		<div>
+			<RegisterUser/>
+		</div>
+	);
 }
