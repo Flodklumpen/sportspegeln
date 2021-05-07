@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { store } from './app/store';
+import store from './app/store';
+import { fetchProfileData } from './components/login/features/registerUser/registerUserSlice';
+
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
 /* Get CSS from bootstrap */
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+store.dispatch(fetchProfileData);
 
 ReactDOM.render(
   <React.StrictMode>

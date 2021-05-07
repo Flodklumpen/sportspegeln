@@ -1,5 +1,6 @@
 import React from 'react';
 import {useAuth0} from "@auth0/auth0-react";
+import { useSelector } from 'react-redux'
 
 export function RegisterUser() {
 	const { isAuthenticated } = useAuth0();
@@ -14,4 +15,14 @@ export function RegisterUser() {
 		 */
 
 	}
+	const currentState = useSelector((state) => state);
+	console.log("currant state: ", currentState.userData);
+	const cState = currentState.userData;
+
+	return (
+		<div>
+			<p>hej { cState['email'] } </p>
+		</div>
+	);
+
 }

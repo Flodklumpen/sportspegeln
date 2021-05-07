@@ -35,3 +35,14 @@ def get_user_info():
         return jsonify({'message': 'User not found'}), 404
 
     return jsonify({'message': "User found", "data": user_info}), 200
+
+
+@user_bp.route('/get_info', methods=['GET'])
+def get_info():
+    user_info = query.get_info()
+    print("################# ", user_info)
+
+    if user_info is None:
+        return jsonify({'message': 'Data not found'}), 404
+
+    return jsonify({'message': "Data found", "data": user_info}), 200
