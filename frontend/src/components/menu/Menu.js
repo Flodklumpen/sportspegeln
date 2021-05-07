@@ -10,6 +10,7 @@ import Home from '../home/Home';
 import Profile from "../profile/Profile";
 import { Login } from "../login/Login";
 import styles from './Menu.module.css';
+import logo from '../../images/logo_big.png';
 
 export function Menu() {
 
@@ -17,7 +18,7 @@ export function Menu() {
     <HashRouter>
       <div className={styles.nav}>
         <Navbar bg="light" expand="sm" fixed="top" collapseOnSelect="true">
-          <Navbar.Brand href="#/" className={styles.logo}>SportStegen</Navbar.Brand>
+          <Navbar.Brand href="#/" className={styles.logo}><img src={logo} width={200} /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Container>
