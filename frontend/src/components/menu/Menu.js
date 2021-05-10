@@ -8,9 +8,10 @@ import {
 } from "react-router-dom";
 import Home from '../home/Home';
 import Profile from "../profile/Profile";
-import { Login } from "../login/Login";
 import styles from './Menu.module.css';
 import logo from '../../images/logo_big.png';
+import { RegisterUser } from "./features/registerUser/RegisterUser";
+import { ToggleLogInButton } from "./features/ToggleLogInButton";
 
 export function Menu() {
 
@@ -25,7 +26,7 @@ export function Menu() {
               <Nav className="m-auto">
                 <Nav.Link href="#/">Hem</Nav.Link>
                 <Nav.Link href="#/profile">Profil</Nav.Link>
-                <Nav.Link><Login /></Nav.Link>
+                <Nav.Link><ToggleLogInButton /><RegisterUser/></Nav.Link>
               </Nav>
             </Container>
           </Navbar.Collapse>

@@ -5,8 +5,10 @@ import Col from 'react-bootstrap/Col';
 import styles from './Profile.module.css';
 import { ProfileList } from './features/ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
+import { GetUserData } from "./features/userData/GetUserData";
 
 export function Profile() {
+
   const { user, isAuthenticated, isLoading } = useAuth0();
   if (isLoading) {
     return (<div>Loading...</div>);
@@ -18,6 +20,7 @@ export function Profile() {
 
 	return (
       <div>
+        <GetUserData />
         <Container>
           <Row>
             <Col xs={12} sm={4} className={styles.profileText}>
@@ -34,7 +37,6 @@ export function Profile() {
         </Container>
       </div>
   );
-
 }
 
 export default Profile;

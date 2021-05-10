@@ -92,7 +92,7 @@ def get_user_id_from_email(user_email):
 
 
 def get_info():
-    result = db.session.query(User.email).filter_by(email='danya@flask-seeder.local').first()
+    result = db.session.query(User.email).filter_by(email='ezmeralda@seeder.example.com').first()
     if result is not None:
         user_info = {}
         user_info['email'] = result[0]
