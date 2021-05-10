@@ -4,6 +4,7 @@ import sys
 sys.path.append("..")
 from api.models.base import db, User
 from api import routes
+import os
 
 
 class MainTest(unittest.TestCase):
@@ -19,7 +20,7 @@ class MainTest(unittest.TestCase):
     def setUp(self):
         with self.app.app_context():
             db.create_all()
-            db.session.add(User(email="testperson@example.com", first_name="test", family_name="person"))
+            db.session.add(User(email="testperson@example.com", first_name="test", family_name="person", id="fakeID"))
             db.session.commit()
 
     def tearDown(self):
