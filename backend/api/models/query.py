@@ -3,8 +3,8 @@ from .base import db, User, Tournament, Owner, Competitor, Competing, Match
 """Functions to create objects in the database"""
 
 
-def register_user(user_email, user_fname, user_lname):
-    db.session.add(User(email=user_email, first_name=user_fname, family_name=user_lname))
+def register_user(user_email, user_fname, user_lname, user_id):
+    db.session.add(User(email=user_email, first_name=user_fname, family_name=user_lname, id=user_id))
     db.session.commit()
 
 
@@ -78,6 +78,15 @@ def get_user_info(user_email):
         user_info['first_name'] = result[0]
         user_info['family_name'] = result[1]
         return user_info
+    else:
+        return None
+
+
+def get_user_id_from_email(user_email):
+    result = db.session.query(User.id).filter_by(email=user_email).first()
+    if result is not None:
+        user_id = result[0]
+        return user_id
     else:
         return None
 

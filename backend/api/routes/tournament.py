@@ -55,6 +55,8 @@ def create_tournament():
 
 
 @tournament_bp.route('/add_competitor', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def add_competitor():
     data = request.get_json()
     fields = ['competitor', 'tournament_id']
@@ -84,6 +86,8 @@ def add_competitor():
 
 
 @tournament_bp.route('/create_match', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def create_match():
 
     data = request.get_json()

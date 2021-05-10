@@ -10,6 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(120), primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     family_name = db.Column(db.String(50), nullable=False)
+    id = db.Column(db.String(50), nullable=False)
 
     def __str__(self):
         return "email=%s, first_name=%s, family_name=%s" % (self.email, self.first_name, self.family_name)
