@@ -40,6 +40,13 @@ The matches in the tournaments are timebased and the player who has won the most
 - Use a specific file/files for contact between frontend and backend
 - Use external libraries for styling the components (like Material UI)
 
+## Changes from original plan
+
+- No selenium
+- React Bootstrap instead of Material UI
+- No serverstub
+- Moved tournament "building" from server to data base (linked list-ish)
+
 ## Work and time management
 
 We will use a backlog of issues to work from, that shall be created together. We will work separetely on issues and test/control the code of the other person before it is merged into master to ensure that both lab pertners understand every part of the code. For the same reason we will take turns working on frontend and backend.
