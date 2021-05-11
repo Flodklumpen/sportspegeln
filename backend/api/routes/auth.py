@@ -17,7 +17,6 @@ AUTH0_DOMAIN = os.environ.get("FLASK_APP_AUTH0_DOMAIN")
 API_AUDIENCE = os.environ.get("FLASK_APP_API_AUDIENCE")
 ALGORITHMS = ["RS256"]
 
-auth_bp = Blueprint('auth_bp', __name__)
 
 # Error handler
 class AuthError(Exception):
@@ -26,8 +25,9 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
-@auth_bp.errorhandler(AuthError)
 def handle_auth_error(ex):
+    """Handles a raised AuthError. Returns the response formulated by the error
+    """
     response = jsonify(ex.error)
     response.status_code = ex.status_code
     return response
@@ -64,7 +64,7 @@ def get_token_auth_header():
 def get_user_id():
     """Obtains the email from the request header
     """
-    email = request.headers.get("Email", None)
+    email = request.headers.get("User", None)
     if not email:
         raise AuthError({"code": "email_header_missing",
                         "description": "Email header expected"}, 401)
@@ -130,19 +130,3 @@ def requires_auth(f):
         raise AuthError({"code": "invalid_header",
                         "description": "Unable to find appropriate key"}, 401)
     return decorated
-
-
-#def requires_scope(required_scope):
-    """Determines if the required scope is present in the Access Token
-    Args:
-        required_scope (str): The scope required to access the resource
-    """
-"""    token = get_token_auth_header()
-    unverified_claims = jwt.get_unverified_claims(token)
-    if unverified_claims.get("scope"):
-            token_scopes = unverified_claims["scope"].split()
-            for token_scope in token_scopes:
-                if token_scope == required_scope:
-                    return True
-    return False
-"""
