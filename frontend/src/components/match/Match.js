@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
 import styles from './../tournament/Tournament.module.css';
+import Pencil from './pencil-fill.svg';
 
 export function Match(props) {
   const [show, setShow] = useState(false);
@@ -27,7 +28,7 @@ export function Match(props) {
     handleClose();
   };
 
-  const getScoreForm = (report) => {
+  const getReportForm = (report) => {
     if(report) {
       return (
         <div>
@@ -84,9 +85,7 @@ export function Match(props) {
 
   return (
     <div>
-      <Button variant="primary" onClick={() => setShow(true)}>
-        Skapa match
-      </Button>
+      <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -105,12 +104,12 @@ export function Match(props) {
               <Form.Control name="defender" value={getUserName()} readOnly />
             </Form.Group>
 
-            {getScoreForm(props.report)}
+            {getReportForm(props.report)}
 
             <Form.Row id="form-submit">
               <Form.Group className={styles.submitArea}>
                 <Button variant="primary" type="submit">
-                  Skapa match
+                  Spara
                 </Button>
               </Form.Group>
 

@@ -13,6 +13,7 @@ import {
   selectOwnedTournament,
   selectCompetingTournament
 } from './profileListSlice';
+import { Match } from './../../match/Match';
 
 export function ProfileList() {
   //TODO: get these from server
@@ -53,18 +54,32 @@ export function ProfileList() {
 
   const futureMatchList = futureMatches.map((futureMatch) =>
     <li key="{futureMatch}">
-      <b>Mot {futureMatch.opponent}</b><br />
-      {futureMatch.date} kl. {futureMatch.time}<br />
-      Turnering: {futureMatch.tournament_name}
+      <Row>
+        <Col xs={10}>
+          <b>Mot {futureMatch.opponent}</b><br />
+          {futureMatch.date} kl. {futureMatch.time}<br />
+          Turnering: {futureMatch.tournament_name}
+        </Col>
+        <Col xs={2}>
+          <Match report={false} />
+        </Col>
+      </Row>
     </li>
   );
 
   const pastMatchList = pastMatches.map((pastMatch) =>
     <li key="{pastMatch}">
-      <b>Mot {pastMatch.opponent}</b><br />
-      {pastMatch.date} kl. {pastMatch.time}<br />
-      Turnering: {pastMatch.tournament_name}<br />
-      Resultat: {pastMatch.result}
+      <Row>
+        <Col xs={10}>
+          <b>Mot {pastMatch.opponent}</b><br />
+          {pastMatch.date} kl. {pastMatch.time}<br />
+          Turnering: {pastMatch.tournament_name}<br />
+          Resultat: {pastMatch.result}
+        </Col>
+        <Col xs={2}>
+          <Match report={true} />
+        </Col>
+      </Row>
     </li>
   );
 
