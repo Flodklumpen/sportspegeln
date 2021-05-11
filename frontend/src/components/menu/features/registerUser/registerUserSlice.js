@@ -28,9 +28,7 @@ export function storeUser(email, given_name, family_name) {
     const theState = stateBefore.registerUser;
     console.log(' store Data before dispatch: ', theState);
 
-    if (theState.length === 0) {
-      dispatch({ type: 'data/dataStored', payload: response.message });
-    }
+    dispatch({ type: 'data/dataStored', payload: response.message });
 
     const stateAfter = getState();
     console.log('store Data after dispatch: ', stateAfter.registerUser);
