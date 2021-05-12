@@ -24,11 +24,7 @@ export function Menu() {
         <RegisterUser/>
       );
     }
-    return (
-      <div>
-
-      </div>
-    );
+    return null;
   }
 
   return (

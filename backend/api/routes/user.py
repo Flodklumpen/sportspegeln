@@ -23,6 +23,7 @@ def register():
         return jsonify({'message': "User added"}), 200
 
 
+# TODO: ändra tillbaka som det var innan med .args.get. Skicka fortfarande med i url:en. 
 @user_bp.route('/get_user_data/<email>', methods=['GET'])
 def get_user_data(email):
     if not email:
