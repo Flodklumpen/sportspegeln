@@ -87,7 +87,11 @@ def requires_auth(f):
         user_id = get_user_id()
         jsonurl = urlopen("https://"+AUTH0_DOMAIN+"/.well-known/jwks.json")
         jwks = json.loads(jsonurl.read())
-        unverified_header = jwt.get_unverified_header(token)
+        try:
+            unverified_header = jwt.get_unverified_header(token)
+        except Exception:
+            raise AuthError({"code": "invalid_token",
+                            "description": "error getting token."}, 401)
         rsa_key = {}
         for key in jwks["keys"]:
             if key["kid"] == unverified_header["kid"]:
