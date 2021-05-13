@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tournament } from "../tournament/Tournament";
-import { Match } from "../match/Match";
 
 export function Home() {
 
