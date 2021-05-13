@@ -5,9 +5,13 @@
   font-size: calc(5px + 1vmin);
 }
 
+.menu {
+  position: fixed;
+}
+
 .list {
   text-align: left;
-  font-size: calc(5px + 1vmin);
+  font-size: calc(10px + 1vmin);
 }
 
 .show_more_button {

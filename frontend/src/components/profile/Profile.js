@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
 import styles from './Profile.module.css';
 import { ProfileList } from './features/ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -19,17 +20,48 @@ export function Profile() {
     return (<div>Not authenticated</div>);
   }
 
+  const scrollTo = (id) => {
+    const elem = document.getElementById(id)
+    elem.scrollIntoView({
+      block: "center",
+      behavior: "smooth"
+    });
+  }
+
 	return (
       <div>
         <GetUserData />
         <Container>
           <Row>
-            <Col xs={12} sm={4} className={styles.profileText}>
-              <div>
-                <img src={user.picture} alt={user.name} /><br />
-                {user.name}<br />
-                {user.email}<br />
-              </div>
+            <Col xs={12} sm={4}>
+              <ListGroup as="ul" className={`${styles.profileText} d-block d-sm-none`}>
+                <ListGroup.Item as="li">
+                  <img src={user.picture} alt={user.name} /><br />
+                  {user.name}<br />
+                  {user.email}<br />
+                </ListGroup.Item>
+              </ListGroup>
+              <ListGroup as="ul" className={`${styles.profileText} ${styles.menu} d-none d-sm-block`}>
+                <ListGroup.Item as="li">
+                  <img src={user.picture} alt={user.name} /><br />
+                  {user.name}<br />
+                  {user.email}<br />
+                </ListGroup.Item>
+                <div>
+                <ListGroup.Item action onClick={() => scrollTo("futureMatch")}>
+                  Kommande matcher
+                </ListGroup.Item>
+                <ListGroup.Item action onClick={() => scrollTo("pastMatch")}>
+                  Tidigare matcher
+                </ListGroup.Item>
+                <ListGroup.Item action onClick={() => scrollTo("ownedTournament")}>
+                  Turneringar jag äger
+                </ListGroup.Item>
+                <ListGroup.Item action onClick={() => scrollTo("competingTournament")}>
+                  Turneringar jag tävlar i
+                </ListGroup.Item>
+                </div>
+              </ListGroup>
             </Col>
             <Col xs={12} sm={8} className={styles.list}>
               <ProfileList/>
