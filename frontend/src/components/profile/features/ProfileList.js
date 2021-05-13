@@ -22,7 +22,6 @@ export function ProfileList() {
 
   //TODO: get these from server
   const placeholderMatch = {
-    id: "1-1",
     tournamentName: "Min turnering",
     date: "2021-04-20",
     time: "10:00",
@@ -33,7 +32,6 @@ export function ProfileList() {
   }
 
   const placeholderMatch2 = {
-    id: "1-2",
     tournamentName: "Min turnering",
     date: "",
     time: "",
@@ -44,7 +42,6 @@ export function ProfileList() {
   }
 
   const placeholderTournament = {
-    id: "1",
     name: "Min turnering",
     startDate: "2020-01-01",
     endDate: "2021-12-31",
@@ -52,7 +49,6 @@ export function ProfileList() {
   }
 
   const placeholderTournament2 = {
-    id: "2",
     name: "Bästa turneringen nånsing bror",
     startDate: "2020-01-01",
     endDate: "",
@@ -61,20 +57,24 @@ export function ProfileList() {
 
   const futureMatches = [
     placeholderMatch,
+    placeholderMatch,
     placeholderMatch2
   ];
 
   const pastMatches = [
+    placeholderMatch,
     placeholderMatch,
     placeholderMatch2
   ];
 
   const ownedTournaments = [
     placeholderTournament,
+    placeholderTournament,
     placeholderTournament2
   ];
 
   const competingTournaments = [
+    placeholderTournament,
     placeholderTournament,
     placeholderTournament2
   ];
@@ -123,8 +123,8 @@ export function ProfileList() {
     }
   }
 
-  const futureMatchList = futureMatches.map((futureMatch) =>
-    <ListGroup.Item as="li" key={futureMatch.id}>
+  const futureMatchList = futureMatches.map((futureMatch, index) =>
+    <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
           <Match report={false} match={futureMatch}/>
@@ -138,8 +138,8 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const pastMatchList = pastMatches.map((pastMatch) =>
-    <ListGroup.Item as="li" key={pastMatch.id}>
+  const pastMatchList = pastMatches.map((pastMatch, index) =>
+    <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
           <Match report={true} match={placeholderMatch} />
@@ -154,8 +154,8 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const ownedTournamentsList = ownedTournaments.map((ownedTournament) =>
-    <ListGroup.Item as="li" key={ownedTournament.id}>
+  const ownedTournamentsList = ownedTournaments.map((ownedTournament, index) =>
+    <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
           Knapp?
@@ -168,8 +168,8 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const competingTournamentsList = competingTournaments.map((competingTournament) =>
-    <ListGroup.Item as="li" key={competingTournament.id}>
+  const competingTournamentsList = competingTournaments.map((competingTournament, index) =>
+    <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
           Knapp?
