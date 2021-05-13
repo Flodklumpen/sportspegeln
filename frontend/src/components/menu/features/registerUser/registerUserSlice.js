@@ -15,22 +15,14 @@ export default function registerUserReducer(state = initialState, action) {
 }
 
 // Thunk function
-export function storeUser(email, given_name, family_name) {
+export function storeUser(email, given_name, family_name, token) {
   const user = {};
   user['email'] = email;
   user['given_name'] = given_name;
   user['family_name'] = family_name;
 
-  return async function storeUserThunk(dispatch, getState) {
-    const response = await client.post('/user/register', user );
-
-    const stateBefore = getState();
-    const theState = stateBefore.registerUser;
-    console.log(' store Data before dispatch: ', theState);
-
+  return async function storeUserThunk(dispatch) {
+    const response = await client.post('/user/register', user, email, token);
     dispatch({ type: 'data/dataStored', payload: response.message });
-
-    const stateAfter = getState();
-    console.log('store Data after dispatch: ', stateAfter.registerUser);
   };
 }

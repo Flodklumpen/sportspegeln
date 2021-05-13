@@ -14,17 +14,9 @@ export default function getUserDataReducer(state = initialState, action) {
   }
 }
 
-// Thunk function
-export function fetchUserData(email) {
-  console.log("email: ", email);
-  return async function fetchUserDataThunk(dispatch, getState) {
-    const response = await client.get('/user/get_user_data/' + email);
-    const stateBefore = getState();
-    console.log('get Data before dispatch: ', stateBefore.userData);
-
+export function fetchUserData(email, token) {
+  return async function fetchUserDataThunk(dispatch) {
+    const response = await client.get('/user/get_user_data?email=' + email, email, token);
     dispatch({type: 'data/dataLoaded', payload: response.data});
-
-    const stateAfter = getState();
-    console.log('get Data after dispatch: ', stateAfter.userData);
   }
 }

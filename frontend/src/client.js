@@ -1,8 +1,9 @@
 // A tiny wrapper around fetch(), borrowed from
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
 
-export async function client(endpoint, { body, ...customConfig } = {}) {
-  const headers = { 'Content-Type': 'application/json' };
+export async function client(endpoint, user, token, { body, ...customConfig } = {}) {
+
+  const headers = { 'Content-Type': 'application/json', 'User': user, 'Authorization': token };
 
   const config = {
     method: body ? 'POST' : 'GET',
@@ -30,10 +31,10 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
   }
 }
 
-client.get = function (endpoint, customConfig = {}) {
-  return client(endpoint, { ...customConfig, method: 'GET' })
+client.get = function (endpoint, user, token, customConfig = {}) {
+  return client(endpoint, user, token, { ...customConfig, method: 'GET' })
 };
 
-client.post = function (endpoint, body, customConfig = {}) {
-  return client(endpoint, { ...customConfig, body })
+client.post = function (endpoint, body, user, token, customConfig = {}) {
+  return client(endpoint, user, token, { ...customConfig, body })
 };

@@ -8,11 +8,15 @@ export function GetUserData() {
 	const { user } = useAuth0();
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(fetchUserData(user.email));
-  }, [dispatch, user.email]);
+	let currentState = useSelector((state) => state);
 
-	const currentState = useSelector((state) => state);
+	const token = currentState.userToken['currentUserToken'];
+
+	useEffect(() => {
+		dispatch(fetchUserData(user.email, token));
+  }, [dispatch, user.email, token]);
+
+	currentState = useSelector((state) => state);
 	const cState = currentState.userData;
 
 	return (
