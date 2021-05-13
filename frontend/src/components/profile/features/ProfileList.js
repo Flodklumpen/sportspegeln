@@ -15,168 +15,168 @@ import {
   selectCompetingTournament
 } from './profileListSlice';
 import { Match } from './../../match/Match';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export function ProfileList() {
+  const { user } = useAuth0();
+
   //TODO: get these from server
+  const placeholderMatch = {
+    id: "1-1",
+    tournamentName: "Min turnering",
+    date: "2021-04-20",
+    time: "10:00",
+    challenger: user.name,
+    defender: "Bob",
+    scoreChallenger: 2,
+    scoreDefender: 3
+  }
+
+  const placeholderMatch2 = {
+    id: "1-2",
+    tournamentName: "Min turnering",
+    date: "",
+    time: "",
+    challenger: "Eva",
+    defender: user.name,
+    scoreChallenger: 4,
+    scoreDefender: 0
+  }
+
+  const placeholderTournament = {
+    id: "1",
+    name: "Min turnering",
+    startDate: "2020-01-01",
+    endDate: "2021-12-31",
+    owner: "Klas-Göran"
+  }
+
+  const placeholderTournament2 = {
+    id: "2",
+    name: "Bästa turneringen nånsing bror",
+    startDate: "2020-01-01",
+    endDate: "",
+    owner: "Tobbe"
+  }
+
   const futureMatches = [
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars'
-    }
+    placeholderMatch,
+    placeholderMatch2
   ];
 
   const pastMatches = [
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars',
-      'result': 'Vann'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars',
-      'result': 'Vann'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars',
-      'result': 'Vann'
-    },
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars',
-      'result': 'Vann'
-    }
+    placeholderMatch,
+    placeholderMatch2
   ];
 
   const ownedTournaments = [
-    {
-      'tournament_name': 'Min turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Min turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Min turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Min turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    }
+    placeholderTournament,
+    placeholderTournament2
   ];
 
   const competingTournaments = [
-    {
-      'tournament_name': 'Någon annans turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Någon annans turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Någon annans turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    },
-    {
-      'tournament_name': 'Någon annans turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    }
+    placeholderTournament,
+    placeholderTournament2
   ];
 
+  const getOpponent = (match) => {
+    if (user.name === match.defender) {
+      return match.challenger;
+    } else {
+      return match.defender;
+    }
+  };
+
+  const getMatchDateTime = (match) => {
+    let str = match.date;
+    if (match.time) {
+      str = str + ", kl."+match.time;
+    }
+    if (str) {
+      return (
+        <div>{str}</div>
+      );
+    }
+  }
+
+  const getMatchResult = (match) => {
+    var myScore = 0;
+    var opponentScore = 0;
+    if (user.name === match.defender) {
+      myScore = match.scoreDefender;
+      opponentScore = match.scoreChallenger;
+    } else {
+      myScore = match.scoreChallenger;
+      opponentScore = match.scoreDefender;
+    };
+    if (myScore === 0 && opponentScore === 0) {
+      return (
+        <div>Resultat ej rapporterade</div>
+      );
+    } else {
+      return (
+        <div>
+          Mina poäng: {myScore}<br />
+          Motståndarens poäng: {opponentScore}
+        </div>
+      );
+    }
+  }
+
   const futureMatchList = futureMatches.map((futureMatch) =>
-    <ListGroup.Item as="li">
+    <ListGroup.Item as="li" key={futureMatch.id}>
       <Row>
         <Col xs={2}>
-          <Match report={false} />
+          <Match report={false} match={futureMatch}/>
         </Col>
         <Col xs={10}>
-          <b>Mot {futureMatch.opponent}</b><br />
-          {futureMatch.date} kl. {futureMatch.time}<br />
-          Turnering: {futureMatch.tournament_name}
+          <b>Mot {getOpponent(futureMatch)}</b><br />
+          {getMatchDateTime(futureMatch)}
+          Turnering: {futureMatch.tournamentName}
         </Col>
       </Row>
     </ListGroup.Item>
   );
 
   const pastMatchList = pastMatches.map((pastMatch) =>
-    <ListGroup.Item as="li">
+    <ListGroup.Item as="li" key={pastMatch.id}>
       <Row>
         <Col xs={2}>
-          <Match report={true} />
+          <Match report={true} match={placeholderMatch} />
         </Col>
         <Col xs={10}>
-          <b>Mot {pastMatch.opponent}</b><br />
-          {pastMatch.date} kl. {pastMatch.time}<br />
-          Turnering: {pastMatch.tournament_name}<br />
-          Resultat: {pastMatch.result}
+          <b>Mot {getOpponent(pastMatch)}</b><br />
+          {getMatchDateTime(pastMatch)}
+          Turnering: {pastMatch.tournamentName}<br />
+          {getMatchResult(pastMatch)}
         </Col>
       </Row>
     </ListGroup.Item>
   );
 
   const ownedTournamentsList = ownedTournaments.map((ownedTournament) =>
-    <ListGroup.Item as="li">
+    <ListGroup.Item as="li" key={ownedTournament.id}>
       <Row>
         <Col xs={2}>
-          Hantera turnering
+          Knapp?
         </Col>
         <Col xs={10}>
-          <b>{ownedTournament.tournament_name}</b><br />
-          {ownedTournament.start_date} - {ownedTournament.end_date}<br />
-          Hantera turnering
+          <b>{ownedTournament.name}</b><br />
+          {ownedTournament.startDate} - {ownedTournament.endDate}<br />
         </Col>
       </Row>
     </ListGroup.Item>
   );
 
   const competingTournamentsList = competingTournaments.map((competingTournament) =>
-    <ListGroup.Item as="li">
+    <ListGroup.Item as="li" key={competingTournament.id}>
       <Row>
         <Col xs={2}>
-          Någonting här?
+          Knapp?
         </Col>
         <Col xs={10}>
-          <b>{competingTournament.tournament_name}</b><br />
-          {competingTournament.start_date} - {competingTournament.end_date}<br />
+          <b>{competingTournament.name}</b><br />
+          {competingTournament.startDate} - {competingTournament.endDate}<br />
         </Col>
       </Row>
     </ListGroup.Item>

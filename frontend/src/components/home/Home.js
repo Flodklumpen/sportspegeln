@@ -8,7 +8,6 @@ export function Home() {
       <div>
         <h2>Home</h2>
         <Tournament />
-				<Match report={false}/>
       </div>
     );
 }

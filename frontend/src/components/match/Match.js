@@ -7,6 +7,19 @@ import styles from './../tournament/Tournament.module.css';
 import Pencil from './pencil-fill.svg';
 
 export function Match(props) {
+  /*
+  Take in a match on the following format-ish:
+  {
+    tournamentName: STRING,
+    date: STRING,
+    time: STRING,
+    challenger: STRING,
+    defender: STRING,
+    scoreChallenger: NUMBER,
+    scoreDefender: NUMBER
+  }
+  */
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -28,6 +41,8 @@ export function Match(props) {
     handleClose();
   };
 
+  const match = props.match;
+
   const getReportForm = (report) => {
     if(report) {
       return (
@@ -35,12 +50,12 @@ export function Match(props) {
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Datum:</Form.Label>
-              <Form.Control name="date" type="date" required/>
+              <Form.Control name="date" type="date" value={match.date} required/>
             </Form.Group>
 
             <Form.Group as={Col}>
               <Form.Label>Tid:</Form.Label>
-              <Form.Control name="time" type="time" required/>
+              <Form.Control name="time" type="time" value={match.time} required/>
             </Form.Group>
           </Form.Row>
 
@@ -50,12 +65,12 @@ export function Match(props) {
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Utmanare:</Form.Label>
-              <Form.Control name="scoreChallenger" type="number" required/>
+              <Form.Control name="scoreChallenger" type="number" value={match.scoreChallenger} required/>
             </Form.Group>
 
             <Form.Group as={Col}>
               <Form.Label>Försvarare:</Form.Label>
-              <Form.Control name="scoreDefender" type="number" required/>
+              <Form.Control name="scoreDefender" type="number" value={match.scoreDefender} required/>
             </Form.Group>
           </Form.Row>
         </div>
@@ -66,12 +81,12 @@ export function Match(props) {
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Datum:</Form.Label>
-              <Form.Control name="date" type="date"/>
+              <Form.Control name="date" type="date" value={match.date}/>
             </Form.Group>
 
             <Form.Group as={Col}>
               <Form.Label>Tid:</Form.Label>
-              <Form.Control name="time" type="time" />
+              <Form.Control name="time" type="time" value={match.time}/>
             </Form.Group>
           </Form.Row>
 
@@ -96,12 +111,12 @@ export function Match(props) {
           <Form id="create-match-form" onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Utmanare:</Form.Label>
-              <Form.Control name="challenger" value={getUserName()} readOnly/>
+              <Form.Control name="challenger" value={match.challenger} readOnly/>
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Försvarare:</Form.Label>
-              <Form.Control name="defender" value={getUserName()} readOnly />
+              <Form.Control name="defender" value={match.defender} readOnly />
             </Form.Group>
 
             {getReportForm(props.report)}
@@ -123,14 +138,5 @@ export function Match(props) {
         </Modal.Body>
       </Modal>
     </div>
-  );
-}
-
-/**
- * Returns a pleceholder name for now.
- */
-function getUserName() {
-  return (
-      "Kalles Kaviar"
   );
 }
