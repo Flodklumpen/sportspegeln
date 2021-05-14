@@ -26,10 +26,6 @@ def register():
 @user_bp.route('/get_user_data', methods=['GET'])
 def get_user_data():
     email = request.args.get('email')
-    token = request.headers.get('Authorization')
-    print('token: ', token)
-    user = request.headers.get('User')
-    print('user: ', user)
 
     if not email:
         return jsonify({'message': 'Missing parameter'}), 400
