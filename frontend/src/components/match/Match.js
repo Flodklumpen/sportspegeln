@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
 import styles from './../tournament/Tournament.module.css';
 import Pencil from './pencil-fill.svg';
+import { Formik } from 'formik';
 
 export function Match(props) {
   /*
@@ -24,78 +25,18 @@ export function Match(props) {
 
   const handleClose = () => setShow(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-
-    console.log(form.challenger.value);
-    console.log(form.defender.value);
-    console.log(form.date.value);
-    console.log(form.time.value);
+  const submitMatch = (values) => {
+    console.log(values.challenger);
+    console.log(values.defender);
+    console.log(values.date);
+    console.log(values.time);
 
     if (props.report) {
-      console.log(form.scoreChallenger.value);
-      console.log(form.scoreDefender.value);
+      console.log(values.scoreChallenger);
+      console.log(values.scoreDefender);
     };
 
     handleClose();
-  };
-
-  const match = props.match;
-
-  const getReportForm = (report) => {
-    if(report) {
-      return (
-        <div>
-          <Form.Row>
-            <Form.Group as={Col}>
-              <Form.Label>Datum:</Form.Label>
-              <Form.Control name="date" type="date" value={match.date} required/>
-            </Form.Group>
-
-            <Form.Group as={Col}>
-              <Form.Label>Tid:</Form.Label>
-              <Form.Control name="time" type="time" value={match.time} required/>
-            </Form.Group>
-          </Form.Row>
-
-          <Form.Row>
-            <Form.Label><b>Poäng</b></Form.Label>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col}>
-              <Form.Label>Utmanare:</Form.Label>
-              <Form.Control name="scoreChallenger" type="number" value={match.scoreChallenger} required/>
-            </Form.Group>
-
-            <Form.Group as={Col}>
-              <Form.Label>Försvarare:</Form.Label>
-              <Form.Control name="scoreDefender" type="number" value={match.scoreDefender} required/>
-            </Form.Group>
-          </Form.Row>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Form.Row>
-            <Form.Group as={Col}>
-              <Form.Label>Datum:</Form.Label>
-              <Form.Control name="date" type="date" value={match.date}/>
-            </Form.Group>
-
-            <Form.Group as={Col}>
-              <Form.Label>Tid:</Form.Label>
-              <Form.Control name="time" type="time" value={match.time}/>
-            </Form.Group>
-          </Form.Row>
-
-          <Form.Row>
-            <Form.Label><i>Datum och tid kan anges eller ändras senare</i></Form.Label>
-          </Form.Row>
-        </div>
-      );
-    };
   };
 
   return (
@@ -104,39 +45,94 @@ export function Match(props) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Skapa en match</Modal.Title>
+          <Modal.Title>Redigera match</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Formik
+            initialValues={props.match}
+            onSubmit={(values) => submitMatch(values)}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              values
+            }) => (
+              <Form id="create-match-form" onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Label>Utmanare:</Form.Label>
+                  <Form.Control name="challenger" value={values.challenger} readOnly/>
+                </Form.Group>
 
-          <Form id="create-match-form" onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>Utmanare:</Form.Label>
-              <Form.Control name="challenger" value={match.challenger} readOnly/>
-            </Form.Group>
+                <Form.Group>
+                  <Form.Label>Försvarare:</Form.Label>
+                  <Form.Control name="defender" value={values.defender} readOnly />
+                </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Försvarare:</Form.Label>
-              <Form.Control name="defender" value={match.defender} readOnly />
-            </Form.Group>
+                <Form.Row>
+                  <Form.Group as={Col}>
+                    <Form.Label>Datum:</Form.Label>
+                    { props.report ?
+                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange} required/>
+                      :
+                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange}/>
+                    }
+                  </Form.Group>
 
-            {getReportForm(props.report)}
+                  <Form.Group as={Col}>
+                    <Form.Label>Tid:</Form.Label>
+                    { props.report ?
+                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange} required/>
+                      :
+                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange}/>
+                    }
+                  </Form.Group>
+                </Form.Row>
 
-            <Form.Row id="form-submit">
-              <Form.Group className={styles.submitArea}>
-                <Button variant="primary" type="submit">
-                  Spara
-                </Button>
-              </Form.Group>
+                <Form.Row>
+                  { props.report ? '' :
+                    <Form.Label><i>Datum och tid kan anges eller ändras senare</i></Form.Label>
+                  }
+                </Form.Row>
 
-              <Form.Group className={styles.submitButtons}>
-                <Button variant="secondary" onClick={handleClose}>
-                  Avbryt
-                </Button>
-              </Form.Group>
-            </Form.Row>
-          </Form>
+                { props.report ?
+                  <div>
+                    <Form.Row>
+                      <Form.Label><b>Poäng</b></Form.Label>
+                    </Form.Row>
+                    <Form.Row>
+                      <Form.Group as={Col}>
+                        <Form.Label>Utmanare:</Form.Label>
+                        <Form.Control name="scoreChallenger" type="number" value={values.scoreChallenger} onChange={handleChange} required/>
+                      </Form.Group>
+
+                      <Form.Group as={Col}>
+                        <Form.Label>Försvarare:</Form.Label>
+                        <Form.Control name="scoreDefender" type="number" value={values.scoreDefender} onChange={handleChange} required/>
+                      </Form.Group>
+                    </Form.Row>
+                  </div>
+                  : ''
+                }
+
+                <Form.Row id="form-submit">
+                  <Form.Group className={styles.submitArea}>
+                    <Button variant="primary" type="submit">
+                      Spara
+                    </Button>
+                  </Form.Group>
+
+                  <Form.Group className={styles.submitButtons}>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Avbryt
+                    </Button>
+                  </Form.Group>
+                </Form.Row>
+              </Form>
+            )}
+          </Formik>
         </Modal.Body>
       </Modal>
+
     </div>
   );
 }

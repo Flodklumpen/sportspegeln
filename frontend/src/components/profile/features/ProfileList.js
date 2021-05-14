@@ -142,7 +142,7 @@ export function ProfileList() {
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
-          <Match report={true} match={placeholderMatch} />
+          <Match report={true} match={pastMatch} />
         </Col>
         <Col xs={10}>
           <b>Mot {getOpponent(pastMatch)}</b><br />
