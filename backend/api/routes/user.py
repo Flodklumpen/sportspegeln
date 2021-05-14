@@ -8,7 +8,7 @@ user_bp = Blueprint('user_bp', __name__)
 @user_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    fields = ['given_name', 'family_name', 'email']
+    fields = ['given_name', 'family_name', 'email', 'user_id']
 
     if not routes_help.existing_fields(data, fields):
         return jsonify({'message': "Missing field(s)"}), 400
@@ -19,7 +19,7 @@ def register():
     if query.is_user_registered(data['email']):
         return jsonify({'message': "User exists"}), 200
     else:
-        query.register_user(data['email'], data['given_name'], data['family_name'])
+        query.register_user(data['email'], data['given_name'], data['family_name'], data['user_id'])
         return jsonify({'message': "User added"}), 200
 
 

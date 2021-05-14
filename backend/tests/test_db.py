@@ -5,6 +5,7 @@ import datetime
 import sys
 sys.path.append("../api")
 from models.base import db, User, Owner, Competitor, Tournament, Match, Competing
+import os
 
 # for development purposes because of pycharm...
 # from sqlalchemy.orm import Query, query = Query
@@ -41,14 +42,14 @@ class AddDataTest(MainTest):
 
     def test_user(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
             db.session.commit()
             user = db.session.query(User).get('testy1@example.com')
             self.assertIn(user, db.session)
 
     def test_owner(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
             db.session.commit()
             db.session.add(Owner(email='testy1@example.com'))
             db.session.commit()
@@ -67,7 +68,7 @@ class AddDataTest(MainTest):
 
     def test_competitor(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
             db.session.commit()
             db.session.add(Competitor(email='testy1@example.com'))
             db.session.commit()
@@ -86,7 +87,7 @@ class AddDataTest(MainTest):
 
     def test_tournament(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
             db.session.commit()
             db.session.add(Owner(email='testy1@example.com'))
             db.session.add(Competitor(email='testy1@example.com'))
@@ -108,7 +109,7 @@ class AddDataTest(MainTest):
 
     def test_competing(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
             db.session.commit()
             db.session.add(Owner(email='testy1@example.com'))
             db.session.add(Competitor(email='testy1@example.com'))
@@ -132,8 +133,8 @@ class AddDataTest(MainTest):
 
     def test_match(self):
         with self.app.app_context():
-            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1'))
-            db.session.add(User(email='testy2@example.com', first_name='testy2', family_name='testo2'))
+            db.session.add(User(email='testy1@example.com', first_name='testy1', family_name='testo1', id="fakeID"))
+            db.session.add(User(email='testy2@example.com', first_name='testy2', family_name='testo2', id="fakeID"))
             db.session.commit()
             db.session.add(Owner(email='testy1@example.com'))
             db.session.add(Competitor(email='testy1@example.com'))

@@ -2,11 +2,14 @@ from datetime import date
 from flask import Blueprint, request, jsonify
 from ..models import query
 from . import routes_help
+from .auth import *
 
 tournament_bp = Blueprint('tournament_bp', __name__)
 
 
 @tournament_bp.route('/create_tournament', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def create_tournament():
     data = request.get_json()
     required_fields = ['owner', 'tournament_name']
@@ -52,6 +55,8 @@ def create_tournament():
 
 
 @tournament_bp.route('/add_competitor', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def add_competitor():
     data = request.get_json()
     fields = ['competitor', 'tournament_id']
@@ -81,6 +86,8 @@ def add_competitor():
 
 
 @tournament_bp.route('/create_match', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
 def create_match():
 
     data = request.get_json()
