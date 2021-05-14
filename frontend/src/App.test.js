@@ -11,12 +11,13 @@ window.crypto = {
 
 test('renders learn react link', async () => {
   const promise = Promise.resolve();
-
+/*
   render(
     <Provider store={store}>
-      
+      <App />
     </Provider>
   );
+ */
 
   await act(() => promise);
 });
