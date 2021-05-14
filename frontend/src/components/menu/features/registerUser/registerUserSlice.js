@@ -15,11 +15,12 @@ export default function registerUserReducer(state = initialState, action) {
 }
 
 // Thunk function
-export function storeUser(email, given_name, family_name, token) {
+export function storeUser(email, givenName, familyName, userID, token) {
   const user = {};
   user['email'] = email;
-  user['given_name'] = given_name;
-  user['family_name'] = family_name;
+  user['given_name'] = givenName;
+  user['family_name'] = familyName;
+  user['user_id'] = userID;
 
   return async function storeUserThunk(dispatch) {
     const response = await client.post('/user/register', user, email, token);

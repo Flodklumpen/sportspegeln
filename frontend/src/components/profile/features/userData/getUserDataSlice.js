@@ -18,5 +18,6 @@ export function fetchUserData(email, token) {
   return async function fetchUserDataThunk(dispatch) {
     const response = await client.get('/user/get_user_data?email=' + email, email, token);
     dispatch({type: 'data/dataLoaded', payload: response.data});
+
   }
 }

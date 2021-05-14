@@ -21,8 +21,8 @@ export function RegisterUser() {
 		};
 		const token = storeToken();
 
-		dispatch(storeUser(user.email, user.given_name, user.family_name, token));
-  }, [dispatch, user.email, user.given_name, user.family_name, getAccessTokenSilently]);
+		dispatch(storeUser(user.email, user.given_name, user.family_name, user.sub, token));
+  }, [dispatch, user.email, user.given_name, user.family_name, user.sub, getAccessTokenSilently]);
 
 	return null;
 }
