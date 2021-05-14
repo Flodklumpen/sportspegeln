@@ -5,6 +5,7 @@ import counterReducer, {
 } from './counterSlice';
 
 describe('counter reducer', () => {
+
   const initialState = {
     value: 3,
     status: 'idle',
@@ -25,10 +26,9 @@ describe('counter reducer', () => {
     const actual = counterReducer(initialState, decrement());
     expect(actual.value).toEqual(2);
   });
-/*
+
   it('should handle incrementByAmount', () => {
     const actual = counterReducer(initialState, incrementByAmount(2));
     expect(actual.value).toEqual(5);
   });
-*/
 });

@@ -14,7 +14,7 @@ test('renders learn react link', async () => {
 
   render(
     <Provider store={store}>
-      <App />
+      
     </Provider>
   );
 
