@@ -1,12 +1,13 @@
 import React from 'react';
-import { Tournament } from "../tournament/Tournament";
+import { CreateTournament } from "../tournament/CreateTournament";
+import { TournamentList } from "../tournament/TournamentList";
 
 export function Home() {
 
 	return (
       <div>
-        <h2>Home</h2>
-        <Tournament />
+        <CreateTournament />
+        <TournamentList />
       </div>
     );
 }

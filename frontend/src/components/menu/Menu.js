@@ -9,6 +9,7 @@ import {
 import { useAuth0 } from "@auth0/auth0-react";
 import Home from '../home/Home';
 import Profile from "../profile/Profile";
+import Tournament from "../tournament/Tournament";
 import styles from './Menu.module.css';
 import logo from '../../images/logo_big.png';
 import { RegisterUser } from "./features/registerUser/RegisterUser";
@@ -47,6 +48,7 @@ export function Menu() {
       <div className={styles.content}>
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
+        <Route path="/tournament" component={ Tournament }/>
       </div>
     </HashRouter>
   );

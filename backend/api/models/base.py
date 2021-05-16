@@ -56,7 +56,7 @@ Competitor.user = db.relationship("User", uselist=False)
 
 """
 Don't work but for future reference:
-Owner.tournaments = db.relationship("Tournament", order_by=Tournament.owner, back_populates="owner")
-Tournament.owner = db.relationship("Owner", order_by=Owner.email, back_populates="tournaments")
-Competitor.tournaments = db.relationship('Tournament', secondary=tournaments, lazy='subquery', backref=db.backref('competitors', lazy=True))
+Owner.tournaments = db.relationship("CreateTournament", order_by=CreateTournament.owner, back_populates="owner")
+CreateTournament.owner = db.relationship("Owner", order_by=Owner.email, back_populates="tournaments")
+Competitor.tournaments = db.relationship('CreateTournament', secondary=tournaments, lazy='subquery', backref=db.backref('competitors', lazy=True))
 """

@@ -53,7 +53,7 @@ def create_tournament():
     # create tournament
     tournament_id = query.create_tournament(data['tournament_name'], data['owner'], start_date, end_date)
 
-    return jsonify({'message': 'Tournament created', 'data': tournament_id}), 200
+    return jsonify({'message': 'CreateTournament created', 'data': tournament_id}), 200
 
 
 @tournament_bp.route('/add_competitor', methods=['POST'])
@@ -77,7 +77,7 @@ def add_competitor():
 
     #ensure that tournament exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'Tournament does not exist'}), 404
+        return jsonify({'message': 'CreateTournament does not exist'}), 404
 
     # create competitor of user if they are not already
     if not query.is_competitor(data['competitor']):
@@ -111,7 +111,7 @@ def create_match():
 
     # check that tournament exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'Tournament does not exist'}), 404
+        return jsonify({'message': 'CreateTournament does not exist'}), 404
 
     if not 'date' in data or not data['date']:
         date = None
