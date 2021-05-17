@@ -6,13 +6,26 @@ import {
   Route,
   HashRouter
 } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Home from '../home/Home';
 import Profile from "../profile/Profile";
-import { Login } from "../login/Login";
 import styles from './Menu.module.css';
 import logo from '../../images/logo_big.png';
+import { RegisterUser } from "./features/registerUser/RegisterUser";
+import { ToggleLogInButton } from "./features/ToggleLogInButton";
 
 export function Menu() {
+
+  const { isAuthenticated } = useAuth0();
+
+  function ifAuthenticated() {
+    if (isAuthenticated) {
+      return (
+        <RegisterUser/>
+      );
+    }
+    return null;
+  }
 
   return (
     <HashRouter>
@@ -25,7 +38,7 @@ export function Menu() {
               <Nav className="m-auto">
                 <Nav.Link href="#/">Hem</Nav.Link>
                 <Nav.Link href="#/profile">Profil</Nav.Link>
-                <Nav.Link><Login /></Nav.Link>
+                <Nav.Link><ToggleLogInButton /> { ifAuthenticated() } </Nav.Link>
               </Nav>
             </Container>
           </Navbar.Collapse>

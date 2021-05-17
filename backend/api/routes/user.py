@@ -23,9 +23,10 @@ def register():
         return jsonify({'message': "User added"}), 200
 
 
-@user_bp.route('/get_user_info', methods=['GET'])
-def get_user_info():
+@user_bp.route('/get_user_data', methods=['GET'])
+def get_user_data():
     email = request.args.get('email')
+
     if not email:
         return jsonify({'message': 'Missing parameter'}), 400
 

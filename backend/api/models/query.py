@@ -47,29 +47,31 @@ def create_match(match_id, tournament_id, date, time, challenger_email, defender
 
 
 def is_user_registered(user_email):
-    return (db.session.query(User.email).filter_by(email=user_email).first() is not None)
+    return db.session.query(User.email).filter_by(email=user_email).first() is not None
 
 
 def is_owner(owner_email):
-    return (db.session.query(Owner.email).filter_by(email=owner_email).first() is not None)
+    return db.session.query(Owner.email).filter_by(email=owner_email).first() is not None
 
 
 def is_tournament(tour_id):
-    return (db.session.query(Tournament.id).filter_by(id=tour_id).first() is not None)
+    return db.session.query(Tournament.id).filter_by(id=tour_id).first() is not None
 
 
 def is_competitor(competitor_email):
-    return (db.session.query(Competitor.email).filter_by(email=competitor_email).first() is not None)
+    return db.session.query(Competitor.email).filter_by(email=competitor_email).first() is not None
 
 
 def is_competing(comp_email, tournament_id):
-    return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
+    return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
 
 
 def is_competing(comp_email, tournament_id):
-    return (db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None)
+    return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
+
 
 """Functions to get information from the database"""
+
 
 def get_user_info(user_email):
     result = db.session.query(User.first_name, User.family_name).filter_by(email=user_email).first()
@@ -89,6 +91,7 @@ def get_user_id_from_email(user_email):
         return user_id
     else:
         return None
+
 
 """ Miscellanious functions """
 

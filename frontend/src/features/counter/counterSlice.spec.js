@@ -5,6 +5,7 @@ import counterReducer, {
 } from './counterSlice';
 
 describe('counter reducer', () => {
+
   const initialState = {
     value: 3,
     status: 'idle',
