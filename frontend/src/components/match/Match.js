@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import styles from './../tournament/Tournament.module.css';
+import styles from './../tournament/CreateTournament.module.css';
 import Pencil from './pencil-fill.svg';
 import { Formik } from 'formik';
 
