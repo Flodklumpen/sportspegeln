@@ -1,0 +1,18 @@
+.list {
+  text-align: left;
+  font-size: calc(10px + 1vmin);
+}
+
+.indexCol {
+    width: 15%;
+}
+
+.competitorCol {
+
+}
+
+.Table {
+    max-width: 30%;
+    position: relative;
+    margin-inline: auto;
+}
