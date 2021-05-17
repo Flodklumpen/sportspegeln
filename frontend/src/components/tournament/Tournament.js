@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import {selectTournament, updateTournament} from "./tournamentSlice";
+import { selectTournament } from "./tournamentSlice";
 import styles from "./Tournament.module.css";
 import Table from "react-bootstrap/Table";
-import { GetRank } from "./GetRank";
+//import { GetRank } from "./GetRank";
 
 export function Tournament() {
 

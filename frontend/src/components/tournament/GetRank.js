@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchRank } from "./getRankSlice";
-import {selectTournament} from "./tournamentSlice";
+import { selectTournament } from "./tournamentSlice";
 
 export function GetRank() {
 	const { user } = useAuth0();
@@ -15,5 +15,5 @@ export function GetRank() {
 
 	useEffect(() => {
 		dispatch(fetchRank(user.email, tournament.id, token));
-  }, [dispatch, user.email, token]);
+  }, [dispatch, user.email, tournament.id, token]);
 }

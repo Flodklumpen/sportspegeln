@@ -7,11 +7,13 @@ import './TournamentList.module.css';
 import styles from './TournamentList.module.css';
 import { useDispatch } from "react-redux";
 import { updateTournament } from "./tournamentSlice";
+//import { GetTournaments } from "./GetTournaments";
 
 export function TournamentList() {
+
 	const dispatch = useDispatch();
 
-	//TODO: get these from server
+	//TODO: get these from server with <GetTournaments />
 	const tournaments = [
 		{
 			'id': 1,
