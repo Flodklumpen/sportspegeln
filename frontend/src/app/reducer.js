@@ -6,6 +6,7 @@ import showHideListReducer from '../components/profile/features/profileListSlice
 import registerUserReducer from "../components/menu/features/registerUser/registerUserSlice";
 import getUserDataReducer from "../components/profile/features/userData/getUserDataSlice";
 import storeUserTokenReducer from "../components/menu/features/registerUser/storeTokenSlice";
+import tournamentReducer from "../components/tournament/tournamentSlice";
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   profileList: showHideListReducer,
   registerUser: registerUserReducer,
   userData: getUserDataReducer,
-  userToken: storeUserTokenReducer
+  userToken: storeUserTokenReducer,
+  tournament: tournamentReducer
 });
 
 export default rootReducer

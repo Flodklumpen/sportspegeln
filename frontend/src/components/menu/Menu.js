@@ -48,7 +48,9 @@ export function Menu() {
       <div className={styles.content}>
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
-        <Route path="/tournament" component={ Tournament }/>
+        <Route path="/tournament" >
+          <Tournament/>
+        </Route>
       </div>
     </HashRouter>
   );

@@ -5,8 +5,11 @@ import {
 } from "react-router-dom";
 import './TournamentList.module.css';
 import styles from './TournamentList.module.css';
+import { useDispatch } from "react-redux";
+import { updateTournament } from "./tournamentSlice";
 
 export function TournamentList() {
+	const dispatch = useDispatch();
 
 	//TODO: get these from server
 	const tournaments = [
@@ -28,7 +31,7 @@ export function TournamentList() {
 
 	const listTournaments = tournaments.map((tournament) =>
 	  <tr key={tournament.id}>
-	    <td><Link to="/tournament" className={styles.tournamentLink}>{tournament.tournament_name}</Link></td>
+	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament" className={styles.tournamentLink}>{tournament.tournament_name}</Link></td>
       <td>{tournament.start_date}</td>
       <td>{tournament.city}</td>
 	    <td>{tournament.owner}</td>
