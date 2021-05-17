@@ -1,4 +1,5 @@
 from .base import db, User, Tournament, Owner, Competitor, Competing, Match
+from . import query_help
 
 """Functions to create objects in the database"""
 
@@ -91,6 +92,27 @@ def get_user_id_from_email(user_email):
         return user_id
     else:
         return None
+
+
+def get_tournaments():
+    result = db.session.query(
+        Tournament.id,
+        Tournament.name,
+        Tournament.start_date,
+        Tournament.end_date,
+        Tournament.owner
+    ).all()
+    tournaments = []
+    if result is not None:
+        for tournament in result:
+            curr_tournament = {}
+            curr_tournament['id'] = tournament[0]
+            curr_tournament['name'] = tournament[1]
+            curr_tournament['start_date'] = query_help.get_string_from_date(tournament[2])
+            curr_tournament['end_date'] = query_help.get_string_from_date(tournament[3])
+            curr_tournament['owner'] = tournament[4]
+            tournaments.append(curr_tournament)
+    return tournaments
 
 
 """ Miscellanious functions """

@@ -127,3 +127,11 @@ def create_match():
     query.create_match(id, data['tournament_id'], date, time, data['challenger'], data['defender'])
 
     return jsonify({'message': 'Match created', 'data': id}), 200
+
+
+@tournament_bp.route('/get_tournaments', methods=['GET'])
+def get_tournaments():
+    """Returns all tournaments
+    """
+    tournaments = query.get_tournaments()
+    return jsonify({'message': 'got tournaments', 'data': tournaments}), 200
