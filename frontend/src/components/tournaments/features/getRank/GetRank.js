@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchRank } from "./getRankSlice";
-import { selectTournament } from "./tournamentSlice";
+import { selectTournament } from "../tournament/tournamentSlice";
 
 export function GetRank() {
 	const { user } = useAuth0();

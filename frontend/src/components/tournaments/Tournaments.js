@@ -3,13 +3,13 @@ import Table from "react-bootstrap/Table";
 import {
 	Link
 } from "react-router-dom";
-import './TournamentList.module.css';
-import styles from './TournamentList.module.css';
+import './Tournaments.module.css';
+import styles from './Tournaments.module.css';
 import { useDispatch } from "react-redux";
-import { updateTournament } from "./tournamentSlice";
+import { updateTournament } from "./features/tournament/tournamentSlice";
 //import { GetTournaments } from "./GetTournaments";
 
-export function TournamentList() {
+export function Tournaments() {
 
 	const dispatch = useDispatch();
 

@@ -32,7 +32,7 @@ def upgrade():
                     sa.ForeignKeyConstraint(['email'], ['user.email'], ),
                     sa.PrimaryKeyConstraint('email')
                     )
-    op.create_table('tournament',
+    op.create_table('tournaments',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.String(length=50), nullable=False),
                     sa.Column('start_date', sa.DateTime(), nullable=False),
@@ -43,14 +43,14 @@ def upgrade():
                     )
     op.create_table('competing',
                     sa.Column('competitor', sa.String(length=120), nullable=False),
-                    sa.Column('tournament', sa.Integer(), nullable=False),
+                    sa.Column('tournaments', sa.Integer(), nullable=False),
                     sa.ForeignKeyConstraint(['competitor'], ['competitor.email'], ),
-                    sa.ForeignKeyConstraint(['tournament'], ['tournament.id'], ),
-                    sa.PrimaryKeyConstraint('competitor', 'tournament')
+                    sa.ForeignKeyConstraint(['tournaments'], ['tournaments.id'], ),
+                    sa.PrimaryKeyConstraint('competitor', 'tournaments')
                     )
     op.create_table('match',
                     sa.Column('id', sa.Integer(), nullable=False),
-                    sa.Column('tournament', sa.Integer(), nullable=False),
+                    sa.Column('tournaments', sa.Integer(), nullable=False),
                     sa.Column('date', sa.Date(), nullable=True),
                     sa.Column('time', sa.Time(), nullable=True),
                     sa.Column('challenger', sa.String(length=120), nullable=False),
@@ -59,15 +59,15 @@ def upgrade():
                     sa.Column('score_defender', sa.Integer(), nullable=True),
                     sa.ForeignKeyConstraint(['challenger'], ['competitor.email'], ),
                     sa.ForeignKeyConstraint(['defender'], ['competitor.email'], ),
-                    sa.ForeignKeyConstraint(['tournament'], ['tournament.id'], ),
-                    sa.PrimaryKeyConstraint('id', 'tournament')
+                    sa.ForeignKeyConstraint(['tournaments'], ['tournaments.id'], ),
+                    sa.PrimaryKeyConstraint('id', 'tournaments')
                     )
 
 
 def downgrade():
     op.drop_table('match')
     op.drop_table('competing')
-    op.drop_table('tournament')
+    op.drop_table('tournaments')
     op.drop_table('owner')
     op.drop_table('competitor')
     op.drop_table('user')

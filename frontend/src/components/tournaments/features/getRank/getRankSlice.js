@@ -1,4 +1,4 @@
-import { client } from "../../client";
+import { client } from "../../../../client";
 
 const initialState = [];
 
@@ -14,7 +14,7 @@ export default function getRankReducer(state = initialState, action) {
 
 export function fetchRank(email, id, token) {
   return async function fetchRankThunk(dispatch) {
-    const response = await client.get('/tournament/get_rank?tournament=' + id, email, token);
+    const response = await client.get('/tournaments/get_rank?tournaments=' + id, email, token);
     dispatch({type: 'data/dataLoaded', payload: response.data});
   }
 }
