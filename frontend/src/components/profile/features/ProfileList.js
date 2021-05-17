@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
 import styles from './../Profile.module.css';
 import {
   futureMatchReducer,
@@ -13,74 +14,172 @@ import {
   selectOwnedTournament,
   selectCompetingTournament
 } from './profileListSlice';
+import { Match } from './../../match/Match';
+import { useAuth0 } from "@auth0/auth0-react";
 
 export function ProfileList() {
+  const { user } = useAuth0();
+
   //TODO: get these from server
+  const placeholderMatch = {
+    tournamentName: "Min turnering",
+    date: "2021-04-20",
+    time: "10:00",
+    challenger: user.name,
+    defender: "Bob",
+    scoreChallenger: 2,
+    scoreDefender: 3
+  }
+
+  const placeholderMatch2 = {
+    tournamentName: "Min turnering",
+    date: "",
+    time: "",
+    challenger: "Eva",
+    defender: user.name,
+    scoreChallenger: 4,
+    scoreDefender: 0
+  }
+
+  const placeholderTournament = {
+    name: "Min turnering",
+    startDate: "2020-01-01",
+    endDate: "2021-12-31",
+    owner: "Klas-Göran"
+  }
+
+  const placeholderTournament2 = {
+    name: "Bästa turneringen nånsing bror",
+    startDate: "2020-01-01",
+    endDate: "",
+    owner: "Tobbe"
+  }
+
   const futureMatches = [
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars'
-    }
+    placeholderMatch,
+    placeholderMatch,
+    placeholderMatch2
   ];
 
   const pastMatches = [
-    {
-      'tournament_name': 'Turnering 1',
-      'date': '2021-04-03',
-      'time': '15.30',
-      'opponent': 'Lars',
-      'result': 'Vann'
-    }
+    placeholderMatch,
+    placeholderMatch,
+    placeholderMatch2
   ];
 
   const ownedTournaments = [
-    {
-      'tournament_name': 'Min turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    }
+    placeholderTournament,
+    placeholderTournament,
+    placeholderTournament2
   ];
 
   const competingTournaments = [
-    {
-      'tournament_name': 'Någon annans turnering',
-      'start_date': '2020-01-01',
-      'end_date': '2020-03-14',
-    }
+    placeholderTournament,
+    placeholderTournament,
+    placeholderTournament2
   ];
 
-  const futureMatchList = futureMatches.map((futureMatch) =>
-    <li key="{futureMatch}">
-      <b>Mot {futureMatch.opponent}</b><br />
-      {futureMatch.date} kl. {futureMatch.time}<br />
-      Turnering: {futureMatch.tournament_name}
-    </li>
+  const getOpponent = (match) => {
+    if (user.name === match.defender) {
+      return match.challenger;
+    } else {
+      return match.defender;
+    }
+  };
+
+  const getMatchDateTime = (match) => {
+    let str = match.date;
+    if (match.time) {
+      str = str + ", kl."+match.time;
+    }
+    if (str) {
+      return (
+        <div>{str}</div>
+      );
+    }
+  }
+
+  const getMatchResult = (match) => {
+    var myScore = 0;
+    var opponentScore = 0;
+    if (user.name === match.defender) {
+      myScore = match.scoreDefender;
+      opponentScore = match.scoreChallenger;
+    } else {
+      myScore = match.scoreChallenger;
+      opponentScore = match.scoreDefender;
+    };
+    if (myScore === 0 && opponentScore === 0) {
+      return (
+        <div>Resultat ej rapporterade</div>
+      );
+    } else {
+      return (
+        <div>
+          Mina poäng: {myScore}<br />
+          Motståndarens poäng: {opponentScore}
+        </div>
+      );
+    }
+  }
+
+  const futureMatchList = futureMatches.map((futureMatch, index) =>
+    <ListGroup.Item as="li" key={index}>
+      <Row>
+        <Col xs={2}>
+          <Match report={false} match={futureMatch}/>
+        </Col>
+        <Col xs={10}>
+          <b>Mot {getOpponent(futureMatch)}</b><br />
+          {getMatchDateTime(futureMatch)}
+          Turnering: {futureMatch.tournamentName}
+        </Col>
+      </Row>
+    </ListGroup.Item>
   );
 
-  const pastMatchList = pastMatches.map((pastMatch) =>
-    <li key="{pastMatch}">
-      <b>Mot {pastMatch.opponent}</b><br />
-      {pastMatch.date} kl. {pastMatch.time}<br />
-      Turnering: {pastMatch.tournament_name}<br />
-      Resultat: {pastMatch.result}
-    </li>
+  const pastMatchList = pastMatches.map((pastMatch, index) =>
+    <ListGroup.Item as="li" key={index}>
+      <Row>
+        <Col xs={2}>
+          <Match report={true} match={pastMatch} />
+        </Col>
+        <Col xs={10}>
+          <b>Mot {getOpponent(pastMatch)}</b><br />
+          {getMatchDateTime(pastMatch)}
+          Turnering: {pastMatch.tournamentName}<br />
+          {getMatchResult(pastMatch)}
+        </Col>
+      </Row>
+    </ListGroup.Item>
   );
 
-  const ownedTournamentsList = ownedTournaments.map((ownedTournament) =>
-    <li key="{ownedTournament}">
-      <b>{ownedTournament.tournament_name}</b><br />
-      {ownedTournament.start_date} - {ownedTournament.end_date}<br />
-      Hantera turnering
-    </li>
+  const ownedTournamentsList = ownedTournaments.map((ownedTournament, index) =>
+    <ListGroup.Item as="li" key={index}>
+      <Row>
+        <Col xs={2}>
+          Knapp?
+        </Col>
+        <Col xs={10}>
+          <b>{ownedTournament.name}</b><br />
+          {ownedTournament.startDate} - {ownedTournament.endDate}<br />
+        </Col>
+      </Row>
+    </ListGroup.Item>
   );
 
-  const competingTournamentsList = competingTournaments.map((competingTournament) =>
-    <li key="{competingTournament}">
-      <b>{competingTournament.tournament_name}</b><br />
-      {competingTournament.start_date} - {competingTournament.end_date}<br />
-    </li>
+  const competingTournamentsList = competingTournaments.map((competingTournament, index) =>
+    <ListGroup.Item as="li" key={index}>
+      <Row>
+        <Col xs={2}>
+          Knapp?
+        </Col>
+        <Col xs={10}>
+          <b>{competingTournament.name}</b><br />
+          {competingTournament.startDate} - {competingTournament.endDate}<br />
+        </Col>
+      </Row>
+    </ListGroup.Item>
   );
 
   const futureMatch = useSelector(selectFutureMatch);
@@ -115,19 +214,23 @@ export function ProfileList() {
     }
     return (
       <div>
-        <Row>
-          <Col xs={10}>
-            <h2>
-              {title}
-            </h2>
-          </Col>
-          <Col xs={2}>
-            <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
-          </Col>
-        </Row>
-        <Row>
-          <ul className={resource.class}>{list}</ul>
-        </Row>
+      <ListGroup as="ul">
+        <ListGroup.Item as="li" id={listName}>
+          <Row>
+            <Col xs={10}>
+              <h2>
+                {title}
+              </h2>
+            </Col>
+            <Col xs={2}>
+              <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+            </Col>
+          </Row>
+        </ListGroup.Item>
+        <div className={resource.class}>
+        {list}
+        </div>
+      </ListGroup>
       </div>
     );
   };
