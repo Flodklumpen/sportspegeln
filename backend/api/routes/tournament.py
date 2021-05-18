@@ -127,3 +127,15 @@ def create_match():
     query.create_match(id, data['tournament_id'], date, time, data['challenger'], data['defender'])
 
     return jsonify({'message': 'Match created', 'data': id}), 200
+
+
+@tournament_bp.route('/get_tournaments', methods=['GET'])
+def get_tournaments():
+    """Returns all tournaments
+    """
+    tournaments = query.get_tournaments()
+    for tournament in tournaments:
+        owner_info = query.get_user_info(tournament['owner'])
+        # assume it will work, should not be able to be None
+        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
+    return jsonify({'message': 'got tournaments', 'data': tournaments}), 200
