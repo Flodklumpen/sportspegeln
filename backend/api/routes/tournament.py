@@ -134,4 +134,8 @@ def get_tournaments():
     """Returns all tournaments
     """
     tournaments = query.get_tournaments()
+    for tournament in tournaments:
+        owner_info = query.get_user_info(tournament['owner'])
+        # assume it will work, should not be able to be None
+        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
     return jsonify({'message': 'got tournaments', 'data': tournaments}), 200
