@@ -16,4 +16,6 @@ export function GetTournaments() {
 	useEffect(() => {
 		dispatch(fetchTournaments(user.email, token));
 	}, [dispatch, user.email, token]);
+
+	return null;
 }

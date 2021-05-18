@@ -42,7 +42,7 @@ export function Tournament() {
 
 	return (
 		<div>
-			<h1>{ tournament.tournament_name }</h1>
+			<h1>{ tournament.name }</h1>
 			<Table striped bordered hover size="sm" className={styles.Table}>
 				<thead>
 			    <tr>

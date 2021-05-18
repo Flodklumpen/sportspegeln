@@ -4,7 +4,7 @@ const initialState = [];
 
 export default function getTournamentsReducer(state = initialState, action) {
   switch (action.type) {
-    case 'data/dataLoaded': {
+    case 'data/tournamentsLoaded': {
       return action.payload
     }
     default:
@@ -15,7 +15,9 @@ export default function getTournamentsReducer(state = initialState, action) {
 export function fetchTournaments(email, token) {
   return async function fetchTournamentsThunk(dispatch) {
     const response = await client.get('/tournament/get_tournaments', email, token);
-    dispatch({type: 'data/dataLoaded', payload: response.data});
+    dispatch({type: 'data/tournamentsLoaded', payload: response.data});
 
   }
 }
+
+export const selectTournaments = (state) => state.tournaments;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 import Table from "react-bootstrap/Table";
 import {
 	Link
@@ -7,14 +8,17 @@ import './Tournaments.module.css';
 import styles from './Tournaments.module.css';
 import { useDispatch } from "react-redux";
 import { updateTournament } from "./features/tournament/tournamentSlice";
-//import { GetTournaments } from "./GetTournaments";
+import { GetTournaments } from "./features/getTournaments/GetTournaments";
+import { useSelector } from "react-redux";
+import { selectTournaments } from "./features/getTournaments/getTournamentsSlice";
 
 export function Tournaments() {
-
+	const { isAuthenticated } = useAuth0();
 	const dispatch = useDispatch();
+	const tournaments = useSelector(selectTournaments);
 
 	//TODO: get these from server with <GetTournaments />
-	const tournaments = [
+	/*const tournaments = [
 		{
 			'id': 1,
 			'tournament_name': 'Stegen',
@@ -30,24 +34,33 @@ export function Tournaments() {
 			'owner': 'Lotta Mariasdotter'
 		}
 		];
+	 */
 
 	const listTournaments = tournaments.map((tournament) =>
 	  <tr key={tournament.id}>
-	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament" className={styles.tournamentLink}>{tournament.tournament_name}</Link></td>
+	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament" className={styles.tournamentLink}>{tournament.name}</Link></td>
       <td>{tournament.start_date}</td>
-      <td>{tournament.city}</td>
 	    <td>{tournament.owner}</td>
     </tr>
 	);
 
+	function ifAuthenticated() {
+    if (isAuthenticated) {
+      return (
+        <GetTournaments />
+      );
+    }
+    return null;
+  }
 
 	return (
+		<div>
+			{ ifAuthenticated() }
 			<Table striped bordered hover size="sm" className="tournamentTable">
 			  <thead>
 			    <tr>
 			      <th>Turnering</th>
 				    <th>Startdatum</th>
-			      <th>Ort</th>
 			      <th>Ägare</th>
 			    </tr>
 			  </thead>
@@ -55,5 +68,6 @@ export function Tournaments() {
 			  { listTournaments }
 			  </tbody>
 			</Table>
+		</div>
 	);
 }
