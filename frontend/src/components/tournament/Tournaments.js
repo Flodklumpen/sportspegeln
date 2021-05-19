@@ -1,9 +1,7 @@
 import React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import Table from "react-bootstrap/Table";
-import {
-	Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../../css/Tournaments.module.css';
 import styles from '../../css/Tournaments.module.css';
 import { useDispatch } from "react-redux";
