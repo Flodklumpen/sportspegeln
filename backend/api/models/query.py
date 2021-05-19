@@ -85,6 +85,19 @@ def create_match(match_id, tournament_id, date, time, challenger_email, defender
     db.session.commit()
 
 
+def create_challenge(match_id, tournament_id, challenger_email, defender_email):
+    """Adds a match to the database, with just the required info
+    """
+    match = Match(
+        id=match_id,
+        tournament=tournament_id,
+        challenger=challenger_email,
+        defender=defender_email
+    )
+    db.session.add(match)
+    db.session.commit()
+
+
 """ Functions to check if a given object is in the database """
 
 
@@ -123,7 +136,21 @@ def is_competing(comp_email, tournament_id):
     return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
 
 
+<<<<<<< HEAD
 """ Functions to get information from the database """
+=======
+def is_match(tournament_id, match_id):
+    """Returns true if a given id is in the tournament table
+    """
+    return db.session.query(Match).filter_by(id=match_id, tournament=tournament_id).first() is not None
+
+#duplicate of function above
+#def is_competing(comp_email, tournament_id):
+#    return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
+
+
+"""Functions to get information from the database"""
+>>>>>>> [WIP] Started working on erquest endpoints, almost donw with report_result
 
 
 def get_user_info(user_email):
@@ -203,6 +230,26 @@ def get_leader(tournament_id):
         return leader
     else:
         return None
+
+
+"""Functions to edit information in the database"""
+
+
+def edit_match(match_id, tour_id, date, time):
+    result = Match.query.filter_by(id=match_id, tournament=tour_id).first()
+    result.date_played = date
+    result.time_played = time
+    db.session.commit()
+
+
+def report_match(match_id, tour_id, date, time, timestamp, score_defender, score_challenger):
+    result = Match.query.filter_by(id=match_id, tournament=tour_id).first()
+    result.date_played = date
+    result.time_played = time
+    result.timestamp_reported = timestamp
+    result.score_defender = score_defender
+    result.score_challenger = score_challenger
+    db.session.commit()
 
 
 """ Miscellanious functions """

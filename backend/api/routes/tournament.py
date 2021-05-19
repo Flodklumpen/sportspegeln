@@ -138,6 +138,129 @@ def create_match():
     return jsonify({'message': 'Match created', 'data': id}), 200
 
 
+@tournament_bp.route('/create_challenge', methods=['POST'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def create_challenge():
+    """Creates a match between two competitors
+    """
+    data = request.get_json()
+    required_fields = ['tournament_id', 'challenger', 'defender']
+
+    if not routes_help.existing_fields(data, required_fields):
+        return jsonify({'message': "Missing required field(s)"}), 400
+
+    if not routes_help.filled_fields(data, required_fields):
+        return jsonify({'message': "Required field(s) not filled"}), 400
+
+    # check so that both challenger and defender are registered in the tournaments
+    # this also ensures that they are both users
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
+
+    # check that tournaments exists
+    if not query.is_tournament(data['tournament_id']):
+        return jsonify({'message': 'CreateTournament does not exist'}), 404
+
+    id = query.get_next_match_id(data['tournament_id'])
+
+    query.create_challenge(id, data['tournament_id'], data['challenger'], data['defender'])
+
+    return jsonify({'message': 'Match created', 'data': id}), 200
+
+
+@tournament_bp.route('/edit_match', methods=['PUT'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def edit_match():
+    """Updates a match with the given information
+    """
+    data = request.get_json()
+    #TODO: Maybe we don't need challenger and defender, see if it is easy not to send from frontend
+    required_fields = ['tournament_id', 'match_id', 'challenger', 'defender']
+
+    if not routes_help.existing_fields(data, required_fields):
+        return jsonify({'message': "Missing required field(s)"}), 400
+
+    if not routes_help.filled_fields(data, required_fields):
+        return jsonify({'message': "Required field(s) not filled"}), 400
+
+    # check so that both challenger and defender are registered in the tournaments
+    # this also ensures that they are both users
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
+
+    # check that tournaments exists
+    if not query.is_match(data['tournament_id'], data['match_id']):
+        return jsonify({'message': 'Match does not exist'}), 404
+
+    if not 'date' in data or not data['date']:
+        date = None
+    else:
+        date = routes_help.get_date_from_string(data['date'])
+        if date is None:
+            return jsonify({'message': 'Bad format of date'}), 400
+
+    if not 'time' in data or not data['time']:
+        time = None
+    else:
+        time = routes_help.get_time_from_string(data['time'])
+        if time is None:
+            return jsonify({'message': 'Bad format of time'}), 400
+
+    query.edit_match(data['match_id'], data['tournament_id'], date, time)
+
+    return jsonify({'message': 'Match updated'}), 200
+
+
+@tournament_bp.route('/report_match', methods=['PUT'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def report_match():
+    """Reports the result of a match. All data needs to be included
+    """
+    data = request.get_json()
+    #TODO: Maybe we don't need challenger and defender, see if it is easy not to send from frontend
+    required_fields = [
+                        'tournament_id',
+                        'match_id',
+                        'challenger',
+                        'defender',
+                        'date',
+                        'time',
+                        'score_defender',
+                        'score_challenger'
+                    ]
+
+    if not routes_help.existing_fields(data, required_fields):
+        return jsonify({'message': "Missing required field(s)"}), 400
+
+    if not routes_help.filled_fields(data, required_fields):
+        return jsonify({'message': "Required field(s) not filled"}), 400
+
+    # check so that both challenger and defender are registered in the tournaments
+    # this also ensures that they are both users
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
+
+    # check that tournaments exists
+    if not query.is_match(data['tournament_id'], data['match_id']):
+        return jsonify({'message': 'Match does not exist'}), 404
+
+    date = routes_help.get_date_from_string(data['date'])
+    if date is None:
+        return jsonify({'message': 'Bad format of date'}), 400
+
+    time = routes_help.get_time_from_string(data['time'])
+    if time is None:
+        return jsonify({'message': 'Bad format of time'}), 400
+
+
+    query.create_challenge(id, data['tournament_id'], data['challenger'], data['defender'])
+
+    return jsonify({'message': 'Match created', 'data': id}), 200
+
+
 @tournament_bp.route('/get_tournaments', methods=['GET'])
 def get_tournaments():
     """
