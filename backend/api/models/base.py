@@ -11,6 +11,8 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     family_name = db.Column(db.String(50), nullable=False)
     id = db.Column(db.String(50), nullable=False)
+    rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email"))
+    rank_after = db.Column(db.String(120), db.ForeignKey("competitor.email"))
 
     def __str__(self):
         return "email=%s, first_name=%s, family_name=%s" % (self.email, self.first_name, self.family_name)
@@ -35,6 +37,7 @@ class Tournament(db.Model):
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime)
     owner = db.Column(db.String(120), db.ForeignKey('owner.email'), nullable=False)
+    leader = db.Column(db.String(120), db.ForeignKey("competitor.email"))
 
 
 class Match(db.Model):

@@ -89,11 +89,6 @@ def is_competing(comp_email, tournament_id):
     return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
 
 
-#duplicate of function above
-#def is_competing(comp_email, tournament_id):
-#    return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
-
-
 """Functions to get information from the database"""
 
 
