@@ -1,9 +1,9 @@
 import React from 'react';
 
 //import logo from './logo.svg';
-import { Menu } from "./components/menu/Menu";
+import { Menu } from "./components/Menu";
 //import { Counter } from './features/counter/Counter';
-import './App.css';
+import './css/App.css';
 import {Auth0Provider} from "@auth0/auth0-react";
 
 function App() {
