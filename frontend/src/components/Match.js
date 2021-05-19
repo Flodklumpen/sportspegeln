@@ -6,6 +6,9 @@ import Col from "react-bootstrap/Col";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
 import { Formik } from 'formik';
+import { editMatch } from '../reducers/editMatch';
+import { useSelector, useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export function Match(props) {
   /*
@@ -21,20 +24,32 @@ export function Match(props) {
   }
   */
 
+  const { user } = useAuth0();
+
+  const dispatch = useDispatch();
+
+  let currentState = useSelector((state) => state);
+
+  const token = currentState.userToken['currentUserToken'];
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
+  const match = props.match;
+
   const submitMatch = (values) => {
-    console.log(values.challenger);
-    console.log(values.defender);
-    console.log(values.date);
-    console.log(values.time);
 
     if (props.report) {
+      console.log(values.challenger);
+      console.log(values.defender);
+      console.log(values.date);
+      console.log(values.time);
       console.log(values.scoreChallenger);
       console.log(values.scoreDefender);
-    };
+    } else {
+      dispatch(editMatch(match.tournament_id, match.id, values.date, values.time, user.email, token));
+    }
 
     handleClose();
   };
@@ -49,7 +64,7 @@ export function Match(props) {
         </Modal.Header>
         <Modal.Body>
           <Formik
-            initialValues={props.match}
+            initialValues={match}
             onSubmit={(values) => submitMatch(values)}
           >
             {({

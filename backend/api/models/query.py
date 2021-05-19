@@ -1,5 +1,7 @@
 from .base import db, User, Tournament, Owner, Competitor, Competing, Match
 from . import query_help
+from sqlalchemy import or_
+from datetime import date
 
 
 """ Functions to create objects in the database """
@@ -136,9 +138,6 @@ def is_competing(comp_email, tournament_id):
     return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
 
 
-<<<<<<< HEAD
-""" Functions to get information from the database """
-=======
 def is_match(tournament_id, match_id):
     """Returns true if a given id is in the tournament table
     """
@@ -150,7 +149,6 @@ def is_match(tournament_id, match_id):
 
 
 """Functions to get information from the database"""
->>>>>>> [WIP] Started working on erquest endpoints, almost donw with report_result
 
 
 def get_user_info(user_email):
@@ -217,6 +215,7 @@ def get_tournaments():
     return tournaments
 
 
+<<<<<<< HEAD
 def get_leader(tournament_id):
     """
     Get the leader of the given tournament, if any.
@@ -230,6 +229,32 @@ def get_leader(tournament_id):
         return leader
     else:
         return None
+=======
+def get_tournament_name_from_id(tour_id):
+    result = db.session.query(Tournament.name).filter_by(id=tour_id).first()
+    return result[0]
+
+
+def get_future_matches(email):
+    current_date = date.today()
+    result = Match.query.filter(
+            (Match.challenger==email) | (Match.defender==email)
+        ).filter(
+            (Match.date_played > current_date) | (Match.date_played == None)
+        ).all()
+    future_matches = []
+    if result is not None:
+        for match in result:
+            curr_match = {}
+            curr_match['id'] = match.id
+            curr_match['tournament_id'] = match.tournament
+            curr_match['date'] = query_help.get_string_from_date(match.date_played)
+            curr_match['time'] = query_help.get_string_from_time(match.time_played)
+            curr_match['challenger_email'] = match.challenger
+            curr_match['defender_email'] = match.defender
+            future_matches.append(curr_match)
+    return future_matches
+>>>>>>> [FEAT] Can now see and edit future matches
 
 
 """Functions to edit information in the database"""

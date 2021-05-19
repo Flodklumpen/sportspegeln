@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,6 +16,7 @@ import {
 } from '../reducers/profileList';
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
+import { fetchFutureMatches } from '../reducers/getFutureMatches';
 
 export function ProfileList() {
   const { user } = useAuth0();
@@ -55,11 +56,17 @@ export function ProfileList() {
     owner: "Tobbe"
   }
 
-  const futureMatches = [
-    placeholderMatch,
-    placeholderMatch,
-    placeholderMatch2
-  ];
+  let currentState = useSelector((state) => state);
+
+  const token = currentState.userToken['currentUserToken'];
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFutureMatches(user.email, token));
+  }, [dispatch, user.email, token, currentState.createMatch]);
+
+  const futureMatches = currentState.futureMatches;
 
   const pastMatches = [
     placeholderMatch,
@@ -132,7 +139,7 @@ export function ProfileList() {
         <Col xs={10}>
           <b>Mot {getOpponent(futureMatch)}</b><br />
           {getMatchDateTime(futureMatch)}
-          Turnering: {futureMatch.tournamentName}
+          Turnering: {futureMatch.tournament}
         </Col>
       </Row>
     </ListGroup.Item>
@@ -187,7 +194,7 @@ export function ProfileList() {
   const ownedTournament = useSelector(selectOwnedTournament);
   const competingTournament = useSelector(selectCompetingTournament);
 
-  const dispatch = useDispatch();
+
 
   const listMaker = (listName, title, list) => {
     let onClickFunction;

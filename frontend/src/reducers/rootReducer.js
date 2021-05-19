@@ -10,6 +10,8 @@ import getRankReducer from "./getRank";
 import getTournamentsReducer from "./getTournaments";
 import createMatchReducer from "./createMatch";
 import joinTournamentReducer from "./joinTournament";
+import getFutureMatchesReducer from './getFutureMatches';
+import editMatchReducer from './editMatch';
 
 
 const rootReducer = combineReducers({
@@ -22,7 +24,9 @@ const rootReducer = combineReducers({
   rank: getRankReducer,
   tournaments: getTournamentsReducer,
   createMatch: createMatchReducer,
-  joinTournament: joinTournamentReducer
+  joinTournament: joinTournamentReducer,
+  futureMatches: getFutureMatchesReducer,
+  editMatch: editMatchReducer
 });
 
 export default rootReducer
