@@ -22,6 +22,7 @@ ALGORITHMS = ["RS256"]
 class AuthError(Exception):
     """
     A class to represent the error thrown by authentication handling.
+
     :attribute error: a dict describing the error
     :attribute status_code: int
     """
@@ -33,6 +34,7 @@ class AuthError(Exception):
 def handle_auth_error(ex):
     """
     Handles a raised AuthError.
+
     :param ex: the raised exception
     :returns: the response formulated by the error
     """
@@ -45,8 +47,9 @@ def handle_auth_error(ex):
 def get_token_auth_header():
     """
     Obtains the Access Token from the Authorization Header. Expects the
-    Authorization Header to be on format {'Authorization':'Bearer TOKEN'}
-    :returns: string on success
+    Authorization Header to be on format {'Authorization':'Bearer TOKEN'}.
+
+    :returns: String on success
     :raises AuthError: raises an exception if header is missing or on invalid
     format
     """
@@ -77,8 +80,9 @@ def get_token_auth_header():
 def get_user_id():
     """
     Obtains the email from the request header. Expects there to be a header on
-    format {'User':STRING}
-    :returns: string on success
+    format {'User':STRING}.
+
+    :returns: String on success
     :raises AuthError: raises an exception if header is missing or on invalid
     format
     """
@@ -99,7 +103,8 @@ def get_user_id():
 def requires_auth(f):
     """
     Determines if the Access Token is valid´usign a decorator for end points
-    that require authentication
+    that require authentication.
+
     :param f: the function that is decorated
     :returns: a decorator for f
     :raises AuthError: raises an exception if the Access Token is invalid

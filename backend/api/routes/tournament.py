@@ -11,7 +11,8 @@ tournament_bp = Blueprint('tournament_bp', __name__)
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def create_tournament():
-    """Creates a tournament
+    """
+    Creates a tournament.
     """
     data = request.get_json()
     required_fields = ['owner', 'tournament_name']
@@ -27,7 +28,7 @@ def create_tournament():
         return jsonify({'message': 'Owner is not registered as user'}), 404
 
     # set start date to today if not given
-    if not 'start_date' in data or not data['start_date']:
+    if 'start_date' not in data or not data['start_date']:
         start_date = date.today()
     else:
         # expect date on format YYYY-MM-DD
@@ -36,7 +37,7 @@ def create_tournament():
             return jsonify({'message': 'Bad format of start date'}), 400
 
     # set end date to empty string if not given
-    if not 'end_date' in data or not data['end_date']:
+    if 'end_date' not in data or not data['end_date']:
         end_date = None
     else:
         end_date = routes_help.get_date_from_string(data['end_date'])
@@ -60,7 +61,8 @@ def create_tournament():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def add_competitor():
-    """Adds a competitor to a tournament
+    """
+    Adds a competitor to a tournament.
     """
     data = request.get_json()
     fields = ['competitor', 'tournament_id']
@@ -75,7 +77,7 @@ def add_competitor():
     if not query.is_user_registered(data['competitor']):
         return jsonify({'message': 'Competitor is not registered as user'}), 404
 
-    #ensure that tournaments exists
+    # ensure that tournaments exists
     if not query.is_tournament(data['tournament_id']):
         return jsonify({'message': 'CreateTournament does not exist'}), 404
 
@@ -93,7 +95,8 @@ def add_competitor():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def create_match():
-    """Creates a match
+    """
+    Creates a match.
     """
     data = request.get_json()
     required_fields = ['tournament_id', 'challenger', 'defender']
@@ -106,21 +109,22 @@ def create_match():
 
     # check so that both challenger and defender are registered in the tournaments
     # this also ensures that they are both users
-    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and
+            query.is_competing(data['defender'], data['tournament_id'])):
         return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
 
     # check that tournaments exists
     if not query.is_tournament(data['tournament_id']):
         return jsonify({'message': 'CreateTournament does not exist'}), 404
 
-    if not 'date' in data or not data['date']:
+    if 'date' not in data or not data['date']:
         date = None
     else:
         date = routes_help.get_date_from_string(data['date'])
         if date is None:
             return jsonify({'message': 'Bad format of date'}), 400
 
-    if not 'time' in data or not data['time']:
+    if 'time' not in data or not data['time']:
         time = None
     else:
         time = routes_help.get_time_from_string(data['time'])
@@ -136,7 +140,8 @@ def create_match():
 
 @tournament_bp.route('/get_tournaments', methods=['GET'])
 def get_tournaments():
-    """Returns all tournaments
+    """
+    Returns all tournaments.
     """
     tournaments = query.get_tournaments()
     for tournament in tournaments:

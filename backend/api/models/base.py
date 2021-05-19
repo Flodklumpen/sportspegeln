@@ -49,17 +49,3 @@ class Match(db.Model):
     defender = db.Column(db.String(120), db.ForeignKey('competitor.email'), nullable=False)
     score_challenger = db.Column(db.Integer)
     score_defender = db.Column(db.Integer)
-
-
-"""
-User.owner = db.relationship("Owner", back_populates="user", uselist=False)
-User.competitor = db.relationship("Competitor", back_populates="user", uselist=False)
-Owner.user = db.relationship("User", uselist=False)
-Competitor.user = db.relationship("User", uselist=False)
-
-
-Don't work but for future reference:
-Owner.tournaments = db.relationship("Tournament", order_by=Tournament.owner, back_populates="owner")
-Tournament.owner = db.relationship("Owner", order_by=Owner.email, back_populates="tournaments")
-Competitor.tournaments = db.relationship('Tournament', secondary=tournaments, lazy='subquery', backref=db.backref('competitors', lazy=True))
-"""
