@@ -20,13 +20,21 @@ ALGORITHMS = ["RS256"]
 
 # Error handler
 class AuthError(Exception):
+    """
+    A class to represent the error thrown by authentication handling.
+    :attribute error: a dict describing the error
+    :attribute status_code: int
+    """
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
 
 
 def handle_auth_error(ex):
-    """Handles a raised AuthError. Returns the response formulated by the error
+    """
+    Handles a raised AuthError.
+    :param ex: the raised exception
+    :returns: the response formulated by the error
     """
     response = jsonify(ex.error)
     response.status_code = ex.status_code
@@ -35,7 +43,12 @@ def handle_auth_error(ex):
 
 # Format error response and append status code
 def get_token_auth_header():
-    """Obtains the Access Token from the Authorization Header
+    """
+    Obtains the Access Token from the Authorization Header. Expects the
+    Authorization Header to be on format {'Authorization':'Bearer TOKEN'}
+    :returns: string on success
+    :raises AuthError: raises an exception if header is missing or on invalid
+    format
     """
     auth = request.headers.get("Authorization", None)
     if not auth:
@@ -62,7 +75,12 @@ def get_token_auth_header():
 
 
 def get_user_id():
-    """Obtains the email from the request header
+    """
+    Obtains the email from the request header. Expects there to be a header on
+    format {'User':STRING}
+    :returns: string on success
+    :raises AuthError: raises an exception if header is missing or on invalid
+    format
     """
     email = request.headers.get("User", None)
     if not email:
@@ -79,7 +97,12 @@ def get_user_id():
 
 
 def requires_auth(f):
-    """Determines if the Access Token is valid
+    """
+    Determines if the Access Token is valid´usign a decorator for end points
+    that require authentication
+    :param f: the function that is decorated
+    :returns: a decorator for f
+    :raises AuthError: raises an exception if the Access Token is invalid
     """
     @wraps(f)
     def decorated(*args, **kwargs):

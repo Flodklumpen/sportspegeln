@@ -14,7 +14,9 @@ def filled_fields(data, fields):
 
 def get_date_from_string(string_date):
     """
-    Ensures that the given date is on format YYYY-MM-DD
+    Create a datetime object from a string representing a date
+    :param string_date: string on format YYYY-MM-DD
+    :returns: datetime object
     """
     try:
         date = datetime.strptime(string_date, '%Y-%m-%d').date()
@@ -25,7 +27,9 @@ def get_date_from_string(string_date):
 
 def get_time_from_string(string_time):
     """
-    Ensures that the given time is on format HH-MM
+    Create a datetime object from a string representing a time
+    :param string_time: string on format HH-MM
+    :returns: datetime object
     """
     try:
         time = datetime.strptime(string_time, '%H-%M').time()
@@ -35,4 +39,10 @@ def get_time_from_string(string_time):
 
 
 def is_date_before(first_date, second_date):
+    """
+    Checks if a date is before another
+    :param first_date: datetime object
+    :param second_date: datetime object
+    :returns: bool
+    """
     return first_date < second_date

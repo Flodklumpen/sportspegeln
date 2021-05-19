@@ -11,6 +11,8 @@ tournament_bp = Blueprint('tournament_bp', __name__)
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def create_tournament():
+    """Creates a tournament
+    """
     data = request.get_json()
     required_fields = ['owner', 'tournament_name']
 
@@ -58,6 +60,8 @@ def create_tournament():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def add_competitor():
+    """Adds a competitor to a tournament
+    """
     data = request.get_json()
     fields = ['competitor', 'tournament_id']
 
@@ -89,7 +93,8 @@ def add_competitor():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def create_match():
-
+    """Creates a match
+    """
     data = request.get_json()
     required_fields = ['tournament_id', 'challenger', 'defender']
 
