@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from flask import Blueprint, request, jsonify
 from ..models import query
 from . import routes_help
@@ -222,15 +222,15 @@ def report_match():
     data = request.get_json()
     #TODO: Maybe we don't need challenger and defender, see if it is easy not to send from frontend
     required_fields = [
-                        'tournament_id',
-                        'match_id',
-                        'challenger',
-                        'defender',
-                        'date',
-                        'time',
-                        'score_defender',
-                        'score_challenger'
-                    ]
+        'tournament_id',
+        'match_id',
+        'challenger',
+        'defender',
+        'date',
+        'time',
+        'score_defender',
+        'score_challenger'
+    ]
 
     if not routes_help.existing_fields(data, required_fields):
         return jsonify({'message': "Missing required field(s)"}), 400
@@ -255,10 +255,11 @@ def report_match():
     if time is None:
         return jsonify({'message': 'Bad format of time'}), 400
 
+    timestamp = datetime.now()
 
-    query.create_challenge(id, data['tournament_id'], data['challenger'], data['defender'])
+    query.report_match(data['match_id'], data['tournament_id'], date, time, timestamp, data['score_defender'], data['score_challenger'])
 
-    return jsonify({'message': 'Match created', 'data': id}), 200
+    return jsonify({'message': 'Match reported'}), 200
 
 
 @tournament_bp.route('/get_tournaments', methods=['GET'])
