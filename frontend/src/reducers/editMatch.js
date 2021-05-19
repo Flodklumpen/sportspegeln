@@ -18,8 +18,8 @@ export function editMatch(tournamentID, matchID, date, time, email, token) {
   body['match_id'] = matchID;
   body['date'] = date;
   body['time'] = time;
-  return async function createMatchThunk(dispatch) {
+  return async function editMatchThunk(dispatch) {
     const response = await client.put('/tournament/edit_match', body, email, token);
-    dispatch({ type: 'data/matchCreated', payload: response });
+    dispatch({ type: 'data/matchChanged', payload: response });
   };
 }

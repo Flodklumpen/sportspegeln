@@ -257,6 +257,29 @@ def get_future_matches(email):
 >>>>>>> [FEAT] Can now see and edit future matches
 
 
+def get_past_matches(email):
+    current_date = date.today()
+    result = Match.query.filter(
+            (Match.challenger==email) | (Match.defender==email)
+        ).filter(
+            (Match.date_played <= current_date)
+        ).all()
+    past_matches = []
+    if result is not None:
+        for match in result:
+            curr_match = {}
+            curr_match['id'] = match.id
+            curr_match['tournament_id'] = match.tournament
+            curr_match['date'] = query_help.get_string_from_date(match.date_played)
+            curr_match['time'] = query_help.get_string_from_time(match.time_played)
+            curr_match['challenger_email'] = match.challenger
+            curr_match['defender_email'] = match.defender
+            curr_match['score_defender'] = match.score_defender
+            curr_match['score_challenger'] = match.score_challenger
+            past_matches.append(curr_match)
+    return past_matches
+
+
 """Functions to edit information in the database"""
 
 

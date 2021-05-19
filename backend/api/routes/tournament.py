@@ -219,8 +219,6 @@ def report_match():
     required_fields = [
         'tournament_id',
         'match_id',
-        'challenger',
-        'defender',
         'date',
         'time',
         'score_defender',
@@ -232,11 +230,6 @@ def report_match():
 
     if not routes_help.filled_fields(data, required_fields):
         return jsonify({'message': "Required field(s) not filled"}), 400
-
-    # check so that both challenger and defender are registered in the tournaments
-    # this also ensures that they are both users
-    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
-        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
 
     # check that tournaments exists
     if not query.is_match(data['tournament_id'], data['match_id']):
@@ -276,6 +269,27 @@ def get_future_matches():
         match['tournament'] = query.get_tournament_name_from_id(match['tournament_id'])
 
     return jsonify({'message': "Found future matches", "data": future_matches}), 200
+
+
+@tournament_bp.route('/get_past_matches', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def get_past_matches():
+    email = request.args.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing parameter'}), 400
+
+    future_matches = query.get_past_matches(email)
+
+    for match in future_matches:
+        challenger_info = query.get_user_info(match['challenger_email'])
+        match['challenger'] = challenger_info['first_name'] + ' ' + challenger_info['family_name']
+        defender_info = query.get_user_info(match['defender_email'])
+        match['defender'] = defender_info['first_name'] + ' ' + defender_info['family_name']
+        match['tournament'] = query.get_tournament_name_from_id(match['tournament_id'])
+
+    return jsonify({'message': "Found past matches", "data": future_matches}), 200
 
 
 @tournament_bp.route('/get_tournaments', methods=['GET'])

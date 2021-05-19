@@ -17,30 +17,12 @@ import {
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchFutureMatches } from '../reducers/getFutureMatches';
+import { fetchPastMatches } from '../reducers/getPastMatches';
 
 export function ProfileList() {
   const { user } = useAuth0();
 
   //TODO: get these from server
-  const placeholderMatch = {
-    tournamentName: "Min turnering",
-    date: "2021-04-20",
-    time: "10:00",
-    challenger: user.name,
-    defender: "Bob",
-    scoreChallenger: 2,
-    scoreDefender: 3
-  }
-
-  const placeholderMatch2 = {
-    tournamentName: "Min turnering",
-    date: "",
-    time: "",
-    challenger: "Eva",
-    defender: user.name,
-    scoreChallenger: 4,
-    scoreDefender: 0
-  }
 
   const placeholderTournament = {
     name: "Min turnering",
@@ -64,15 +46,11 @@ export function ProfileList() {
 
   useEffect(() => {
     dispatch(fetchFutureMatches(user.email, token));
-  }, [dispatch, user.email, token, currentState.createMatch]);
+    dispatch(fetchPastMatches(user.email, token));
+  }, [dispatch, user.email, token, currentState.createMatch, currentState.editMatch, currentState.reportMatch]);
 
   const futureMatches = currentState.futureMatches;
-
-  const pastMatches = [
-    placeholderMatch,
-    placeholderMatch,
-    placeholderMatch2
-  ];
+  const pastMatches = currentState.pastMatches;
 
   const ownedTournaments = [
     placeholderTournament,
@@ -110,11 +88,11 @@ export function ProfileList() {
     var myScore = 0;
     var opponentScore = 0;
     if (user.name === match.defender) {
-      myScore = match.scoreDefender;
-      opponentScore = match.scoreChallenger;
+      myScore = match.score_defender;
+      opponentScore = match.score_challenger;
     } else {
-      myScore = match.scoreChallenger;
-      opponentScore = match.scoreDefender;
+      myScore = match.score_challenger;
+      opponentScore = match.score_defender;
     };
     if (myScore === 0 && opponentScore === 0) {
       return (
@@ -154,7 +132,7 @@ export function ProfileList() {
         <Col xs={10}>
           <b>Mot {getOpponent(pastMatch)}</b><br />
           {getMatchDateTime(pastMatch)}
-          Turnering: {pastMatch.tournamentName}<br />
+          Turnering: {pastMatch.tournament}<br />
           {getMatchResult(pastMatch)}
         </Col>
       </Row>
