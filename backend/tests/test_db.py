@@ -92,7 +92,7 @@ class AddDataTest(MainTest):
             db.session.add(Owner(email='testy1@example.com'))
             db.session.add(Competitor(email='testy1@example.com'))
             db.session.commit()
-            db.session.add(Tournament(name='testy1´s tournament', start_date=datetime.datetime.now(), owner='testy1@example.com'))
+            db.session.add(Tournament(name='testy1´s tournaments', start_date=datetime.datetime.now(), owner='testy1@example.com'))
             db.session.commit()
             tournament = db.session.query(Tournament).get(1)
             self.assertIn(tournament, db.session)
@@ -100,7 +100,7 @@ class AddDataTest(MainTest):
     def test_bad_tournament(self):
         with self.app.app_context():
             try:
-                db.session.add(Tournament(name='testy1´s tournament', start_date=datetime.datetime.now(), owner='testy1@example.com'))
+                db.session.add(Tournament(name='testy1´s tournaments', start_date=datetime.datetime.now(), owner='testy1@example.com'))
                 return db.session.commit()
             except exc.IntegrityError:
                 db.session.rollback()
@@ -114,7 +114,7 @@ class AddDataTest(MainTest):
             db.session.add(Owner(email='testy1@example.com'))
             db.session.add(Competitor(email='testy1@example.com'))
             db.session.commit()
-            db.session.add(Tournament(name='testy1´s tournament', start_date=datetime.datetime.now(), owner='testy1@example.com'))
+            db.session.add(Tournament(name='testy1´s tournaments', start_date=datetime.datetime.now(), owner='testy1@example.com'))
             db.session.commit()
             db.session.add(Competing(competitor='testy1@example.com', tournament=1))
             db.session.commit()
@@ -141,7 +141,7 @@ class AddDataTest(MainTest):
             db.session.commit()
             db.session.add(Competitor(email='testy2@example.com'))
             db.session.commit()
-            db.session.add(Tournament(name='testy1´s tournament', start_date=datetime.datetime.now(), owner='testy1@example.com'))
+            db.session.add(Tournament(name='testy1´s tournaments', start_date=datetime.datetime.now(), owner='testy1@example.com'))
             db.session.commit()
             db.session.add(Match(id=1, tournament=1, challenger='testy1@example.com', defender='testy2@example.com'))
             db.session.commit()

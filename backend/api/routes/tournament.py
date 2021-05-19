@@ -50,10 +50,10 @@ def create_tournament():
     if not query.is_owner(data['owner']):
         query.create_owner(data['owner'])
 
-    # create tournament
+    # create tournaments
     tournament_id = query.create_tournament(data['tournament_name'], data['owner'], start_date, end_date)
 
-    return jsonify({'message': 'Tournament created', 'data': tournament_id}), 200
+    return jsonify({'message': 'CreateTournament created', 'data': tournament_id}), 200
 
 
 @tournament_bp.route('/add_competitor', methods=['POST'])
@@ -75,9 +75,9 @@ def add_competitor():
     if not query.is_user_registered(data['competitor']):
         return jsonify({'message': 'Competitor is not registered as user'}), 404
 
-    #ensure that tournament exists
+    #ensure that tournaments exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'Tournament does not exist'}), 404
+        return jsonify({'message': 'CreateTournament does not exist'}), 404
 
     # create competitor of user if they are not already
     if not query.is_competitor(data['competitor']):
@@ -104,14 +104,14 @@ def create_match():
     if not routes_help.filled_fields(data, required_fields):
         return jsonify({'message': "Required field(s) not filled"}), 400
 
-    # check so that both challenger and defender are registered in the tournament
+    # check so that both challenger and defender are registered in the tournaments
     # this also ensures that they are both users
     if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
-        return jsonify({'message': 'Challenger and/or defender are not registered in this tournament'}), 404
+        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
 
-    # check that tournament exists
+    # check that tournaments exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'Tournament does not exist'}), 404
+        return jsonify({'message': 'CreateTournament does not exist'}), 404
 
     if not 'date' in data or not data['date']:
         date = None

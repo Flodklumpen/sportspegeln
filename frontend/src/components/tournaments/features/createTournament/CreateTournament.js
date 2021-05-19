@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import styles from './Tournament.module.css';
+import styles from './CreateTournament.module.css';
 
-export function Tournament() {
+export function CreateTournament() {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
 

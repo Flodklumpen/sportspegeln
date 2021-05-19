@@ -21,12 +21,12 @@ export function Profile() {
   }
 
   const scrollTo = (id) => {
-    const elem = document.getElementById(id)
+    const elem = document.getElementById(id);
     elem.scrollIntoView({
       block: "center",
       behavior: "smooth"
     });
-  }
+  };
 
 	return (
       <div>
