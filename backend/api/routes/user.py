@@ -20,6 +20,7 @@ def register():
 
     if query.is_user_registered(data['email']):
         return jsonify({'message': "User exists"}), 200
+
     else:
         query.register_user(data['email'], data['given_name'], data['family_name'], data['user_id'])
         return jsonify({'message': "User added"}), 200

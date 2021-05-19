@@ -14,7 +14,7 @@ def register_user(user_email, user_fname, user_lname, user_id):
 def create_owner(owner_email):
     """Adds an owner to the database
     """
-    db.session.add(Owner(email=owner_email));
+    db.session.add(Owner(email=owner_email))
     db.session.commit()
 
 
@@ -30,15 +30,36 @@ def create_tournament(tour_name, tour_owner, tour_start, tour_end):
 def create_competitor(competitor_email):
     """Adds a competitor to the database
     """
-    db.session.add(Competitor(email=competitor_email));
+    db.session.add(Competitor(email=competitor_email))
     db.session.commit()
 
 
 def create_competing(competitor_email, tournament_id):
     """Adds a competing to the database
     """
-    db.session.add(Competing(competitor=competitor_email, tournament=tournament_id));
+    db.session.add(Competing(competitor=competitor_email, tournament=tournament_id))
     db.session.commit()
+
+
+def create_rank(tournament_id):
+    """
+    Creates an initial ranking for the tournament.
+    :param tournament_id: Integer
+    """
+    competitors = db.session.query(Competing.competitor).filter_by(tournament=tournament_id).all()
+
+    if competitors:
+        tournament = db.session.query(Tournament).get(tournament_id)
+        tournament.leader = competitors[0][0]
+
+        for i in range(0, len(competitors)):
+            user = db.session.query(User).get(competitors[i][0])
+            if i != 0:
+                user.rank_before = competitors[i - 1][0]
+            if i != len(competitors) - 1:
+                user.rank_after = competitors[i + 1][0]
+
+        db.session.commit()
 
 
 def create_match(match_id, tournament_id, date, time, challenger_email, defender_email):
@@ -155,6 +176,21 @@ def get_tournaments():
     return tournaments
 
 
+def get_leader(tournament_id):
+    """
+    Get the leader of the given tournament, if any.
+
+    :param tournament_id: Integer
+    :return: String
+    """
+    result = db.session.query(Tournament.leader).filter_by(id=tournament_id).first()
+    if result is not None:
+        leader = result[0]
+        return leader
+    else:
+        return None
+
+
 """ Miscellanious functions """
 
 
@@ -169,3 +205,28 @@ def get_next_match_id(tournament_id):
         return 1
     else:
         return max(result)[0] + 1
+
+
+def get_rank(tournament_id):
+    """
+    Gets the ranking of given tournament.
+
+    :param tournament_id:
+    :return: List
+    """
+    rank = []
+
+    if not get_leader(tournament_id):
+        create_rank(tournament_id)
+
+    tournament = db.session.query(Tournament).get(tournament_id)
+    current = db.session.query(User.first_name, User.family_name, User.rank_after).filter_by(
+        email=tournament.leader).first()
+
+    while current:
+        current_name = current[0] + ' ' + current[1]
+        rank.append(current_name)
+        current = db.session.query(User.first_name, User.family_name, User.rank_after).filter_by(
+            email=current[2]).first()
+
+    return rank

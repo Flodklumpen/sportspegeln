@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
 # see https://stackoverflow.com/questions/9692962/flask-sqlalchemy-import-context-issue/9695045#9695045
 # see different relationships here: https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
@@ -11,8 +10,8 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     family_name = db.Column(db.String(50), nullable=False)
     id = db.Column(db.String(50), nullable=False)
-    rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email"))
     rank_after = db.Column(db.String(120), db.ForeignKey("competitor.email"))
+    rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email"))
 
     def __str__(self):
         return "email=%s, first_name=%s, family_name=%s" % (self.email, self.first_name, self.family_name)
@@ -52,12 +51,13 @@ class Match(db.Model):
     score_defender = db.Column(db.Integer)
 
 
+"""
 User.owner = db.relationship("Owner", back_populates="user", uselist=False)
 User.competitor = db.relationship("Competitor", back_populates="user", uselist=False)
 Owner.user = db.relationship("User", uselist=False)
 Competitor.user = db.relationship("User", uselist=False)
 
-"""
+
 Don't work but for future reference:
 Owner.tournaments = db.relationship("Tournament", order_by=Tournament.owner, back_populates="owner")
 Tournament.owner = db.relationship("Owner", order_by=Owner.email, back_populates="tournaments")

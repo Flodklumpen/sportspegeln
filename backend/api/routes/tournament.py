@@ -144,3 +144,24 @@ def get_tournaments():
         # assume it will work, should not be able to be None
         tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
     return jsonify({'message': 'got tournaments', 'data': tournaments}), 200
+
+
+@tournament_bp.route('/get_rank', methods=['GET'])
+def get_rank():
+    """
+    Returns the ranking of given tournament.
+    """
+    tournament = request.args.get('tournament')
+
+    if not tournament:
+        return jsonify({'message': 'Missing parameter'}), 400
+
+    if not query.is_tournament(tournament):
+        return jsonify({'message': 'Tournament does not exist'}), 404
+
+    rank = query.get_rank(tournament)
+
+    if rank is None:
+        return jsonify({'message': 'Rank not found'}), 404
+
+    return jsonify({'message': "Rank found", "data": rank}), 200
