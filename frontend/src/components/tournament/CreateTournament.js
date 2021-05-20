@@ -1,13 +1,18 @@
 import React, {useState} from 'react';
+import {useSelector} from "react-redux";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
 import styles from '../../css/SubmitModal.module.css';
+import {selectUserData} from "../../reducers/getUserData";
 
 export function CreateTournament() {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
+
+  const ownerData = useSelector(selectUserData);
+  const ownerName = ownerData['first_name'] + ' ' + ownerData['family_name'];
 
   const handleClose = () => setShow(false);
 
@@ -60,7 +65,7 @@ export function CreateTournament() {
 
             <Form.Group>
               <Form.Label>Ägare:</Form.Label>
-              <Form.Control name="owner" placeholder={getUserName()} readOnly />
+              <Form.Control name="owner" placeholder={ ownerName } readOnly />
             </Form.Group>
 
             <Form.Row>
@@ -93,14 +98,5 @@ export function CreateTournament() {
         </Modal.Body>
       </Modal>
     </div>
-  );
-}
-
-/**
- * Returns a pleceholder name for now.
- */
-function getUserName() {
-  return (
-      "Kalles Kaviar"
   );
 }
