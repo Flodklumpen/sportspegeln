@@ -91,53 +91,6 @@ def add_competitor():
     return jsonify({'message': 'Competitor added'}), 200
 
 
-@tournament_bp.route('/create_match', methods=['POST'])
-@cross_origin(headers=["Content-Type", "Authorization"])
-@requires_auth
-def create_match():
-    """
-    Creates a match.
-    """
-    data = request.get_json()
-    required_fields = ['tournament_id', 'challenger', 'defender']
-
-    if not routes_help.existing_fields(data, required_fields):
-        return jsonify({'message': "Missing required field(s)"}), 400
-
-    if not routes_help.filled_fields(data, required_fields):
-        return jsonify({'message': "Required field(s) not filled"}), 400
-
-    # check so that both challenger and defender are registered in the tournaments
-    # this also ensures that they are both users
-    if not (query.is_competing(data['challenger'], data['tournament_id']) and
-            query.is_competing(data['defender'], data['tournament_id'])):
-        return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
-
-    # check that tournaments exists
-    if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'CreateTournament does not exist'}), 404
-
-    if 'date' not in data or not data['date']:
-        date = None
-    else:
-        date = routes_help.get_date_from_string(data['date'])
-        if date is None:
-            return jsonify({'message': 'Bad format of date'}), 400
-
-    if 'time' not in data or not data['time']:
-        time = None
-    else:
-        time = routes_help.get_time_from_string(data['time'])
-        if time is None:
-            return jsonify({'message': 'Bad format of time'}), 400
-
-    id = query.get_next_match_id(data['tournament_id'])
-
-    query.create_match(id, data['tournament_id'], date, time, data['challenger'], data['defender'])
-
-    return jsonify({'message': 'Match created', 'data': id}), 200
-
-
 @tournament_bp.route('/create_challenge', methods=['POST'])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth

@@ -70,8 +70,8 @@ export function Profile() {
                   Turneringar jag tävlar i
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <button onClick={() => dispatch(joinTournament("1", user.email, token))}>Gå med i turnering 1</button>
-                  <button onClick={() => dispatch(createMatch("1", user.email, user.email, token))}>utmana mig själv</button>
+                  <button onClick={() => dispatch(joinTournament("2", user.email, token))}>Gå med i turnering 2</button>
+                  <button onClick={() => dispatch(createMatch("2", user.email, user.email, token))}>utmana mig själv</button>
                 </ListGroup.Item>
                 </div>
               </ListGroup>

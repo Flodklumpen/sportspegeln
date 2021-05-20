@@ -215,7 +215,6 @@ def get_tournaments():
     return tournaments
 
 
-<<<<<<< HEAD
 def get_leader(tournament_id):
     """
     Get the leader of the given tournament, if any.
@@ -229,7 +228,8 @@ def get_leader(tournament_id):
         return leader
     else:
         return None
-=======
+
+
 def get_tournament_name_from_id(tour_id):
     result = db.session.query(Tournament.name).filter_by(id=tour_id).first()
     return result[0]
@@ -254,7 +254,6 @@ def get_future_matches(email):
             curr_match['defender_email'] = match.defender
             future_matches.append(curr_match)
     return future_matches
->>>>>>> [FEAT] Can now see and edit future matches
 
 
 def get_past_matches(email):
