@@ -62,11 +62,11 @@ def create_rank(tournament_id):
         tournament.leader = competitors[0][0]
 
         for i in range(0, len(competitors)):
-            user = db.session.query(User).get(competitors[i][0])
+            competing = db.session.query(Competing).get([competitors[i][0], tournament_id])
             if i != 0:
-                user.rank_before = competitors[i - 1][0]
+                competing.rank_before = competitors[i - 1][0]
             if i != len(competitors) - 1:
-                user.rank_after = competitors[i + 1][0]
+                competing.rank_after = competitors[i + 1][0]
 
         db.session.commit()
 
@@ -329,13 +329,14 @@ def get_rank(tournament_id):
         create_rank(tournament_id)
 
     tournament = db.session.query(Tournament).get(tournament_id)
-    current = db.session.query(User.first_name, User.family_name, User.rank_after).filter_by(
-        email=tournament.leader).first()
+    current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
+        tournament=tournament.id).first()
 
     while current:
-        current_name = current[0] + ' ' + current[1]
+        user_name = db.session.query(User.first_name, User.family_name).filter_by(email=current[0]).first()
+        current_name = user_name[0] + ' ' + user_name[1]
         rank.append(current_name)
-        current = db.session.query(User.first_name, User.family_name, User.rank_after).filter_by(
-            email=current[2]).first()
+        current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
+            competitor=current[1]).first()
 
     return rank

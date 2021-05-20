@@ -10,8 +10,6 @@ class User(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     family_name = db.Column(db.String(50), nullable=False)
     id = db.Column(db.String(50), nullable=False)
-    rank_after = db.Column(db.String(120), db.ForeignKey("competitor.email", use_alter=True))
-    rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email", use_alter=True))
 
     def __str__(self):
         return "email=%s, first_name=%s, family_name=%s" % (self.email, self.first_name, self.family_name)
@@ -24,6 +22,8 @@ class Owner(db.Model):
 class Competing(db.Model):
     competitor = db.Column(db.String(120), db.ForeignKey('competitor.email'), primary_key=True)
     tournament = db.Column(db.Integer, db.ForeignKey('tournament.id'), primary_key=True)
+    rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email"))
+    rank_after = db.Column(db.String(120), db.ForeignKey("competitor.email"))
 
 
 class Competitor(db.Model):
