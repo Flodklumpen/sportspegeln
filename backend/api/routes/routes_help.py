@@ -34,7 +34,7 @@ def get_time_from_string(string_time):
     :returns: datetime object
     """
     try:
-        time = datetime.strptime(string_time, '%H-%M').time()
+        time = datetime.strptime(string_time, '%H:%M').time()
         return time
     except ValueError:
         return None

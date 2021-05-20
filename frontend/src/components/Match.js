@@ -6,6 +6,10 @@ import Col from "react-bootstrap/Col";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
 import { Formik } from 'formik';
+import { editMatch } from '../reducers/editMatch';
+import { useSelector, useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+import { reportMatch } from '../reducers/reportMatch';
 
 export function Match(props) {
   /*
@@ -21,20 +25,33 @@ export function Match(props) {
   }
   */
 
+  const { user } = useAuth0();
+
+  const dispatch = useDispatch();
+
+  let currentState = useSelector((state) => state);
+
+  const token = currentState.userToken['currentUserToken'];
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
+  const match = props.match;
+
   const submitMatch = (values) => {
-    console.log(values.challenger);
-    console.log(values.defender);
-    console.log(values.date);
-    console.log(values.time);
 
     if (props.report) {
-      console.log(values.scoreChallenger);
-      console.log(values.scoreDefender);
-    };
+      dispatch(reportMatch(
+        match.tournament_id, match.id, values.date, values.time,
+        values.score_challenger, values.score_defender, user.email, token
+      ));
+    } else {
+      dispatch(editMatch(
+        match.tournament_id, match.id, values.date, values.time, user.email,
+        token
+      ));
+    }
 
     handleClose();
   };
@@ -49,7 +66,7 @@ export function Match(props) {
         </Modal.Header>
         <Modal.Body>
           <Formik
-            initialValues={props.match}
+            initialValues={match}
             onSubmit={(values) => submitMatch(values)}
           >
             {({
@@ -102,12 +119,12 @@ export function Match(props) {
                     <Form.Row>
                       <Form.Group as={Col}>
                         <Form.Label>Utmanare:</Form.Label>
-                        <Form.Control name="scoreChallenger" type="number" value={values.scoreChallenger} onChange={handleChange} required/>
+                        <Form.Control name="score_challenger" type="number" value={values.score_challenger} onChange={handleChange} required/>
                       </Form.Group>
 
                       <Form.Group as={Col}>
                         <Form.Label>Försvarare:</Form.Label>
-                        <Form.Control name="scoreDefender" type="number" value={values.scoreDefender} onChange={handleChange} required/>
+                        <Form.Control name="score_defender" type="number" value={values.score_defender} onChange={handleChange} required/>
                       </Form.Group>
                     </Form.Row>
                   </div>

@@ -37,3 +37,7 @@ client.get = function (endpoint, user, token, customConfig = {}) {
 client.post = function (endpoint, body, user, token, customConfig = {}) {
   return client(endpoint, user, token, { ...customConfig, body })
 };
+
+client.put = function (endpoint, body, user, token, customConfig = {}) {
+  return client(endpoint, user, token, { ...customConfig, body, method: 'PUT' })
+}

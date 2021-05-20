@@ -7,10 +7,17 @@ import styles from '../css/Profile.module.css';
 import { ProfileList } from './ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
 import { GetUserData } from "../api/GetUserData";
+import { createMatch } from "../reducers/createMatch";
+import { useSelector, useDispatch } from "react-redux";
+import { joinTournament } from "../reducers/joinTournament";
 
 export function Profile() {
 
   const { user, isAuthenticated, isLoading } = useAuth0();
+
+  const dispatch = useDispatch();
+
+  let currentState = useSelector((state) => state);
 
   if (isLoading) {
     return (<div>Loading...</div>);
@@ -27,6 +34,8 @@ export function Profile() {
       behavior: "smooth"
     });
   };
+
+  const token = currentState.userToken['currentUserToken'];
 
 	return (
       <div>
@@ -59,6 +68,10 @@ export function Profile() {
                 </ListGroup.Item>
                 <ListGroup.Item action onClick={() => scrollTo("competingTournament")}>
                   Turneringar jag tävlar i
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <button onClick={() => dispatch(joinTournament("2", user.email, token))}>Gå med i turnering 2</button>
+                  <button onClick={() => dispatch(createMatch("2", user.email, user.email, token))}>utmana mig själv</button>
                 </ListGroup.Item>
                 </div>
               </ListGroup>
