@@ -7,7 +7,7 @@ import styles from '../css/Profile.module.css';
 import { ProfileList } from './ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
 import { GetUserData } from "../api/GetUserData";
-import { createMatch } from "../reducers/changeMatch";
+import { createMatch } from "../reducers/createMatch";
 import { useSelector, useDispatch } from "react-redux";
 import { joinTournament } from "../reducers/joinTournament";
 
@@ -39,7 +39,6 @@ export function Profile() {
 
 	return (
       <div>
-        <GetUserData />
         <Container>
           <Row>
             <Col xs={12} sm={4}>

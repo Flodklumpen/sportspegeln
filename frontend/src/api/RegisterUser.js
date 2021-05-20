@@ -1,10 +1,12 @@
-//import React from 'react';
+import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { storeUser } from "../reducers/registerUser";
-import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { updateState } from "../reducers/storeToken";
 
+/**
+ * @return {null}
+ */
 export function RegisterUser() {
 
 	const { user, getAccessTokenSilently } = useAuth0();

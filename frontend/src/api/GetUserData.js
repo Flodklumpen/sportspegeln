@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
+import { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchUserData } from "../reducers/getUserData";
 
+/**
+ * @return {null}
+ */
 export function GetUserData() {
 
 	const { user } = useAuth0();
@@ -16,12 +19,5 @@ export function GetUserData() {
 		dispatch(fetchUserData(user.email, token));
   }, [dispatch, user.email, token]);
 
-	currentState = useSelector((state) => state);
-	const cState = currentState.userData;
-
-	return (
-		<div>
-			<p>Hej { cState['first_name'] } { cState['family_name'] } </p>
-		</div>
-	);
+	return null;
 }
