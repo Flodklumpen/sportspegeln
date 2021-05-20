@@ -3,45 +3,24 @@ import { useSelector } from "react-redux";
 import { selectTournament } from "../../reducers/tournament";
 import styles from "../../css/Tournament.module.css";
 import Table from "react-bootstrap/Table";
-//import { GetRank } from "./GetRank";
+import { GetRank } from "../../api/GetRank";
+import { selectRank } from "../../reducers/getRank";
 
 export function Tournament() {
 
 	const tournament = useSelector(selectTournament);
-
-	//TODO: Get from server with <GetRank /> when backend is ready.
-	const rank = [
-		{
-			'first_name': 'Tina',
-			'family_name': 'Stark'
-		},
-		{
-			'first_name': 'Ylva',
-			'family_name': 'Viking'
-		},
-		{
-			'first_name': 'Inga-Linn',
-			'family_name': 'Nallepuhsson'
-		},
-		{
-			'first_name': 'Gösta',
-			'family_name': 'Örn'
-		},
-		{
-			'first_name': 'Nilla',
-			'family_name': 'Varg'
-		}
-	];
+	const rank = useSelector(selectRank);
 
 	const listMaker = rank.map((competitor, index) =>
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
-      <td className={styles.competitorCol}>{competitor.first_name} {competitor.family_name}</td>
+      <td className={styles.competitorCol}>{competitor}</td>
     </tr>
 	);
 
 	return (
 		<div>
+			<GetRank />
 			<h1>{ tournament.name }</h1>
 			<Table striped bordered hover size="sm" className={styles.Table}>
 				<thead>

@@ -16,4 +16,6 @@ export function GetRank() {
 	useEffect(() => {
 		dispatch(fetchRank(user.email, tournament.id, token));
   }, [dispatch, user.email, tournament.id, token]);
+
+	return null;
 }

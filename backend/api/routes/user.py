@@ -7,7 +7,8 @@ user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route('/register', methods=['POST'])
 def register():
-    """Checks if a given user is in the database, else creates the user
+    """
+    Checks if a given user is in the database, else creates the user.
     """
     data = request.get_json()
     fields = ['given_name', 'family_name', 'email', 'user_id']
@@ -20,6 +21,7 @@ def register():
 
     if query.is_user_registered(data['email']):
         return jsonify({'message': "User exists"}), 200
+
     else:
         query.register_user(data['email'], data['given_name'], data['family_name'], data['user_id'])
         return jsonify({'message': "User added"}), 200
@@ -27,7 +29,8 @@ def register():
 
 @user_bp.route('/get_user_data', methods=['GET'])
 def get_user_data():
-    """Returns the user data connected to a given email
+    """
+    Returns the user data connected to a given email.
     """
     email = request.args.get('email')
 
