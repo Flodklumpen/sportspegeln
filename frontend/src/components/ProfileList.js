@@ -16,8 +16,7 @@ import {
 } from '../reducers/profileList';
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
-import { fetchFutureMatches } from '../reducers/getFutureMatches';
-import { fetchPastMatches } from '../reducers/getPastMatches';
+import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
 
 export function ProfileList() {
   const { user } = useAuth0();
@@ -47,10 +46,10 @@ export function ProfileList() {
   useEffect(() => {
     dispatch(fetchFutureMatches(user.email, token));
     dispatch(fetchPastMatches(user.email, token));
-  }, [dispatch, user.email, token, currentState.createMatch, currentState.editMatch, currentState.reportMatch]);
+  }, [dispatch, user.email, token, currentState.changeMatch]);
 
-  const futureMatches = currentState.futureMatches;
-  const pastMatches = currentState.pastMatches;
+  const futureMatches = currentState.match['futureMatches'];
+  const pastMatches = currentState.match['pastMatches'];
 
   const ownedTournaments = [
     placeholderTournament,

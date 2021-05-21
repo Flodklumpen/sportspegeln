@@ -6,10 +6,11 @@ import Col from "react-bootstrap/Col";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
 import { Formik } from 'formik';
-import { editMatch } from '../reducers/editMatch';
+//import { editMatch } from '../reducers/editMatch';
+import { editMatch, reportMatch } from '../reducers/changeMatch';
 import { useSelector, useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { reportMatch } from '../reducers/reportMatch';
+//import { reportMatch } from '../reducers/reportMatch';
 
 export function Match(props) {
   /*
