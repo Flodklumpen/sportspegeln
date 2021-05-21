@@ -57,18 +57,16 @@ def create_rank(tournament_id):
     """
     competitors = db.session.query(Competing.competitor).filter_by(tournament=tournament_id).all()
 
-    if competitors:
-        tournament = db.session.query(Tournament).get(tournament_id)
-        tournament.leader = competitors[0][0]
+    tournament = db.session.query(Tournament).get(tournament_id)
+    tournament.leader = competitors[0][0]
 
-        for i in range(0, len(competitors)):
-            competing = db.session.query(Competing).get([competitors[i][0], tournament_id])
-            if i != 0:
-                competing.rank_before = competitors[i - 1][0]
-            if i != len(competitors) - 1:
-                competing.rank_after = competitors[i + 1][0]
-
-        db.session.commit()
+    for i in range(0, len(competitors)):
+        competing = db.session.query(Competing).get([competitors[i][0], tournament_id])
+        if i != 0:
+            competing.rank_before = competitors[i - 1][0]
+        if i != len(competitors) - 1:
+            competing.rank_after = competitors[i + 1][0]
+    db.session.commit()
 
 
 def create_match(match_id, tournament_id, date, time, challenger_email, defender_email):
@@ -143,12 +141,8 @@ def is_match(tournament_id, match_id):
     """
     return db.session.query(Match).filter_by(id=match_id, tournament=tournament_id).first() is not None
 
-#duplicate of function above
-#def is_competing(comp_email, tournament_id):
-#    return db.session.query(Competing).filter_by(competitor=comp_email, tournament=tournament_id).first() is not None
 
-
-"""Functions to get information from the database"""
+""" Functions to get information from the database """
 
 
 def get_user_info(user_email):
@@ -333,10 +327,23 @@ def get_rank(tournament_id):
         tournament=tournament.id).first()
 
     while current:
-        user_name = db.session.query(User.first_name, User.family_name).filter_by(email=current[0]).first()
-        current_name = user_name[0] + ' ' + user_name[1]
-        rank.append(current_name)
+        user = db.session.query(User.first_name, User.family_name, User.email).filter_by(email=current[0]).first()
+        current_name = user[0] + ' ' + user[1]
+        rank.append([current_name, user[2]])
         current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
             competitor=current[1]).first()
 
     return rank
+
+
+def add_competitor_to_rank(competitor_id, tournament_id):
+    if get_leader(tournament_id):
+        rank = get_rank(tournament_id)
+
+        competitor_last = rank[-1][1]
+        competing_last = db.session.query(Competing).get([competitor_last, tournament_id])
+        competing_last.rank_after = competitor_id
+        new_competitor = db.session.query(Competing).get([competitor_id, tournament_id])
+        new_competitor.rank_before = competitor_last
+
+        db.session.commit()

@@ -14,7 +14,7 @@ export function Tournament() {
 	const listMaker = rank.map((competitor, index) =>
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
-      <td className={styles.competitorCol}>{competitor}</td>
+      <td className={styles.competitorCol}>{competitor[index][0]}</td>
     </tr>
 	);
 

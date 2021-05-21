@@ -88,6 +88,8 @@ def add_competitor():
     if not query.is_competing(data['competitor'], data['tournament_id']):
         query.create_competing(data['competitor'], data['tournament_id'])
 
+    # query.add_competitor_to_rank(data['competitor'], data['tournament_id'])
+
     return jsonify({'message': 'Competitor added'}), 200
 
 
