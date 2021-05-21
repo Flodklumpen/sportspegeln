@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
 import styles from '../../css/SubmitModal.module.css';
-import {selectUserData} from "../../reducers/getUserData";
+import { selectUserData } from "../../reducers/getUserData";
+import { createTournament } from "../../reducers/createTournament";
+import { selectStoreToken } from "../../reducers/storeToken";
 
 export function CreateTournament() {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
+  const dispatch = useDispatch();
 
   const ownerData = useSelector(selectUserData);
   const ownerName = ownerData['first_name'] + ' ' + ownerData['family_name'];
+  const token = useSelector(selectStoreToken);
 
   const handleClose = () => setShow(false);
 
@@ -34,12 +38,13 @@ export function CreateTournament() {
       event.stopPropagation();
     } else {
       console.log(form.tourName.value);
-      console.log(form.owner.value);
+      console.log(form.owner.getAttribute('placeholder'));
       console.log(form.startDate.value);
       console.log(form.endDate.value);
       console.log(form.noEnd.checked);
 
       setValidated(false);
+      dispatch(createTournament(form.tourName.value, ownerData['email'], form.startDate.value, form.endDate.value, token));
       handleClose();
     }
     setValidated(true);
@@ -51,13 +56,12 @@ export function CreateTournament() {
         Skapa turnering
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={ handleClose }>
         <Modal.Header closeButton>
           <Modal.Title>Skapa en turnering</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form noValidate validated={validated} onSubmit={ handleSubmit } >
             <Form.Group>
               <Form.Label>Turneringens namn:</Form.Label>
               <Form.Control name="tourName" type="input" placeholder="Min turnering" required/>

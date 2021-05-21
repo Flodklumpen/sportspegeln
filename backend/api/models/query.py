@@ -146,7 +146,7 @@ def is_match(tournament_id, match_id):
 """ Functions to get information from the database """
 
 
-def get_user_info(user_email):
+def get_user_data(user_email):
     """
     Attempts to find the user connected to a given email.
 
@@ -154,10 +154,11 @@ def get_user_info(user_email):
     :returns: a dict on the form {'first_name':String, 'family_name':String} on
     success, else None
     """
-    result = db.session.query(User.first_name, User.family_name).filter_by(email=user_email).first()
+    result = db.session.query(User.first_name, User.family_name, User.email).filter_by(email=user_email).first()
     if result is not None:
         user_info = {'first_name': result[0],
-                     'family_name': result[1]}
+                     'family_name': result[1],
+                     'email': result[2]}
         return user_info
     else:
         return None

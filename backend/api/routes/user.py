@@ -37,7 +37,7 @@ def get_user_data():
     if not email:
         return jsonify({'message': 'Missing parameter'}), 400
 
-    user_info = query.get_user_info(email)
+    user_info = query.get_user_data(email)
 
     if user_info is None:
         return jsonify({'message': 'User not found'}), 404
