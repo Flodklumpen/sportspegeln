@@ -57,16 +57,17 @@ def create_rank(tournament_id):
     """
     competitors = db.session.query(Competing.competitor).filter_by(tournament=tournament_id).all()
 
-    tournament = db.session.query(Tournament).get(tournament_id)
-    tournament.leader = competitors[0][0]
+    if competitors:
+        tournament = db.session.query(Tournament).get(tournament_id)
+        tournament.leader = competitors[0][0]
 
-    for i in range(0, len(competitors)):
-        competing = db.session.query(Competing).get([competitors[i][0], tournament_id])
-        if i != 0:
-            competing.rank_before = competitors[i - 1][0]
-        if i != len(competitors) - 1:
-            competing.rank_after = competitors[i + 1][0]
-    db.session.commit()
+        for i in range(0, len(competitors)):
+            competing = db.session.query(Competing).get([competitors[i][0], tournament_id])
+            if i != 0:
+                competing.rank_before = competitors[i - 1][0]
+            if i != len(competitors) - 1:
+                competing.rank_after = competitors[i + 1][0]
+        db.session.commit()
 
 
 def create_match(match_id, tournament_id, date, time, challenger_email, defender_email):
