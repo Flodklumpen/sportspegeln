@@ -110,7 +110,8 @@ def create_challenge():
 
     # check so that both challenger and defender are registered in the tournaments
     # this also ensures that they are both users
-    if not (query.is_competing(data['challenger'], data['tournament_id']) and query.is_competing(data['defender'], data['tournament_id'])):
+    if not (query.is_competing(data['challenger'], data['tournament_id']) and
+        query.is_competing(data['defender'], data['tournament_id'])):
         return jsonify({'message': 'Challenger and/or defender are not registered in this tournaments'}), 404
 
     # check that tournaments exists
@@ -131,7 +132,6 @@ def edit_match():
     """Updates a match with the given information
     """
     data = request.get_json()
-    #TODO: Maybe we don't need challenger and defender, see if it is easy not to send from frontend
     required_fields = ['tournament_id', 'match_id']
 
     if not routes_help.existing_fields(data, required_fields):
@@ -144,14 +144,14 @@ def edit_match():
     if not query.is_match(data['tournament_id'], data['match_id']):
         return jsonify({'message': 'Match does not exist'}), 404
 
-    if not 'date' in data or not data['date']:
+    if 'date' not in data or not data['date']:
         date = None
     else:
         date = routes_help.get_date_from_string(data['date'])
         if date is None:
             return jsonify({'message': 'Bad format of date'}), 400
 
-    if not 'time' in data or not data['time']:
+    if 'time' not in data or not data['time']:
         time = None
     else:
         time = routes_help.get_time_from_string(data['time'])
@@ -170,7 +170,6 @@ def report_match():
     """Reports the result of a match. All data needs to be included
     """
     data = request.get_json()
-    #TODO: Maybe we don't need challenger and defender, see if it is easy not to send from frontend
     required_fields = [
         'tournament_id',
         'match_id',
@@ -200,7 +199,8 @@ def report_match():
 
     timestamp = datetime.now()
 
-    query.report_match(data['match_id'], data['tournament_id'], date, time, timestamp, data['score_defender'], data['score_challenger'])
+    query.report_match(data['match_id'], data['tournament_id'], date, time,
+        timestamp, data['score_defender'], data['score_challenger'])
 
     return jsonify({'message': 'Match reported'}), 200
 

@@ -10,9 +10,11 @@ def get_string_from_date(date):
     else:
         return None
 
+
 def get_string_from_time(time):
     """
-    Returns a string representation of a given time
+    Returns a string representation of a given time.
+
     :param date: a datetime object
     :returns: a string representation of time on the format HH:MM
     """
