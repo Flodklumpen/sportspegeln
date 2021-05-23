@@ -213,6 +213,48 @@ def get_tournaments():
     return tournaments
 
 
+def get_user_tournaments(user):
+    """
+    Returns all tournaments for a given user in the database.
+
+    :param user: String
+    :returns: an array of dicts on the form
+        {
+            'id': int,
+            'name': string,
+            'start_date': string,
+            'end_date': string,
+            'owner': string
+        }
+    """
+    tour_ids = db.session.query(Competing.tournament).filter_by(competitor=user).all()
+
+    tournaments = []
+    for tour_id in tour_ids:
+        tournament = db.session.query(
+            Tournament.id,
+            Tournament.name,
+            Tournament.start_date,
+            Tournament.end_date,
+            Tournament.owner
+        ).filter_by(id=tour_id[0]).all()
+        tournaments.append(tournament)
+
+    result = []
+    if tournaments is not None:
+        for tournament in tournaments:
+            curr_tournament = {
+                'id': tournament[0][0],
+                'name': tournament[0][1],
+                'start_date': query_help.get_string_from_date(tournament[0][2]),
+                'end_date': query_help.get_string_from_date(tournament[0][3]),
+                'owner': tournament[0][4]
+            }
+            result.append(curr_tournament)
+
+    return result
+
+
 def get_leader(tournament_id):
     """
     Get the leader of the given tournament, if any.
