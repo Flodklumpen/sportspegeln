@@ -1,6 +1,5 @@
 from .base import db, User, Tournament, Owner, Competitor, Competing, Match
 from . import query_help
-from sqlalchemy import or_
 from datetime import date
 
 
@@ -87,7 +86,8 @@ def create_match(match_id, tournament_id, date, time, challenger_email, defender
 
 
 def create_challenge(match_id, tournament_id, challenger_email, defender_email):
-    """Adds a match to the database, with just the required info
+    """
+    Adds a match to the database, with just the required info
     """
     match = Match(
         id=match_id,
@@ -201,11 +201,13 @@ def get_tournaments():
     tournaments = []
     if result is not None:
         for tournament in result:
-            curr_tournament = {'id': tournament[0],
-                               'name': tournament[1],
-                               'start_date': query_help.get_string_from_date(tournament[2]),
-                               'end_date': query_help.get_string_from_date(tournament[3]),
-                               'owner': tournament[4]}
+            curr_tournament = {
+                'id': tournament[0],
+                'name': tournament[1],
+                'start_date': query_help.get_string_from_date(tournament[2]),
+                'end_date': query_help.get_string_from_date(tournament[3]),
+                'owner': tournament[4]
+            }
             tournaments.append(curr_tournament)
     return tournaments
 
@@ -226,11 +228,28 @@ def get_leader(tournament_id):
 
 
 def get_tournament_name_from_id(tour_id):
+    """
+    Returns the name of a tournament with a given ID
+    """
     result = db.session.query(Tournament.name).filter_by(id=tour_id).first()
     return result[0]
 
 
 def get_future_matches(email):
+    """
+    Gets the matches of a user with date after today or without a given date.
+
+    :param email: String
+    :returns: an array of dicts on the form
+        {
+            'id': Int,
+            'tournament_id': Int,
+            'date': String,
+            'time': String,
+            'challenger_email': String,
+            'defender_email': String
+        }
+    """
     current_date = date.today()
     result = Match.query.filter(
             (Match.challenger==email) | (Match.defender==email)
@@ -240,18 +259,35 @@ def get_future_matches(email):
     future_matches = []
     if result is not None:
         for match in result:
-            curr_match = {}
-            curr_match['id'] = match.id
-            curr_match['tournament_id'] = match.tournament
-            curr_match['date'] = query_help.get_string_from_date(match.date_played)
-            curr_match['time'] = query_help.get_string_from_time(match.time_played)
-            curr_match['challenger_email'] = match.challenger
-            curr_match['defender_email'] = match.defender
+            curr_match = {
+                'id' : match.id,
+                'tournament_id' : match.tournament,
+                'date' : query_help.get_string_from_date(match.date_played),
+                'time' : query_help.get_string_from_time(match.time_played),
+                'challenger_email' : match.challenger,
+                'defender_email' : match.defender
+            }
             future_matches.append(curr_match)
     return future_matches
 
 
 def get_past_matches(email):
+    """
+    Gets the matches of a user with date today or earlier.
+
+    :param email: String
+    :returns: an array of dicts on the form
+        {
+            'id': Int,
+            'tournament_id': Int,
+            'date': String,
+            'time': String,
+            'challenger_email': String,
+            'defender_email': String,
+            'score_defender': Int,
+            'score_challenger': Int
+        }
+    """
     current_date = date.today()
     result = Match.query.filter(
             (Match.challenger==email) | (Match.defender==email)
@@ -261,15 +297,16 @@ def get_past_matches(email):
     past_matches = []
     if result is not None:
         for match in result:
-            curr_match = {}
-            curr_match['id'] = match.id
-            curr_match['tournament_id'] = match.tournament
-            curr_match['date'] = query_help.get_string_from_date(match.date_played)
-            curr_match['time'] = query_help.get_string_from_time(match.time_played)
-            curr_match['challenger_email'] = match.challenger
-            curr_match['defender_email'] = match.defender
-            curr_match['score_defender'] = match.score_defender
-            curr_match['score_challenger'] = match.score_challenger
+            curr_match = {
+                'id' : match.id,
+                'tournament_id' : match.tournament,
+                'date' : query_help.get_string_from_date(match.date_played),
+                'time' : query_help.get_string_from_time(match.time_played),
+                'challenger_email' : match.challenger,
+                'defender_email' : match.defender,
+                'score_defender' : match.score_defender,
+                'score_challenger' : match.score_challenger
+            }
             past_matches.append(curr_match)
     return past_matches
 
@@ -278,6 +315,14 @@ def get_past_matches(email):
 
 
 def edit_match(match_id, tour_id, date, time):
+    """
+    Updates a match with given info. Expects less info than report_match.
+
+    :param match_id: Int
+    :param tour_id: Int
+    :param date: DateTime object or None
+    :param time: DateTime object or None
+    """
     result = Match.query.filter_by(id=match_id, tournament=tour_id).first()
     result.date_played = date
     result.time_played = time
@@ -285,6 +330,17 @@ def edit_match(match_id, tour_id, date, time):
 
 
 def report_match(match_id, tour_id, date, time, timestamp, score_defender, score_challenger):
+    """
+    Updates a match with given info. Expects more info than edit_match.
+
+    :param match_id: Int
+    :param tour_id: Int
+    :param date: DateTime object
+    :param time: DateTime object
+    :param timestamp: DateTime object
+    :param score_defender: Int
+    :param score_challenger: Int
+    """
     result = Match.query.filter_by(id=match_id, tournament=tour_id).first()
     result.date_played = date
     result.time_played = time

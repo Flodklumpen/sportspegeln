@@ -8,13 +8,9 @@ import registerUserReducer from "./registerUser";
 import getUserDataReducer from "./getUserData";
 import getRankReducer from "./getRank";
 import getTournamentsReducer from "./getTournaments";
-import createMatchReducer from "./createMatch";
 import joinTournamentReducer from "./joinTournament";
-import getFutureMatchesReducer from './getFutureMatches';
-import editMatchReducer from './editMatch';
-import getPastMatchesReducer from './getPastMatches';
-import reportMatchReducer from './reportMatch';
-
+import changeMatchReducer from './changeMatch';
+import matchReducer from './match';
 
 const rootReducer = combineReducers({
   tabSelect: tabSelectReducer,
@@ -25,12 +21,9 @@ const rootReducer = combineReducers({
   userData: getUserDataReducer,
   rank: getRankReducer,
   tournaments: getTournamentsReducer,
-  createMatch: createMatchReducer,
   joinTournament: joinTournamentReducer,
-  futureMatches: getFutureMatchesReducer,
-  editMatch: editMatchReducer,
-  pastMatches: getPastMatchesReducer,
-  reportMatch:reportMatchReducer
+  changeMatch: changeMatchReducer,
+  match: matchReducer
 });
 
 export default rootReducer
