@@ -79,7 +79,7 @@ def add_competitor():
 
     # ensure that tournaments exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'CreateTournament does not exist'}), 404
+        return jsonify({'message': 'Tournament does not exist'}), 404
 
     # create competitor of user if they are not already
     if not query.is_competitor(data['competitor']):

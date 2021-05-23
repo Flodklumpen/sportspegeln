@@ -11,10 +11,6 @@ import getTournamentsReducer from "./getTournaments";
 import joinTournamentReducer from "./joinTournament";
 import changeMatchReducer from './changeMatch';
 import matchReducer from './match';
-import getFutureMatchesReducer from './getFutureMatches';
-import editMatchReducer from './editMatch';
-import getPastMatchesReducer from './getPastMatches';
-import reportMatchReducer from './reportMatch';
 import createTournamentReducer from "./createTournament";
 
 const rootReducer = combineReducers({
@@ -29,11 +25,7 @@ const rootReducer = combineReducers({
   tournaments: getTournamentsReducer,
   joinTournament: joinTournamentReducer,
   changeMatch: changeMatchReducer,
-  match: matchReducer
-  futureMatches: getFutureMatchesReducer,
-  editMatch: editMatchReducer,
-  pastMatches: getPastMatchesReducer,
-  reportMatch:reportMatchReducer,
+  match: matchReducer,
 });
 
 export default rootReducer

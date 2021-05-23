@@ -23,7 +23,6 @@ export function createTournament(tournamentName, owner, startDate, endDate, toke
 	if (endDate) {
 		tournament['end_date'] = endDate;
 	}
-	console.log(tournament);
 
 	return async function createTournamentThunk(dispatch) {
 		const response = await client.post('/tournament/create_tournament', tournament, owner, token);

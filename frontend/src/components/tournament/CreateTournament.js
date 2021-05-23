@@ -37,12 +37,6 @@ export function CreateTournament() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      console.log(form.tourName.value);
-      console.log(form.owner.getAttribute('placeholder'));
-      console.log(form.startDate.value);
-      console.log(form.endDate.value);
-      console.log(form.noEnd.checked);
-
       setValidated(false);
       dispatch(createTournament(form.tourName.value, ownerData['email'], form.startDate.value, form.endDate.value, token));
       handleClose();
@@ -53,7 +47,7 @@ export function CreateTournament() {
   return (
     <div>
       <Button className={styles.createTournament} variant="primary" onClick={() => {setShow(true); setValidated(false);}}>
-        Skapa turnering
+        Ny turnering
       </Button>
 
       <Modal show={show} onHide={ handleClose }>
