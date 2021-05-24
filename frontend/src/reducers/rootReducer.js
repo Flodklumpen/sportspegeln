@@ -14,6 +14,7 @@ import joinTournamentReducer from "./joinTournament";
 import changeMatchReducer from './changeMatch';
 import matchReducer from './match';
 import createTournamentReducer from "./createTournament";
+import websocketReducer from "./storeWS";
 
 const rootReducer = combineReducers({
   tabSelect: tabSelectReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   joinTournament: joinTournamentReducer,
   changeMatch: changeMatchReducer,
   match: matchReducer,
+  websocket: websocketReducer,
 });
 
 export default rootReducer

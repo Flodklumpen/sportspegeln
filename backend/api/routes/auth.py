@@ -2,6 +2,7 @@
 # https://auth0.com/docs/quickstart/backend/python/01-authorization
 
 import os
+from dotenv import load_dotenv
 
 import json
 from six.moves.urllib.request import urlopen
@@ -13,8 +14,12 @@ from jose import jwt
 
 from ..models import query
 
-AUTH0_DOMAIN = os.environ.get("FLASK_APP_AUTH0_DOMAIN")
-API_AUDIENCE = os.environ.get("FLASK_APP_API_AUDIENCE")
+# loads the .env file from backend dir
+env_folder = os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.pardir), os.pardir))
+load_dotenv(os.path.join(env_folder, '.env'))
+
+AUTH0_DOMAIN = os.getenv("FLASK_APP_AUTH0_DOMAIN")
+API_AUDIENCE = os.getenv("FLASK_APP_API_AUDIENCE")
 ALGORITHMS = ["RS256"]
 
 

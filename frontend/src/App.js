@@ -4,24 +4,34 @@ import React from 'react';
 import { Menu } from "./components/Menu";
 //import { Counter } from './features/counter/Counter';
 import './css/App.css';
-import {Auth0Provider} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { w3cwebsocket } from "websocket";
 
 function App() {
 
+  const { user, isAuthenticated } = useAuth0();
+
+  if (isAuthenticated) {
+  	// This could probably be combined with the useEffect below but keeping
+  	// them separate for now
+  	const socket = new w3cwebsocket("ws://localhost:5000/ws/api");
+  	socket.onopen = () => {
+  		socket.send(JSON.stringify({email: user.email}));
+  		console.log(socket);
+  	};
+
+    socket.onmessage = (e) => {
+      console.log('Server: ' + e.data);
+    };
+  }
+
   return (
-    <Auth0Provider
-    domain={process.env.REACT_APP_AUTH0_DOMAIN}
-    clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-    audience={`https://${process.env.REACT_APP_AUTH0_DOMAIN}/api/v2/`}
-    scope=""
-    >
-      <div className="App">
-        {/*<nav className="App-nav">*/}
-        <nav className="App-nav">
-          <Menu />
-        </nav>
-      </div>
-    </Auth0Provider>
+    <div className="App">
+      {/*<nav className="App-nav">*/}
+      <nav className="App-nav">
+        <Menu />
+      </nav>
+    </div>
   );
 }
 
