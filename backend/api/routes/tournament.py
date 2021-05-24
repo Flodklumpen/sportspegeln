@@ -276,7 +276,7 @@ def get_user_tournaments():
 
     tournaments = query.get_user_tournaments(email)
     for tournament in tournaments:
-        owner_info = query.get_user_info(tournament['owner'])
+        owner_info = query.get_user_data(tournament['owner'])
         tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
 
     return jsonify({'message': 'got user tournaments', 'data': tournaments}), 200
