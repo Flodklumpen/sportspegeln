@@ -22,6 +22,10 @@ function App() {
 
     socket.onmessage = (e) => {
       console.log('Server: ' + e.data);
+      let instructions = JSON.parse(e.data);
+      if (instructions.type === "message") {
+        alert(instructions.data);
+      }
     };
   }
 

@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from ..models import query
 from . import routes_help
 from .auth import *
+from . import websockets
 
 tournament_bp = Blueprint('tournament_bp', __name__)
 
@@ -96,7 +97,8 @@ def add_competitor():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def create_challenge():
-    """Creates a match between two competitors
+    """
+    Creates a match between two competitors
     """
     data = request.get_json()
     required_fields = ['tournament_id', 'challenger', 'defender']
@@ -120,6 +122,12 @@ def create_challenge():
     id = query.get_next_match_id(data['tournament_id'])
 
     query.create_challenge(id, data['tournament_id'], data['challenger'], data['defender'])
+
+    challenger_info = query.get_user_data(data['challenger'])
+
+    challenger_name = challenger_info['first_name'] + ' ' + challenger_info['family_name']
+
+    websockets.inform_defender(data['defender'], challenger_name)
 
     return jsonify({'message': 'Match created', 'data': id}), 200
 
