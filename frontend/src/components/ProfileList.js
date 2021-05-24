@@ -17,50 +17,35 @@ import {
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
+import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
+import { selectUserData } from "../reducers/getUserData";
 
 export function ProfileList() {
   const { user } = useAuth0();
 
-  //TODO: get these from server
-
-  const placeholderTournament = {
-    name: "Min turnering",
-    startDate: "2020-01-01",
-    endDate: "2021-12-31",
-    owner: "Klas-Göran"
-  }
-
-  const placeholderTournament2 = {
-    name: "Bästa turneringen nånsing bror",
-    startDate: "2020-01-01",
-    endDate: "",
-    owner: "Tobbe"
-  }
-
   let currentState = useSelector((state) => state);
 
   const token = currentState.userToken['currentUserToken'];
+  const userData = useSelector(selectUserData);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFutureMatches(user.email, token));
-    dispatch(fetchPastMatches(user.email, token));
-  }, [dispatch, user.email, token, currentState.changeMatch]);
+    dispatch(fetchFutureMatches(userData.email, token));
+    dispatch(fetchPastMatches(userData.email, token));
+    dispatch(fetchCompetingTournaments(userData.email, token));
+  }, [dispatch, userData.email, token, currentState.changeMatch]);
 
   const futureMatches = currentState.match['futureMatches'];
   const pastMatches = currentState.match['pastMatches'];
+  const competingTournaments = useSelector(selectCompetingTournaments);
 
   const ownedTournaments = [
+    /*
     placeholderTournament,
     placeholderTournament,
     placeholderTournament2
-  ];
-
-  const competingTournaments = [
-    placeholderTournament,
-    placeholderTournament,
-    placeholderTournament2
+     */
   ];
 
   const getOpponent = (match) => {
@@ -160,7 +145,7 @@ export function ProfileList() {
         </Col>
         <Col xs={10}>
           <b>{competingTournament.name}</b><br />
-          {competingTournament.startDate} - {competingTournament.endDate}<br />
+          {competingTournament.start_date} - {competingTournament.end_date}<br />
         </Col>
       </Row>
     </ListGroup.Item>
