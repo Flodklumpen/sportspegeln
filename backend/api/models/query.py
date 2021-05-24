@@ -213,9 +213,9 @@ def get_tournaments():
     return tournaments
 
 
-def get_user_tournaments(user):
+def get_competing_tournaments(user):
     """
-    Returns all tournaments for a given user in the database.
+    Returns all competing tournaments for a given user in the database.
 
     :param user: String
     :returns: an array of dicts on the form
@@ -253,6 +253,42 @@ def get_user_tournaments(user):
             result.append(curr_tournament)
 
     return result
+
+
+def get_owned_tournaments(email):
+    """
+    Returns all owned tournaments for a given user in the database.
+
+    :param email: String
+    :returns: an array of dicts on the form
+        {
+            'id': int,
+            'name': string,
+            'start_date': string,
+            'end_date': string,
+            'owner': string
+        }
+    """
+    result = db.session.query(
+        Tournament.id,
+        Tournament.name,
+        Tournament.start_date,
+        Tournament.end_date,
+        Tournament.owner
+    ).filter_by(owner=email).all()
+    tournaments = []
+    if result is not None:
+        for tournament in result:
+            curr_tournament = {
+                'id': tournament[0],
+                'name': tournament[1],
+                'start_date': query_help.get_string_from_date(tournament[2]),
+                'end_date': query_help.get_string_from_date(tournament[3]),
+                'owner': tournament[4]
+            }
+            tournaments.append(curr_tournament)
+
+    return tournaments
 
 
 def get_leader(tournament_id):
