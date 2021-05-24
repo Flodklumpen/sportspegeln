@@ -253,33 +253,9 @@ def get_tournaments():
     Returns all tournaments.
     """
     tournaments = query.get_tournaments()
-    for tournament in tournaments:
-        owner_info = query.get_user_data(tournament['owner'])
-        # assume it will work, should not be able to be None
-        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
+    tournaments = routes_help.add_owner_name(tournaments)
 
     return jsonify({'message': 'got tournaments', 'data': tournaments}), 200
-
-
-@tournament_bp.route('/get_competing_tournaments', methods=['GET'])
-def get_competing_tournaments():
-    """
-    Returns competing tournaments for a given user.
-    """
-    email = request.args.get('email')
-
-    if not email:
-        return jsonify({'message': 'Missing parameter'}), 400
-
-    if not query.is_user_registered(email):
-        return jsonify({'message': 'User not found'}), 404
-
-    tournaments = query.get_competing_tournaments(email)
-    for tournament in tournaments:
-        owner_info = query.get_user_data(tournament['owner'])
-        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
-
-    return jsonify({'message': 'got user tournaments', 'data': tournaments}), 200
 
 
 @tournament_bp.route('/get_owned_tournaments', methods=['GET'])
@@ -296,11 +272,28 @@ def get_owned_tournaments():
         return jsonify({'message': 'User not found'}), 404
 
     tournaments = query.get_owned_tournaments(email)
-    for tournament in tournaments:
-        owner_info = query.get_user_data(tournament['owner'])
-        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
+    tournaments = routes_help.add_owner_name(tournaments)
 
     return jsonify({'message': 'got owned tournaments', 'data': tournaments}), 200
+
+
+@tournament_bp.route('/get_competing_tournaments', methods=['GET'])
+def get_competing_tournaments():
+    """
+    Returns competing tournaments for a given user.
+    """
+    email = request.args.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing parameter'}), 400
+
+    if not query.is_user_registered(email):
+        return jsonify({'message': 'User not found'}), 404
+
+    tournaments = query.get_competing_tournaments(email)
+    tournaments = routes_help.add_owner_name(tournaments)
+
+    return jsonify({'message': 'got user tournaments', 'data': tournaments}), 200
 
 
 @tournament_bp.route('/get_rank', methods=['GET'])
