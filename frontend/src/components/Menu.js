@@ -13,6 +13,7 @@ import Tournament from "./tournament/Tournament";
 import styles from '../css/Menu.module.css';
 import logo from '../images/logo_big.png';
 import { RegisterUser } from "../api/RegisterUser";
+import { GetUserData } from "../api/GetUserData";
 import { ToggleLogInButton } from "./ToggleLogInButton";
 
 export function Menu() {
@@ -22,7 +23,10 @@ export function Menu() {
   function ifAuthenticated() {
     if (isAuthenticated) {
       return (
-        <RegisterUser/>
+        <div>
+          <RegisterUser />
+          <GetUserData />
+        </div>
       );
     }
     return null;

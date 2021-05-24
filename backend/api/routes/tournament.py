@@ -79,7 +79,7 @@ def add_competitor():
 
     # ensure that tournaments exists
     if not query.is_tournament(data['tournament_id']):
-        return jsonify({'message': 'CreateTournament does not exist'}), 404
+        return jsonify({'message': 'Tournament does not exist'}), 404
 
     # create competitor of user if they are not already
     if not query.is_competitor(data['competitor']):
@@ -217,9 +217,9 @@ def get_future_matches():
     future_matches = query.get_future_matches(email)
 
     for match in future_matches:
-        challenger_info = query.get_user_info(match['challenger_email'])
+        challenger_info = query.get_user_data(match['challenger_email'])
         match['challenger'] = challenger_info['first_name'] + ' ' + challenger_info['family_name']
-        defender_info = query.get_user_info(match['defender_email'])
+        defender_info = query.get_user_data(match['defender_email'])
         match['defender'] = defender_info['first_name'] + ' ' + defender_info['family_name']
         match['tournament'] = query.get_tournament_name_from_id(match['tournament_id'])
 
@@ -238,9 +238,9 @@ def get_past_matches():
     future_matches = query.get_past_matches(email)
 
     for match in future_matches:
-        challenger_info = query.get_user_info(match['challenger_email'])
+        challenger_info = query.get_user_data(match['challenger_email'])
         match['challenger'] = challenger_info['first_name'] + ' ' + challenger_info['family_name']
-        defender_info = query.get_user_info(match['defender_email'])
+        defender_info = query.get_user_data(match['defender_email'])
         match['defender'] = defender_info['first_name'] + ' ' + defender_info['family_name']
         match['tournament'] = query.get_tournament_name_from_id(match['tournament_id'])
 
@@ -254,7 +254,7 @@ def get_tournaments():
     """
     tournaments = query.get_tournaments()
     for tournament in tournaments:
-        owner_info = query.get_user_info(tournament['owner'])
+        owner_info = query.get_user_data(tournament['owner'])
         # assume it will work, should not be able to be None
         tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
     return jsonify({'message': 'got tournaments', 'data': tournaments}), 200

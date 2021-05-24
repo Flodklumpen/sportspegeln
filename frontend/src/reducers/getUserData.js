@@ -21,3 +21,5 @@ export function fetchUserData(email, token) {
 
   }
 }
+
+export const selectUserData = (state) => state.userData;

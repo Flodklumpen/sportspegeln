@@ -11,19 +11,21 @@ import getTournamentsReducer from "./getTournaments";
 import joinTournamentReducer from "./joinTournament";
 import changeMatchReducer from './changeMatch';
 import matchReducer from './match';
+import createTournamentReducer from "./createTournament";
 
 const rootReducer = combineReducers({
   tabSelect: tabSelectReducer,
   profileList: showHideListReducer,
   userToken: storeUserTokenReducer,
   tournament: tournamentReducer,
+  createTournament: createTournamentReducer,
   registerUser: registerUserReducer,
   userData: getUserDataReducer,
   rank: getRankReducer,
   tournaments: getTournamentsReducer,
   joinTournament: joinTournamentReducer,
   changeMatch: changeMatchReducer,
-  match: matchReducer
+  match: matchReducer,
 });
 
 export default rootReducer

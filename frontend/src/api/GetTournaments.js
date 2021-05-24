@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchTournaments } from "../reducers/getTournaments";
 
+/**
+ * @return {null}
+ */
 export function GetTournaments() {
 
 	const { user } = useAuth0();
@@ -15,7 +18,7 @@ export function GetTournaments() {
 
 	useEffect(() => {
 		dispatch(fetchTournaments(user.email, token));
-	}, [dispatch, user.email, token]);
+	}, [dispatch, user.email, token, currentState.createTournament]);
 
 	return null;
 }
