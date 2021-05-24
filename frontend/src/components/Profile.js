@@ -8,7 +8,6 @@ import { ProfileList } from './ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
 import { createMatch } from "../reducers/changeMatch";
 import { useSelector, useDispatch } from "react-redux";
-import { joinTournament } from "../reducers/joinTournament";
 
 export function Profile() {
 
@@ -68,7 +67,6 @@ export function Profile() {
                   Turneringar jag tävlar i
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <button onClick={() => dispatch(joinTournament("2", user.email, token))}>Gå med i turnering 2</button>
                   <button onClick={() => dispatch(createMatch("2", user.email, user.email, token))}>utmana mig själv</button>
                 </ListGroup.Item>
                 </div>
