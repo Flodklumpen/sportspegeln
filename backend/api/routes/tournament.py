@@ -180,8 +180,6 @@ def report_match():
     required_fields = [
         'tournament_id',
         'match_id',
-        'defender',
-        'challenger',
         'date',
         'time',
         'score_defender',
@@ -214,10 +212,12 @@ def report_match():
     query.report_match(data['match_id'], data['tournament_id'], date, time,
         timestamp, data['score_defender'], data['score_challenger'])
 
+    competitors = query.get_competitors(data['tournament_id'], data['match_id'])
+
     if data['score_defender'] > data['score_challenger']:
-        query.update_rank(data['defender'], data['challenger'], data['tournament_id'])
+        query.update_rank(competitors['defender'], competitors['challenger'], data['tournament_id'])
     else:
-        query.update_rank(data['challenger'], data['defender'], data['tournament_id'])
+        query.update_rank(competitors['challenger'], competitors['defender'], data['tournament_id'])
 
     return jsonify({'message': 'Match reported'}), 200
 

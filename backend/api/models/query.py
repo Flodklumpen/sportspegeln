@@ -351,7 +351,8 @@ def get_past_matches(email):
             'challenger_email': String,
             'defender_email': String,
             'score_defender': Int,
-            'score_challenger': Int
+            'score_challenger': Int,
+            'reported': Bool
         }
     """
     current_date = date.today()
@@ -371,10 +372,23 @@ def get_past_matches(email):
                 'challenger_email' : match.challenger,
                 'defender_email' : match.defender,
                 'score_defender' : match.score_defender,
-                'score_challenger' : match.score_challenger
+                'score_challenger' : match.score_challenger,
+                'reported' : match.timestamp_reported is not None
             }
             past_matches.append(curr_match)
     return past_matches
+
+
+def get_competitors(tournament_id, match_id):
+    result = db.session.query(Match.defender, Match.challenger).filter_by(
+        tournament=tournament_id, id=match_id).first()
+    if result is not None:
+        competitors = {
+            'defender': result.defender,
+            'challenger': result.challenger
+        }
+        return competitors
+    return None
 
 
 """Functions to edit information in the database"""

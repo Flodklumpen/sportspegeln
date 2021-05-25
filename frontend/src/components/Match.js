@@ -56,7 +56,9 @@ export function Match(props) {
 
   return (
     <div>
-      <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+      { (props.report && match.reported) ? '' :
+        <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+      }
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
