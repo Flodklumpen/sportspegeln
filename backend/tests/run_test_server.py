@@ -3,6 +3,8 @@ sys.path.append("..")
 from api.models import db
 from api import routes
 from flask import Flask
+from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -15,4 +17,6 @@ with app.app_context():
 app.debug=True
 
 if __name__ == '__main__':
-    app.run()
+    #app.run()
+    http_server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+    http_server.serve_forever()

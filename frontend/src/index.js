@@ -5,6 +5,7 @@ import App from './App';
 import store from './store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import {Auth0Provider} from "@auth0/auth0-react";
 
 /* Get CSS from bootstrap */
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +13,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Auth0Provider
+      domain={process.env.REACT_APP_AUTH0_DOMAIN}
+      clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+      audience={`https://${process.env.REACT_APP_AUTH0_DOMAIN}/api/v2/`}
+      scope=""
+      >
+        <App />
+      </Auth0Provider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
