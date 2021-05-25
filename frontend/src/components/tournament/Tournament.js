@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import {
+	updateCurrentDefender,
+	selectStoreDefender } from "../../reducers/storeDefender";
+import {
+	updateCanChallenge,
+	selectCanChallenge } from "../../reducers/storeCanChallenge";
 import { selectTournament } from "../../reducers/tournament";
-import styles from "../../css/Tournament.module.css";
-import Table from "react-bootstrap/Table";
-import { GetRank } from "../../api/GetRank";
 import { selectRank } from "../../reducers/getRank";
-import { joinTournament } from "../../reducers/joinTournament";
 import { selectStoreToken } from "../../reducers/storeToken";
 import { selectUserData } from "../../reducers/getUserData";
+import { GetRank } from "../../api/GetRank";
+import { joinTournament } from "../../reducers/joinTournament";
+import { createMatch } from "../../reducers/changeMatch";
+import styles from "../../css/Tournament.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { updateCurrentDefender, selectStoreDefender } from "../../reducers/storeDefender";
-import { updateCanChallenge, selectCanChallenge } from "../../reducers/storeCanChallenge";
-import { createMatch } from "../../reducers/changeMatch";
+import Table from "react-bootstrap/Table";
 
 export function Tournament() {
 
@@ -47,14 +51,17 @@ export function Tournament() {
 	const listMaker = rank.map((competitor, index) =>
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
-		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender(competitor)); checkRank(index); }}>{competitor[0]}</td>
+		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender(competitor));
+		                                                                checkRank(index); }}>{competitor[0]}</td>
     </tr>
 	);
 
 	return (
 		<div>
 			<GetRank />
-			<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(tournament.id, userData.email, token))}>Delta</Button>
+			<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
+																																				tournament.id, userData.email,
+																																				token))}>Delta</Button>
 			<h1>{ tournament.name }</h1>
 			<Table striped bordered hover size="sm" className={styles.Table}>
 				<thead>
@@ -78,7 +85,11 @@ export function Tournament() {
 								<Button variant="secondary" onClick={handleClose}>
                   Avbryt
                 </Button>
-								<Button variant="primary" onClick={ () => {handleClose(); dispatch(createMatch(tournament.id, userData.email, currentDefender.defender[1], token));}}>
+								<Button variant="primary" onClick={ () => {handleClose();
+																													dispatch(createMatch(
+																														tournament.id, userData.email,
+																														currentDefender.defender[1], token));
+																													alert("Utmaningen har skickats. Lycka till!")}}>
                   Ja
                 </Button>
 							</Modal.Footer>
