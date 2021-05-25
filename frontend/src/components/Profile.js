@@ -6,14 +6,11 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import styles from '../css/Profile.module.css';
 import { ProfileList } from './ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
-import { createMatch } from "../reducers/changeMatch";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export function Profile() {
 
   const { user, isAuthenticated, isLoading } = useAuth0();
-
-  const dispatch = useDispatch();
 
   let currentState = useSelector((state) => state);
 
@@ -32,9 +29,7 @@ export function Profile() {
       behavior: "smooth"
     });
   };
-
-  const token = currentState.userToken['currentUserToken'];
-
+  
 	return (
       <div>
         <Container>
@@ -65,11 +60,6 @@ export function Profile() {
                 </ListGroup.Item>
                 <ListGroup.Item action onClick={() => scrollTo("competingTournament")}>
                   Turneringar jag tävlar i
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <button onClick={() => dispatch(createMatch("5", user.email, user.email, token))}>utmana mig själv</button>
-                  {/*Below: used to challenge a player in another window*/}
-                  {/*<button onClick={() => dispatch(createMatch("5", user.email, "bobbybobsonbobbingaround@gmail.com", token))}>utmana mig själv</button>*/}
                 </ListGroup.Item>
                 </div>
               </ListGroup>
