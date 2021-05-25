@@ -420,28 +420,20 @@ def update_rank(winner, loser, tournament_id):
     """
     Updates the rank so that the winner is above the loser.
     """
-    # check if winner or loser is top (and that both are in rank)
-    # if winner:
-    #   do nothing
-    # if loser:
-    #   update the linked list
-    #   spara under winner_before, winner_after, loser_before, loser_after
-
-    #
-    # 1 2 L 3 4 W 5 6
-    # 1 2 W L 3 4 5 6
-    # winner_before = loser_before
-    # winner_after = loser
-    # loser_before_after = winner
-    #
     print("hello")
-    if not get_leader(tournament_id):
+    leader = get_leader(tournament_id)
+    if not leader:
         print("no leader")
         return None #false?
 
-    tournament = db.session.query(Tournament).get(tournament_id)
+    #tournament = db.session.query(Tournament).get(tournament_id)
+    tournament = Tournament.query.filter_by(id=tournament_id).first()
 
     current = tournament.leader
+
+    if leader == loser:
+        #we have a new leader
+        tournament.leader = winner
 
     found_loser = False
     both_found = False
@@ -452,7 +444,9 @@ def update_rank(winner, loser, tournament_id):
 
     while current:
         print(current)
+        print(loser)
         if current == winner:
+            print("found winner: ", current)
             if found_loser == False:
                 # found winner before loser --> don't change order
                 print("winner before loser")
@@ -463,6 +457,7 @@ def update_rank(winner, loser, tournament_id):
                 both_found = True
                 break
         if current == loser:
+            print("found loser: ", current)
             loser_before = db.session.query(Competing.rank_before).filter_by(tournament=tournament_id, competitor=current).first()[0]
             loser_after = db.session.query(Competing.rank_after).filter_by(tournament=tournament_id, competitor=current).first()[0]
             found_loser = True

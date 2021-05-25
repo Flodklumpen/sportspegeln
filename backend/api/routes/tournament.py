@@ -186,7 +186,7 @@ def report_match():
         'score_challenger'
     ]
 
-    query.update_rank("bobbybobsonbobbingaround@gmail.com", "blomstedt98@gmail.com", 5)
+    query.update_rank("testy3@example.com", "testy1@example.com", 4)
 
     if not routes_help.existing_fields(data, required_fields):
         return jsonify({'message': "Missing required field(s)"}), 400
@@ -210,8 +210,6 @@ def report_match():
 
     query.report_match(data['match_id'], data['tournament_id'], date, time,
         timestamp, data['score_defender'], data['score_challenger'])
-
-    query.update_rank("bobbybobsonbobbingaround@gmail.com", "blomstedt98@gmail.com", 5)
 
     return jsonify({'message': 'Match reported'}), 200
 
