@@ -198,6 +198,9 @@ def report_match():
     if not query.is_match(data['tournament_id'], data['match_id']):
         return jsonify({'message': 'Match does not exist'}), 404
 
+    if query.is_reported(data['tournament_id'], data['match_id']):
+        return jsonify({'message': 'Match is already reported'}), 400
+
     date = routes_help.get_date_from_string(data['date'])
     if date is None:
         return jsonify({'message': 'Bad format of date'}), 400

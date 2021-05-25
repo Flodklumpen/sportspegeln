@@ -538,3 +538,15 @@ def add_competitor_to_rank(competitor_id, tournament_id):
         new_competitor.rank_before = competitor_last
 
         db.session.commit()
+
+
+def is_reported(tournament_id, match_id):
+    """
+    Checks if a given match is reported, by checking if it contains a timestamp
+
+    :param tournament_id: Int
+    :param match_id: Int
+    :return: Bool
+    """
+    match = db.session.query(Match).filter_by(id=match_id, tournament=tournament_id).first()
+    return match.timestamp_reported is not None
