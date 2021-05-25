@@ -1,4 +1,5 @@
 from datetime import datetime
+from ..models import query
 
 
 def existing_fields(data, fields):
@@ -49,3 +50,11 @@ def is_date_before(first_date, second_date):
     :returns: bool
     """
     return first_date < second_date
+
+
+def add_owner_name(tournaments):
+    for tournament in tournaments:
+        owner_info = query.get_user_data(tournament['owner'])
+        tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']
+
+    return tournaments

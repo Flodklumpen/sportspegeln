@@ -17,51 +17,31 @@ import {
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
+import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
+import { selectUserData } from "../reducers/getUserData";
+import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getOwnedTournaments";
 
 export function ProfileList() {
   const { user } = useAuth0();
 
-  //TODO: get these from server
-
-  const placeholderTournament = {
-    name: "Min turnering",
-    startDate: "2020-01-01",
-    endDate: "2021-12-31",
-    owner: "Klas-Göran"
-  }
-
-  const placeholderTournament2 = {
-    name: "Bästa turneringen nånsing bror",
-    startDate: "2020-01-01",
-    endDate: "",
-    owner: "Tobbe"
-  }
-
   let currentState = useSelector((state) => state);
 
   const token = currentState.userToken['currentUserToken'];
+  const userData = useSelector(selectUserData);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFutureMatches(user.email, token));
-    dispatch(fetchPastMatches(user.email, token));
-  }, [dispatch, user.email, token, currentState.changeMatch]);
+    dispatch(fetchFutureMatches(userData.email, token));
+    dispatch(fetchPastMatches(userData.email, token));
+    dispatch(fetchCompetingTournaments(userData.email, token));
+    dispatch(fetchOwnedTournaments(userData.email, token));
+  }, [dispatch, userData.email, token, currentState.changeMatch]);
 
   const futureMatches = currentState.match['futureMatches'];
   const pastMatches = currentState.match['pastMatches'];
-
-  const ownedTournaments = [
-    placeholderTournament,
-    placeholderTournament,
-    placeholderTournament2
-  ];
-
-  const competingTournaments = [
-    placeholderTournament,
-    placeholderTournament,
-    placeholderTournament2
-  ];
+  const competingTournaments = useSelector(selectCompetingTournaments);
+  const ownedTournaments = useSelector(selectOwnedTournaments);
 
   const getOpponent = (match) => {
     if (user.name === match.defender) {
@@ -81,18 +61,18 @@ export function ProfileList() {
         <div>{str}</div>
       );
     }
-  }
+  };
 
   const getMatchResult = (match) => {
-    var myScore = 0;
-    var opponentScore = 0;
+    let myScore = 0;
+    let opponentScore = 0;
     if (user.name === match.defender) {
       myScore = match.score_defender;
       opponentScore = match.score_challenger;
     } else {
       myScore = match.score_challenger;
       opponentScore = match.score_defender;
-    };
+    }
     if (myScore === 0 && opponentScore === 0) {
       return (
         <div>Resultat ej rapporterade</div>
@@ -105,7 +85,7 @@ export function ProfileList() {
         </div>
       );
     }
-  }
+  };
 
   const futureMatchList = futureMatches.map((futureMatch, index) =>
     <ListGroup.Item as="li" key={index}>
@@ -146,7 +126,7 @@ export function ProfileList() {
         </Col>
         <Col xs={10}>
           <b>{ownedTournament.name}</b><br />
-          {ownedTournament.startDate} - {ownedTournament.endDate}<br />
+          {ownedTournament.start_date} - {ownedTournament.end_date}<br />
         </Col>
       </Row>
     </ListGroup.Item>
@@ -160,7 +140,7 @@ export function ProfileList() {
         </Col>
         <Col xs={10}>
           <b>{competingTournament.name}</b><br />
-          {competingTournament.startDate} - {competingTournament.endDate}<br />
+          {competingTournament.start_date} - {competingTournament.end_date}<br />
         </Col>
       </Row>
     </ListGroup.Item>
