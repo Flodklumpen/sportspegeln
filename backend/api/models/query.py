@@ -420,16 +420,13 @@ def update_rank(winner, loser, tournament_id):
     """
     Updates the rank so that the winner is above the loser.
     """
-    print("hello")
     leader = get_leader(tournament_id)
     if not leader:
-        print("no leader")
-        return None #false?
+        return
 
-    #tournament = db.session.query(Tournament).get(tournament_id)
     tournament = Tournament.query.filter_by(id=tournament_id).first()
 
-    current = tournament.leader
+    current_email = tournament.leader
 
     if leader == loser:
         #we have a new leader
@@ -442,47 +439,46 @@ def update_rank(winner, loser, tournament_id):
     loser_before = None
     loser_after = None
 
-    while current:
-        print(current)
-        print(loser)
-        if current == winner:
-            print("found winner: ", current)
+    all_competing = Competing.query.filter_by(tournament=tournament_id)
+
+    while current_email:
+        current_competitor = all_competing.filter_by(competitor=current_email).first()
+        if current_email == winner:
             if found_loser == False:
                 # found winner before loser --> don't change order
-                print("winner before loser")
-                return None
+                return
             else:
-                winner_before = db.session.query(Competing.rank_before).filter_by(tournament=tournament_id, competitor=current).first()[0]
-                winner_after = db.session.query(Competing.rank_after).filter_by(tournament=tournament_id, competitor=current).first()[0]
+                winner_before = current_competitor.rank_before
+                winner_after = current_competitor.rank_after
                 both_found = True
                 break
-        if current == loser:
-            print("found loser: ", current)
-            loser_before = db.session.query(Competing.rank_before).filter_by(tournament=tournament_id, competitor=current).first()[0]
-            loser_after = db.session.query(Competing.rank_after).filter_by(tournament=tournament_id, competitor=current).first()[0]
+        if current_email == loser:
+            loser_before = current_competitor.rank_before
+            loser_after = current_competitor.rank_after
             found_loser = True
-        current = db.session.query(Competing.rank_after).filter_by(tournament=tournament_id, competitor=current).first()[0]
+        current_email = current_competitor.rank_after
 
-    if winner_before:
-        person_above_winner = Competing.query.filter_by(tournament=tournament_id, competitor=winner_before).first()
-        person_above_winner.rank_after = winner_after
+    if both_found:
+        if winner_before:
+            person_before_winner = all_competing.filter_by(competitor=winner_before).first()
+            person_before_winner.rank_after = winner_after
 
-    if winner_after:
-        person_below_winner = Competing.query.filter_by(tournament=tournament_id, competitor=winner_after).first()
-        person_below_winner.rank_before = winner_before
+        if winner_after:
+            person_after_winner = all_competing.filter_by(competitor=winner_after).first()
+            person_after_winner.rank_before = winner_before
 
-    if loser_before:
-        person_above_loser = Competing.query.filter_by(tournament=tournament_id, competitor=loser_before).first()
-        person_above_loser.rank_after = winner
+        if loser_before:
+            person_before_loser = all_competing.filter_by(competitor=loser_before).first()
+            person_before_loser.rank_after = winner
 
-    person_winner = Competing.query.filter_by(tournament=tournament_id, competitor=winner).first()
-    person_winner.rank_before = loser_before
-    person_winner.rank_after = loser
+        person_winner = all_competing.filter_by(competitor=winner).first()
+        person_winner.rank_before = loser_before
+        person_winner.rank_after = loser
 
-    person_loser = Competing.query.filter_by(tournament=tournament_id, competitor=loser).first()
-    person_loser.rank_before = winner
+        person_loser = all_competing.filter_by(competitor=loser).first()
+        person_loser.rank_before = winner
 
-    db.session.commit()
+        db.session.commit()
 
 
 
