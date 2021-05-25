@@ -26,11 +26,11 @@ def api():
                 ws_email = ws_data['email']
                 sessions[ws_email] = ws
                 print(sessions)
-                ws.send(json.dumps({"type": "handshake", "data":"hello world"}))
+                ws.send(json.dumps({"type": "handshake", "data":"connection awake"}))
 
 def close(email):
     if email in sessions:
-        del sessions[token]
+        del sessions[email]
 
 
 def inform_defender(defender_email, challenger_name):
@@ -40,7 +40,11 @@ def inform_defender(defender_email, challenger_name):
             "data": challenger_name + " har utmanat dig"
         }
         ws = sessions[defender_email]
-        ws.send(json.dumps(body))
+        try:
+            ws.send(json.dumps(body))
+        except:
+            print("connection closed")
+            close(defender_email)
 
 
 def print_session():

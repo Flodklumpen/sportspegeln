@@ -67,7 +67,9 @@ export function Profile() {
                   Turneringar jag tävlar i
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <button onClick={() => dispatch(createMatch("2", user.email, user.email, token))}>utmana mig själv</button>
+                  <button onClick={() => dispatch(createMatch("5", user.email, user.email, token))}>utmana mig själv</button>
+                  {/*Below: used to challenge a player in another window*/}
+                  {/*<button onClick={() => dispatch(createMatch("5", user.email, "bobbybobsonbobbingaround@gmail.com", token))}>utmana mig själv</button>*/}
                 </ListGroup.Item>
                 </div>
               </ListGroup>
