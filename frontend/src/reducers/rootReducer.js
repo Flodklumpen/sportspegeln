@@ -4,6 +4,8 @@ import tabSelectReducer from './tabSelect';
 import showHideListReducer from './profileList';
 import storeUserTokenReducer from "./storeToken";
 import tournamentReducer from "./tournament";
+import storeDefenderReducer from "./storeDefender";
+import storeCanChallenge from "./storeCanChallenge";
 import registerUserReducer from "./registerUser";
 import getUserDataReducer from "./getUserData";
 import getRankReducer from "./getRank";
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
   profileList: showHideListReducer,
   userToken: storeUserTokenReducer,
   tournament: tournamentReducer,
+  currentDefender: storeDefenderReducer,
+  canChallenge: storeCanChallenge,
   createTournament: createTournamentReducer,
   registerUser: registerUserReducer,
   userData: getUserDataReducer,

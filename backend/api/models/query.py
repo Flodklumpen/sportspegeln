@@ -66,7 +66,7 @@ def create_rank(tournament_id):
                 competing.rank_before = competitors[i - 1][0]
             if i != len(competitors) - 1:
                 competing.rank_after = competitors[i + 1][0]
-        db.session.commit()
+            db.session.commit()
 
 
 def create_match(match_id, tournament_id, date, time, challenger_email, defender_email):

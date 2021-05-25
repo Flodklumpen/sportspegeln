@@ -5,6 +5,7 @@ ws_bp = Blueprint('ws_bp', __name__)
 
 sessions = {}
 
+
 @ws_bp.route('/api')
 def api():
     """
@@ -27,6 +28,7 @@ def api():
                 sessions[ws_email] = ws
                 print(sessions)
                 ws.send(json.dumps({"type": "handshake", "data":"connection awake"}))
+
 
 def close(email):
     if email in sessions:
