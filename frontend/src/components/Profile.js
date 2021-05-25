@@ -6,13 +6,10 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import styles from '../css/Profile.module.css';
 import { ProfileList } from './ProfileList';
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from "react-redux";
 
 export function Profile() {
 
   const { user, isAuthenticated, isLoading } = useAuth0();
-
-  let currentState = useSelector((state) => state);
 
   if (isLoading) {
     return (<div>Loading...</div>);
@@ -29,7 +26,7 @@ export function Profile() {
       behavior: "smooth"
     });
   };
-  
+
 	return (
       <div>
         <Container>
