@@ -18,7 +18,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 
-export function Tournament() {
+export function Tournament(props) {
 
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);
@@ -59,9 +59,13 @@ export function Tournament() {
 	return (
 		<div>
 			<GetRank />
-			<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
-																																				tournament.id, userData.email,
-																																				token))}>Delta</Button>
+			{ props.authenticated ?
+				<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
+																																					tournament.id, userData.email,
+																																					token))}>Delta</Button>
+				:
+				''
+			}
 			<h1>{ tournament.name }</h1>
 			<Table striped bordered hover size="sm" className={styles.Table}>
 				<thead>
@@ -74,37 +78,41 @@ export function Tournament() {
 			  { listMaker }
 			  </tbody>
 			</Table>
-			<Modal show={show} onHide={ handleClose }>
-				<Modal.Header closeButton>
-          <Modal.Title>Utmaning</Modal.Title>
-        </Modal.Header>
-					{ canChallenge.canChallenge ?
-						<div>
-							<Modal.Body> Vill du utmana {currentDefender.defender[0]}? </Modal.Body>
-							<Modal.Footer>
-								<Button variant="secondary" onClick={handleClose}>
-                  Avbryt
-                </Button>
-								<Button variant="primary" onClick={ () => {handleClose();
-																													dispatch(createMatch(
-																														tournament.id, userData.email,
-																														currentDefender.defender[1], token));
-																													alert("Utmaningen har skickats. Lycka till!")}}>
-                  Ja
-                </Button>
-							</Modal.Footer>
-						</div>
-						:
-						<div>
-							<Modal.Body> Du kan endast utmana de som är högst tre steg ovanför dig </Modal.Body>
-							<Modal.Footer>
-								<Button variant="secondary" onClick={handleClose}>
-									Stäng
-								</Button>
-							</Modal.Footer>
-						</div>
-						}
-			</Modal>
+				{ props.authenticated ?
+				<Modal show={show} onHide={ handleClose }>
+					<Modal.Header closeButton>
+	          <Modal.Title>Utmaning</Modal.Title>
+	        </Modal.Header>
+							{	canChallenge.canChallenge ?
+									<div>
+										<Modal.Body> Vill du utmana {currentDefender.defender[0]}? </Modal.Body>
+										<Modal.Footer>
+											<Button variant="secondary" onClick={handleClose}>
+			                  Avbryt
+			                </Button>
+											<Button variant="primary" onClick={ () => {handleClose();
+																																dispatch(createMatch(
+																																	tournament.id, userData.email,
+																																	currentDefender.defender[1], token));
+																																alert("Utmaningen har skickats. Lycka till!")}}>
+			                  Ja
+			                </Button>
+										</Modal.Footer>
+									</div>
+									:
+									<div>
+										<Modal.Body> Du kan endast utmana de som är högst tre steg ovanför dig </Modal.Body>
+										<Modal.Footer>
+											<Button variant="secondary" onClick={handleClose}>
+												Stäng
+											</Button>
+										</Modal.Footer>
+									</div>
+							}
+				</Modal>
+				:
+				''
+			}
 		</div>
 	);
 }

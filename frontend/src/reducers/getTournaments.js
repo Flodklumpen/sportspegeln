@@ -12,9 +12,9 @@ export default function getTournamentsReducer(state = initialState, action) {
   }
 }
 
-export function fetchTournaments(email, token) {
+export function fetchTournaments() {
   return async function fetchTournamentsThunk(dispatch) {
-    const response = await client.get('/tournament/get_tournaments', email, token);
+    const response = await client.get('/tournament/get_tournaments', "", "");
     dispatch({type: 'data/tournamentsLoaded', payload: response.data});
 
   }

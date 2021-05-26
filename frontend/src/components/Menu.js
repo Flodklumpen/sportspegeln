@@ -50,7 +50,11 @@ export function Menu() {
             <Container>
               <Nav className="m-auto" defaultActiveKey={ getTab() }>
                 <Nav.Link href="#/">Hem</Nav.Link>
-                <Nav.Link href="#/profile">Profil</Nav.Link>
+                { isAuthenticated ?
+                  <Nav.Link href="#/profile">Profil</Nav.Link>
+                  :
+                  ''
+                }
                 <Nav.Link><ToggleLogInButton /> { ifAuthenticated() } </Nav.Link>
               </Nav>
             </Container>
@@ -60,7 +64,9 @@ export function Menu() {
       <div className={styles.content}>
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
-        <Route path="/tournament" component={ Tournament }/>
+        <Route path="/tournament" >
+          <Tournament authenticated={isAuthenticated}/>
+        </Route>
       </div>
     </HashRouter>
   );
