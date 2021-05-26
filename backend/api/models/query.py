@@ -451,14 +451,13 @@ def update_rank(winner, loser, tournament_id):
     winner_before = None
     winner_after = None
     loser_before = None
-    loser_after = None
 
     all_competing = Competing.query.filter_by(tournament=tournament_id)
 
     while current_email:
         current_competitor = all_competing.filter_by(competitor=current_email).first()
         if current_email == winner:
-            if found_loser == False:
+            if not found_loser:
                 # found winner before loser --> don't change order
                 return
             else:
@@ -468,7 +467,6 @@ def update_rank(winner, loser, tournament_id):
                 break
         if current_email == loser:
             loser_before = current_competitor.rank_before
-            loser_after = current_competitor.rank_after
             found_loser = True
         current_email = current_competitor.rank_after
 
