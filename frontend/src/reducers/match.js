@@ -39,3 +39,6 @@ export function fetchPastMatches(email, token) {
 
   }
 }
+
+export const selectFutureMatches = (state) => state.match.futureMatches;
+export const selectPastMatches = (state) => state.match.pastMatches;
