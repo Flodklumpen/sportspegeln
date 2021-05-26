@@ -210,13 +210,11 @@ def report_match():
     timestamp = datetime.now()
 
     query.report_match(data['match_id'], data['tournament_id'], date, time,
-        timestamp, data['score_defender'], data['score_challenger'])
+                       timestamp, data['score_defender'], data['score_challenger'])
 
     competitors = query.get_competitors(data['tournament_id'], data['match_id'])
 
-    if data['score_defender'] > data['score_challenger']:
-        query.update_rank(competitors['defender'], competitors['challenger'], data['tournament_id'])
-    else:
+    if data['score_defender'] < data['score_challenger']:
         query.update_rank(competitors['challenger'], competitors['defender'], data['tournament_id'])
 
     return jsonify({'message': 'Match reported'}), 200
