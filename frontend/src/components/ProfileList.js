@@ -16,7 +16,7 @@ import {
 } from '../reducers/profileList';
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
-import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
+import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMatches } from '../reducers/match';
 import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
 import { selectUserData } from "../reducers/getUserData";
 import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getOwnedTournaments";
@@ -38,8 +38,8 @@ export function ProfileList() {
     dispatch(fetchOwnedTournaments(userData.email, token));
   }, [dispatch, userData.email, token, currentState.changeMatch]);
 
-  const futureMatches = currentState.match['futureMatches'];
-  const pastMatches = currentState.match['pastMatches'];
+  const futureMatches = useSelector(selectFutureMatches);
+  const pastMatches = useSelector(selectPastMatches);
   const competingTournaments = useSelector(selectCompetingTournaments);
   const ownedTournaments = useSelector(selectOwnedTournaments);
 
@@ -87,7 +87,24 @@ export function ProfileList() {
     }
   };
 
-  const futureMatchList = futureMatches.map((futureMatch, index) =>
+  function compareMatches(a, b) {
+    if (a.date > b.date) {
+      return -1;
+    }
+    if (a.date < b.date) {
+      return 1;
+    }
+    // dates are equal, sort according to time
+    if (a.time > b.time) {
+      return -1;
+    }
+    if (a.time < b.time) {
+      return 1;
+    }
+    return 0;
+  }
+
+  const futureMatchList = futureMatches.sort(compareMatches).map((futureMatch, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
@@ -102,7 +119,7 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const pastMatchList = pastMatches.map((pastMatch, index) =>
+  const pastMatchList = pastMatches.sort(compareMatches).map((pastMatch, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
@@ -118,7 +135,24 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const ownedTournamentsList = ownedTournaments.map((ownedTournament, index) =>
+  function compareTournaments(a, b) {
+    if (a.start_date > b.start_date) {
+      return -1;
+    }
+    if (a.start_date < b.start_date) {
+      return 1;
+    }
+    // start dates are equal, sort according to end date
+    if (a.end_date > b.end_date || a.end_date === null) {
+      return -1;
+    }
+    if (a.end_date < b.end_date) {
+      return 1;
+    }
+    return 0;
+  }
+
+  const ownedTournamentsList = ownedTournaments.sort(compareTournaments).map((ownedTournament, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={10}>
@@ -129,7 +163,7 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const competingTournamentsList = competingTournaments.map((competingTournament, index) =>
+  const competingTournamentsList = competingTournaments.sort(compareTournaments).map((competingTournament, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={10}>
