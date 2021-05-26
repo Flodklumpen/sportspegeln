@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import {
   Route,
-  HashRouter
+  HashRouter,
+  Redirect
 } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Home from './Home';
@@ -15,14 +17,19 @@ import logo from '../images/logo_big.png';
 import { RegisterUser } from "../api/RegisterUser";
 import { GetUserData } from "../api/GetUserData";
 import { ToggleLogInButton } from "./ToggleLogInButton";
+import { selectTournament } from "../reducers/tournament";
 
 export function Menu() {
 
   const { isAuthenticated } = useAuth0();
+  const tournament = useSelector(selectTournament);
 
   function getTab() {
     if (window.location.href.includes("/profile")) {
         return "#/profile"
+      } else if (window.location.href.includes("/tournament")) {
+        //<Redirect to="/home"/>
+        return "#/"
       } else {
       return "#/"
     }
@@ -65,7 +72,7 @@ export function Menu() {
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
         <Route path="/tournament" >
-          <Tournament authenticated={isAuthenticated}/>
+          {tournament.id ? <Tournament authenticated={isAuthenticated}/> : <Redirect to="/" />}
         </Route>
       </div>
     </HashRouter>
