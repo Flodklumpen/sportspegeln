@@ -8,7 +8,7 @@ def existing_fields(data, fields):
 
 def filled_fields(data, fields):
     for field in fields:
-        if not data[field]:
+        if data[field] == "":
             return False
     return True
 

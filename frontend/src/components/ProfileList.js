@@ -73,9 +73,9 @@ export function ProfileList() {
       myScore = match.score_challenger;
       opponentScore = match.score_defender;
     }
-    if (myScore === 0 && opponentScore === 0) {
+    if (!match.reported) {
       return (
-        <div>Resultat ej rapporterade</div>
+        <div>Resultat ej rapporterat</div>
       );
     } else {
       return (
