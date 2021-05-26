@@ -443,7 +443,7 @@ def update_rank(winner, loser, tournament_id):
     current_email = tournament.leader
 
     if leader == loser:
-        #we have a new leader
+        # we have a new leader
         tournament.leader = winner
 
     found_loser = False
@@ -495,8 +495,6 @@ def update_rank(winner, loser, tournament_id):
         db.session.commit()
 
 
-
-
 """ Miscellanious functions """
 
 
@@ -532,7 +530,6 @@ def get_rank(tournament_id):
 
     current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
         tournament=tournament.id, competitor=leader).first()
-
 
     while current:
         user = db.session.query(User.first_name, User.family_name, User.email).filter_by(
