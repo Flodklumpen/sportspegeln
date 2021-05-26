@@ -20,6 +20,14 @@ export function Menu() {
 
   const { isAuthenticated } = useAuth0();
 
+  function getTab() {
+    if (window.location.href.includes("/profile")) {
+        return "#/profile"
+      } else {
+      return "#/"
+    }
+  }
+
   function ifAuthenticated() {
     if (isAuthenticated) {
       return (
@@ -40,7 +48,7 @@ export function Menu() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Container>
-              <Nav className="m-auto">
+              <Nav className="m-auto" defaultActiveKey={ getTab() }>
                 <Nav.Link href="#/">Hem</Nav.Link>
                 <Nav.Link href="#/profile">Profil</Nav.Link>
                 <Nav.Link><ToggleLogInButton /> { ifAuthenticated() } </Nav.Link>
@@ -52,9 +60,7 @@ export function Menu() {
       <div className={styles.content}>
         <Route exact path="/" component={ Home }/>
         <Route path="/profile" component={ Profile }/>
-        <Route path="/tournament" >
-          <Tournament/>
-        </Route>
+        <Route path="/tournament" component={ Tournament }/>
       </div>
     </HashRouter>
   );
