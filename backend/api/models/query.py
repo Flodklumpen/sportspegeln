@@ -523,12 +523,16 @@ def get_rank(tournament_id):
     """
     rank = []
 
-    if not get_leader(tournament_id):
+    leader = get_leader(tournament_id)
+
+    if not leader:
         create_rank(tournament_id)
 
     tournament = db.session.query(Tournament).get(tournament_id)
+
     current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
-        tournament=tournament.id).first()
+        tournament=tournament.id, competitor=leader).first()
+
 
     while current:
         user = db.session.query(User.first_name, User.family_name, User.email).filter_by(
