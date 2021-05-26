@@ -110,7 +110,7 @@ test('report true - cannot submit with empty fields', async () => {
 
     await screen.findByText('Redigera match');
 
-    fireEvent.click(screen.getByText('Spara'));
+    fireEvent.click(screen.getByText('Rapportera'));
     await sleep(500);
   });
 
