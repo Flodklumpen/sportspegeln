@@ -9,7 +9,7 @@ import { selectUserData } from "../../reducers/getUserData";
 import { createTournament } from "../../reducers/createTournament";
 import { selectStoreToken } from "../../reducers/storeToken";
 
-export function CreateTournament() {
+export function CreateTournament(props) {
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
@@ -46,9 +46,13 @@ export function CreateTournament() {
 
   return (
     <div>
-      <Button className={styles.createTournament} variant="primary" onClick={() => {setShow(true); setValidated(false);}}>
-        Ny turnering
-      </Button>
+      { props.authenticated ?
+        <Button className={styles.createTournament} variant="primary" onClick={() => {setShow(true); setValidated(false);}}>
+          Ny turnering
+        </Button>
+        :
+        ''
+      }
 
       <Modal show={show} onHide={ handleClose }>
         <Modal.Header closeButton>

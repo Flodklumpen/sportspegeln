@@ -12,9 +12,9 @@ export default function getRankReducer(state = initialState, action) {
   }
 }
 
-export function fetchRank(email, id, token) {
+export function fetchRank(id) {
   return async function fetchRankThunk(dispatch) {
-    const response = await client.get('/tournament/get_rank?tournament=' + id, email, token);
+    const response = await client.get('/tournament/get_rank?tournament=' + id, "", "");
     dispatch({type: 'data/rankLoaded', payload: response.data});
   }
 }

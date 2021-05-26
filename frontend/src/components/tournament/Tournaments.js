@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import '../../css/Tournaments.module.css';
@@ -11,7 +10,6 @@ import { useSelector } from "react-redux";
 import { selectTournaments } from "../../reducers/getTournaments";
 
 export function Tournaments() {
-	const { isAuthenticated } = useAuth0();
 	const dispatch = useDispatch();
 	const tournaments = useSelector(selectTournaments);
 
@@ -23,18 +21,9 @@ export function Tournaments() {
     </tr>
 	);
 
-	function ifAuthenticated() {
-    if (isAuthenticated) {
-      return (
-        <GetTournaments />
-      );
-    }
-    return null;
-  }
-
 	return (
 		<div>
-			{ ifAuthenticated() }
+			<GetTournaments />
 			<Table striped bordered hover size="sm" className="tournamentTable">
 			  <thead>
 			    <tr>

@@ -7,7 +7,11 @@ import { w3cwebsocket } from "websocket";
 
 function App() {
 
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return (<h1>Laddar sidan...</h1>);
+  }
 
   if (isAuthenticated) {
   	const socket = new w3cwebsocket("ws://localhost:5000/ws/api");
