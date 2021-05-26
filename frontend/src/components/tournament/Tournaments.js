@@ -13,7 +13,17 @@ export function Tournaments() {
 	const dispatch = useDispatch();
 	const tournaments = useSelector(selectTournaments);
 
-	const listTournaments = tournaments.map((tournament) =>
+	const listTournaments = tournaments.sort(
+		function (a, b) {
+			if (a.start_date > b.start_date) {
+				return -1;
+			}
+			if (a.start_date < b.start_date) {
+				return 1;
+			}
+			return 0;
+		}
+	).map((tournament) =>
 	  <tr key={tournament.id}>
 	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament" className={styles.tournamentLink}>{tournament.name}</Link></td>
       <td>{tournament.start_date}</td>
