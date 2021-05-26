@@ -523,6 +523,7 @@ def get_rank(tournament_id):
 
     if not leader:
         create_rank(tournament_id)
+        leader = get_leader(tournament_id)
 
     tournament = db.session.query(Tournament).get(tournament_id)
 
