@@ -199,7 +199,7 @@ def get_tournaments():
         Tournament.end_date,
         Tournament.owner
     ).all()
-    
+
     tournaments = []
     if result is not None:
         tournaments = query_help.create_tournament_response(result)
@@ -351,7 +351,8 @@ def get_past_matches(email):
             'challenger_email': String,
             'defender_email': String,
             'score_defender': Int,
-            'score_challenger': Int
+            'score_challenger': Int,
+            'reported': Bool
         }
     """
     current_date = date.today()
@@ -371,10 +372,23 @@ def get_past_matches(email):
                 'challenger_email' : match.challenger,
                 'defender_email' : match.defender,
                 'score_defender' : match.score_defender,
-                'score_challenger' : match.score_challenger
+                'score_challenger' : match.score_challenger,
+                'reported' : match.timestamp_reported is not None
             }
             past_matches.append(curr_match)
     return past_matches
+
+
+def get_competitors(tournament_id, match_id):
+    result = db.session.query(Match.defender, Match.challenger).filter_by(
+        tournament=tournament_id, id=match_id).first()
+    if result is not None:
+        competitors = {
+            'defender': result.defender,
+            'challenger': result.challenger
+        }
+        return competitors
+    return None
 
 
 """Functions to edit information in the database"""
@@ -416,6 +430,69 @@ def report_match(match_id, tour_id, date, time, timestamp, score_defender, score
     db.session.commit()
 
 
+def update_rank(winner, loser, tournament_id):
+    """
+    Updates the rank so that the winner is above the loser.
+    """
+    leader = get_leader(tournament_id)
+    if not leader:
+        return
+
+    tournament = Tournament.query.filter_by(id=tournament_id).first()
+
+    current_email = tournament.leader
+
+    if leader == loser:
+        # we have a new leader
+        tournament.leader = winner
+
+    found_loser = False
+    both_found = False
+    winner_before = None
+    winner_after = None
+    loser_before = None
+
+    all_competing = Competing.query.filter_by(tournament=tournament_id)
+
+    while current_email:
+        current_competitor = all_competing.filter_by(competitor=current_email).first()
+        if current_email == winner:
+            if not found_loser:
+                # found winner before loser --> don't change order
+                return
+            else:
+                winner_before = current_competitor.rank_before
+                winner_after = current_competitor.rank_after
+                both_found = True
+                break
+        if current_email == loser:
+            loser_before = current_competitor.rank_before
+            found_loser = True
+        current_email = current_competitor.rank_after
+
+    if both_found:
+        if winner_before:
+            person_before_winner = all_competing.filter_by(competitor=winner_before).first()
+            person_before_winner.rank_after = winner_after
+
+        if winner_after:
+            person_after_winner = all_competing.filter_by(competitor=winner_after).first()
+            person_after_winner.rank_before = winner_before
+
+        if loser_before:
+            person_before_loser = all_competing.filter_by(competitor=loser_before).first()
+            person_before_loser.rank_after = winner
+
+        person_winner = all_competing.filter_by(competitor=winner).first()
+        person_winner.rank_before = loser_before
+        person_winner.rank_after = loser
+
+        person_loser = all_competing.filter_by(competitor=loser).first()
+        person_loser.rank_before = winner
+
+        db.session.commit()
+
+
 """ Miscellanious functions """
 
 
@@ -442,12 +519,15 @@ def get_rank(tournament_id):
     """
     rank = []
 
-    if not get_leader(tournament_id):
+    leader = get_leader(tournament_id)
+
+    if not leader:
         create_rank(tournament_id)
 
     tournament = db.session.query(Tournament).get(tournament_id)
+
     current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
-        tournament=tournament.id).first()
+        tournament=tournament.id, competitor=leader).first()
 
     while current:
         user = db.session.query(User.first_name, User.family_name, User.email).filter_by(
@@ -471,3 +551,15 @@ def add_competitor_to_rank(competitor_id, tournament_id):
         new_competitor.rank_before = competitor_last
 
         db.session.commit()
+
+
+def is_reported(tournament_id, match_id):
+    """
+    Checks if a given match is reported, by checking if it contains a timestamp
+
+    :param tournament_id: Int
+    :param match_id: Int
+    :return: Bool
+    """
+    match = db.session.query(Match).filter_by(id=match_id, tournament=tournament_id).first()
+    return match.timestamp_reported is not None

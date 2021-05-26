@@ -37,26 +37,39 @@ export function Match(props) {
 
   const match = props.match;
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleCloseConfirm = () => {
+    setShowConfirm(false);
+  };
+
+  const dispatchReport = (values) => {
+    dispatch(reportMatch(
+      match.tournament_id, match.id, values.date, values.time,
+      values.score_challenger, values.score_defender, user.email, token));
+    handleCloseConfirm();
+    handleClose();
+  }
+
   const submitMatch = (values) => {
 
     if (props.report) {
-      dispatch(reportMatch(
-        match.tournament_id, match.id, values.date, values.time,
-        values.score_challenger, values.score_defender, user.email, token
-      ));
+      setShowConfirm(true);
     } else {
       dispatch(editMatch(
         match.tournament_id, match.id, values.date, values.time, user.email,
         token
       ));
+      handleClose();
     }
 
-    handleClose();
   };
 
   return (
     <div>
-      <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+      { (props.report && match.reported) ? '' :
+        <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+      }
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -65,7 +78,7 @@ export function Match(props) {
         <Modal.Body>
           <Formik
             initialValues={match}
-            onSubmit={(values) => submitMatch(values)}
+            onSubmit={submitMatch}
           >
             {({
               handleChange,
@@ -131,9 +144,35 @@ export function Match(props) {
 
                 <Form.Row id="form-submit">
                   <Form.Group className={styles.submitArea}>
-                    <Button variant="primary" type="submit">
-                      Spara
-                    </Button>
+                    { props.report ?
+                      <div>
+                        <Button variant="primary" type="submit">
+                          Rapportera
+                        </Button>
+
+                        <Modal show={showConfirm} onHide={handleCloseConfirm}>
+                          <Modal.Header closeButton>
+                            <Modal.Title>Bekräfta rapportering</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            Är du säker på att du vill rapportera dessa resultat? Detta kan inte ändras i efterhand.
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseConfirm}>
+                              Avbryt
+                            </Button>
+                            <Button variant="primary" onClick={() => dispatchReport(values)}>
+                              Ja
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
+                      </div>
+                      :
+                      <Button variant="primary" type="submit">
+                        Spara
+                      </Button>
+                    }
+
                   </Form.Group>
 
                   <Form.Group className={styles.submitButtons}>
