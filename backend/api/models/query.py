@@ -563,3 +563,22 @@ def is_reported(tournament_id, match_id):
     """
     match = db.session.query(Match).filter_by(id=match_id, tournament=tournament_id).first()
     return match.timestamp_reported is not None
+
+
+def can_challenge(challenger_email, defender_email, tournament_id):
+    """
+    Checks if a given defender is within 3 placements above a challenger.
+
+    :param challenger_email: String
+    :param defender_email: String
+    :param tournament_id: Int
+    :return: Bool
+    """
+    all_competitors = db.session.query(Competing).filter_by(tournament=tournament_id)
+    challenger = all_competitors.filter_by(competitor=challenger_email).first()
+    current = challenger.rank_before
+    for i in range(3):
+        if current == defender_email:
+            return True
+        current = all_competitors.filter_by(rank_after=current).first().competitor
+    return False

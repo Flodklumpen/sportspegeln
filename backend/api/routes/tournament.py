@@ -119,6 +119,9 @@ def create_challenge():
     if not query.is_tournament(data['tournament_id']):
         return jsonify({'message': 'CreateTournament does not exist'}), 404
 
+    if not query.can_challenge(data['challenger'], data['defender'], data['tournament_id']):
+        return jsonify({'message': "Defender is not within 3 positions above challenger"}), 400
+
     id = query.get_next_match_id(data['tournament_id'])
 
     query.create_challenge(id, data['tournament_id'], data['challenger'], data['defender'])
