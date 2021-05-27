@@ -8,6 +8,7 @@ import EditTournament from './tournament/EditTournament';
 import { Match } from './Match';
 import { selectUserData } from "../reducers/getUserData";
 import { selectEditTournament } from '../reducers/editTournament';
+import { selectStoreToken } from "../reducers/storeToken";
 import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
 import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
 import {
@@ -29,15 +30,14 @@ import {
 import styles from '../css/Profile.module.css';
 
 export function ProfileList() {
-  const { user } = useAuth0();
 
+  const { user } = useAuth0();
+  const dispatch = useDispatch();
   let currentState = useSelector((state) => state);
 
-  const token = currentState.userToken['currentUserToken'];
+  const token = useSelector(selectStoreToken);
   const userData = useSelector(selectUserData);
   const tournamentEdited = useSelector(selectEditTournament);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchFutureMatches(userData.email, token));
@@ -229,7 +229,8 @@ export function ProfileList() {
               </h2>
             </Col>
             <Col xs={2}>
-              <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+              <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction}
+                   src={resource.arrow} alt="Visa/Dölj"/>
             </Col>
           </Row>
         </ListGroup.Item>

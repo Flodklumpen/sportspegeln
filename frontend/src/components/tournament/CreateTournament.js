@@ -10,6 +10,7 @@ import { selectStoreToken } from "../../reducers/storeToken";
 import styles from '../../css/SubmitModal.module.css';
 
 export function CreateTournament(props) {
+
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();

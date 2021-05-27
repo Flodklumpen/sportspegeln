@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	defender: []
+	defender: {
+		name: "",
+		email: ""
+	}
 };
 
 export const storeDefenderSlice = createSlice({
@@ -9,13 +12,14 @@ export const storeDefenderSlice = createSlice({
 	initialState,
 	reducers: {
 		updateCurrentDefender: (state, defender) => {
-			state.defender = defender.payload;
+			state.defender.name = defender.payload[0];
+			state.defender.email = defender.payload[1];
 		}
 	}
 });
 
 export const { updateCurrentDefender } = storeDefenderSlice.actions;
 
-export const selectStoreDefender = (state) => state.currentDefender;
+export const selectStoreDefender = (state) => state.currentDefender.defender;
 
 export default storeDefenderSlice.reducer;

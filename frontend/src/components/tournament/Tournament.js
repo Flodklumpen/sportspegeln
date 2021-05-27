@@ -17,10 +17,7 @@ export function Tournament(props) {
 
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);
-	const handleClose = () => {
-		setShow(false);
-		dispatch(updateCanChallenge(false));
-	};
+	let currentState = useSelector((state) => state);
 
 	const userData = useSelector(selectUserData);
 	const token = useSelector(selectStoreToken);
@@ -29,7 +26,10 @@ export function Tournament(props) {
 	const currentDefender = useSelector(selectStoreDefender);
 	const canChallenge = useSelector(selectCanChallenge);
 
-	let currentState = useSelector((state) => state);
+	const handleClose = () => {
+		setShow(false);
+		dispatch(updateCanChallenge(false));
+	};
 
 	useEffect(() => {
 		dispatch(fetchRank(tournament.id));
@@ -53,7 +53,9 @@ export function Tournament(props) {
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
 		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender(competitor));
-		                                                                checkRank(index); }}>{competitor[0]}</td>
+		                                                                checkRank(index);}}
+		  >
+			  {competitor[0]}</td>
     </tr>
 	);
 
@@ -61,8 +63,10 @@ export function Tournament(props) {
 		<div>
 			{ props.authenticated ?
 				<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
-																																					tournament.id, userData.email,
-																																					token))}>Delta</Button>
+					tournament.id, userData.email, token))}
+				>
+					Delta
+				</Button>
 				:
 				''
 			}
@@ -78,14 +82,15 @@ export function Tournament(props) {
 			  { listMaker }
 			  </tbody>
 			</Table>
-				{ props.authenticated ?
+
+			{ props.authenticated ?
 				<Modal show={show} onHide={ handleClose }>
 					<Modal.Header closeButton>
 	          <Modal.Title>Utmaning</Modal.Title>
 	        </Modal.Header>
 							{	canChallenge.canChallenge ?
 									<div>
-										<Modal.Body> Vill du utmana {currentDefender.defender[0]}? </Modal.Body>
+										<Modal.Body> Vill du utmana {currentDefender.name}? </Modal.Body>
 										<Modal.Footer>
 											<Button variant="secondary" onClick={handleClose}>
 			                  Avbryt
@@ -93,7 +98,7 @@ export function Tournament(props) {
 											<Button variant="primary" onClick={ () => {handleClose();
 																																dispatch(createMatch(
 																																	tournament.id, userData.email,
-																																	currentDefender.defender[1], token));
+																																	currentDefender.email, token));
 																																alert("Utmaningen har skickats. Lycka till!")}}>
 			                  Ja
 			                </Button>

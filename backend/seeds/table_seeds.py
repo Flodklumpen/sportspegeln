@@ -46,7 +46,7 @@ class UserSeeder(Seeder):
         faker3 = Faker(
             cls=Tournament,
             init={
-                "id": generator.Integer(start=1, end=5),
+                "id": generator.Integer(start=1, end=50),
                 "name": generator.String("[a-w]{8}"),
                 "start_date": date.today(),
                 "owner": owners[0]

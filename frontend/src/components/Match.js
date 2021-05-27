@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
 import { editMatch, reportMatch } from '../reducers/changeMatch';
-import { useSelector, useDispatch } from "react-redux";
+import { selectStoreToken } from "../reducers/storeToken";
+import { selectUserData } from "../reducers/getUserData";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
 
 export function Match(props) {
 
   const dispatch = useDispatch();
-
-  let currentState = useSelector((state) => state);
-
-  const token = currentState.userToken['currentUserToken'];
-
-  const user = currentState.userData;
-
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleClose = () => setShow(false);
-
+  const token = useSelector(selectStoreToken);
+  const user = useSelector(selectUserData);
   const match = props.match;
 
-  const [showConfirm, setShowConfirm] = useState(false);
+  const handleClose = () => setShow(false);
 
   const handleCloseConfirm = () => {
     setShowConfirm(false);
@@ -58,7 +54,6 @@ export function Match(props) {
       { (props.report && match.reported) ? '' :
         <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
       }
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Redigera match</Modal.Title>
@@ -174,7 +169,6 @@ export function Match(props) {
           </Formik>
         </Modal.Body>
       </Modal>
-
     </div>
   );
 }

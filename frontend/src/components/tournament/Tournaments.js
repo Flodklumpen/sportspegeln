@@ -8,8 +8,10 @@ import {fetchAllTournaments, selectTournaments} from "../../reducers/getTourname
 import styles from '../../css/Tournaments.module.css';
 
 export function Tournaments() {
+
 	const dispatch = useDispatch();
 	let currentState = useSelector((state) => state);
+
 	const tournaments = useSelector(selectTournaments);
 
 	useEffect(() => {
