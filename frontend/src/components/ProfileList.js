@@ -20,6 +20,8 @@ import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMa
 import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
 import { selectUserData } from "../reducers/getUserData";
 import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getOwnedTournaments";
+import { selectEditTournament } from '../reducers/editTournament';
+import EditTournament from './tournament/EditTournament';
 
 export function ProfileList() {
   const { user } = useAuth0();
@@ -28,6 +30,7 @@ export function ProfileList() {
 
   const token = currentState.userToken['currentUserToken'];
   const userData = useSelector(selectUserData);
+  const tournamentEdited = useSelector(selectEditTournament);
 
   const dispatch = useDispatch();
 
@@ -36,7 +39,7 @@ export function ProfileList() {
     dispatch(fetchPastMatches(userData.email, token));
     dispatch(fetchCompetingTournaments(userData.email, token));
     dispatch(fetchOwnedTournaments(userData.email, token));
-  }, [dispatch, userData.email, token, currentState.changeMatch]);
+  }, [dispatch, userData.email, token, currentState.changeMatch, tournamentEdited]);
 
   const futureMatches = useSelector(selectFutureMatches);
   const pastMatches = useSelector(selectPastMatches);
@@ -88,6 +91,9 @@ export function ProfileList() {
   };
 
   function compareMatches(a, b) {
+    if (!a.reported) {
+      return -1;
+    }
     if (a.date > b.date) {
       return -1;
     }
@@ -155,6 +161,9 @@ export function ProfileList() {
   const ownedTournamentsList = ownedTournaments.sort(compareTournaments).map((ownedTournament, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
+        <Col xs={2}>
+          <EditTournament tournament={ownedTournament} />
+        </Col>
         <Col xs={10}>
           <b>{ownedTournament.name}</b><br />
           {ownedTournament.start_date} - {ownedTournament.end_date}<br />

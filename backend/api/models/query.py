@@ -116,6 +116,13 @@ def is_owner(owner_email):
     return db.session.query(Owner.email).filter_by(email=owner_email).first() is not None
 
 
+def is_owner_of_tournament(owner_email, tournament_id):
+    """
+    Returns true if a given user is the owner of a given tournament.
+    """
+    return db.session.query(Tournament).filter_by(id=tournament_id, owner=owner_email) is not None
+
+
 def is_tournament(tour_id):
     """
     Returns true if a given id is in the tournament table.
@@ -491,6 +498,20 @@ def update_rank(winner, loser, tournament_id):
         person_loser.rank_before = winner
 
         db.session.commit()
+
+
+def edit_tournament(tournament_id, start_date, end_date):
+    """
+    Updates a tournament with given info.
+
+    :param tour_id: Int
+    :param start_date: DateTime object
+    :param end_time: DateTime object or None
+    """
+    tournament = Tournament.query.filter_by(id=tournament_id).first()
+    tournament.start_date = start_date
+    tournament.end_date = end_date
+    db.session.commit()
 
 
 """ Miscellanious functions """
