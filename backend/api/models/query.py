@@ -120,7 +120,7 @@ def is_owner_of_tournament(owner_email, tournament_id):
     """
     Returns true if a given user is the owner of a given tournament.
     """
-    return db.session.query(Tournament).filter_by(id=tournament_id, owner=owner_email) is not None
+    return db.session.query(Tournament).filter_by(id=tournament_id, owner=owner_email).first() is not None
 
 
 def is_tournament(tour_id):

@@ -78,7 +78,7 @@ def edit_tournament():
     owner = request.headers.get("User", None)
     if not query.is_owner_of_tournament(owner, data['tournament_id']):
         return jsonify({"code": "not_owner",
-                        "description": "Non-owner tried to edit a tournament"}, 401)
+                        "description": "Non-owner tried to edit a tournament"}), 401
 
     start_date = routes_help.get_date_from_string(data['start_date'])
     if start_date is None:
