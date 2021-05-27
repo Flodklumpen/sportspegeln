@@ -51,12 +51,12 @@ export default function EditTournament(props) {
               <Form id="edit-tournament-form" onSubmit={handleSubmit}>
                 <Form.Group controlId="edit-tournament-start-date">
                   <Form.Label>Startdatum:</Form.Label>
-                  <Form.Control name="start_date" type="date" value={values.start_date} onChange={handleChange} required/>
+                  <Form.Control name="start_date" type="date" value={values.start_date || ""} onChange={handleChange} required/>
                 </Form.Group>
 
                 <Form.Group controlId="edit-tournament-end-date">
                   <Form.Label>Slutdatum (kan anges senare):</Form.Label>
-                  <Form.Control name="end_date" type="date" value={values.end_date} onChange={handleChange} />
+                  <Form.Control name="end_date" type="date" value={values.end_date || ""} onChange={handleChange} />
                 </Form.Group>
 
                 <Form.Row id="form-submit">
