@@ -43,7 +43,8 @@ def get_rank(tournament_id):
         user = db.session.query(User.first_name, User.family_name, User.email).filter_by(
             email=current.competitor).first()
         current_name = user[0] + ' ' + user[1]
-        rank.append([current_name, user[2]])
+        rank.append({'name': current_name,
+                     'email': user[2]})
         current = db.session.query(Competing.competitor, Competing.rank_after).filter_by(
             competitor=current.rank_after, tournament=tournament.id).first()
 

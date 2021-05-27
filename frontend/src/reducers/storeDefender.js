@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	defender: {
 		name: "",
-		email: ""
+		email: "",
+		rank: -1
 	}
 };
 
@@ -12,8 +13,9 @@ export const storeDefenderSlice = createSlice({
 	initialState,
 	reducers: {
 		updateCurrentDefender: (state, defender) => {
-			state.defender.name = defender.payload[0];
-			state.defender.email = defender.payload[1];
+			state.defender.name = defender.payload[0].name;
+			state.defender.email = defender.payload[0].email;
+			state.defender.rank = defender.payload[1];
 		}
 	}
 });

@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import { updateCurrentDefender, selectStoreDefender } from "../../reducers/storeDefender";
 import { updateCanChallenge, selectCanChallenge } from "../../reducers/storeCanChallenge";
 import { selectTournament } from "../../reducers/tournament";
-import { fetchRank, selectRank } from "../../reducers/getRank";
+import getRank, { fetchRank, selectRank } from "../../reducers/getRank";
 import { selectStoreToken } from "../../reducers/storeToken";
 import { selectUserData } from "../../reducers/getUserData";
 import { joinTournament } from "../../reducers/joinTournament";
@@ -42,7 +42,7 @@ export function Tournament(props) {
 			if (!rank[i]) {
 				break;
 			}
-			if (rank[i][1] === userData.email) {
+			if (rank[i].email === userData.email) {
 				dispatch(updateCanChallenge(true));
 			}
 		}
@@ -52,10 +52,10 @@ export function Tournament(props) {
 	const listMaker = rank.map((competitor, index) =>
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
-		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender(competitor));
-		                                                                checkRank(index);}}
+		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender([competitor, index]));
+		                                                                  checkRank(index);}}
 		  >
-			  {competitor[0]}</td>
+			  {competitor.name}</td>
     </tr>
 	);
 
