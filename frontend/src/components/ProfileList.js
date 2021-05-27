@@ -96,8 +96,14 @@ export function ProfileList() {
   };
 
   function compareMatches(a, b) {
+    if (!a.reported && !b.reported) {
+      return 0;
+    }
     if (!a.reported) {
       return -1;
+    }
+    if (!b.reported) {
+      return 1;
     }
     if (a.date > b.date) {
       return -1;
