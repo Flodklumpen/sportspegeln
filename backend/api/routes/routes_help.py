@@ -49,7 +49,7 @@ def is_date_before(first_date, second_date):
     :param second_date: datetime object
     :returns: bool
     """
-    return first_date < second_date
+    return first_date <= second_date
 
 
 def add_owner_name(tournaments):

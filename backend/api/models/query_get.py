@@ -248,3 +248,25 @@ def get_competitors(tournament_id, match_id):
         }
         return competitors
     return None
+
+
+def get_tournament_dates(tournament_id):
+    """
+    Returns the start and end date of a given tournament
+
+    :param tournament_id: Int
+    :returns: a dict on the form
+        {
+            'start_date': DateTime object,
+            'end_date': DateTime object,
+        }
+    """
+    result = db.session.query(Tournament.start_date, Tournament.end_date).filter_by(
+        id=tournament_id).first()
+    if result is not None:
+        dates = {
+            'start_date': result.start_date.date(),
+            'end_date': result.end_date.date()
+        }
+        return dates
+    return None
