@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import styles from '../../css/SubmitModal.module.css';
-import Pencil from '../../images/pencil-fill.svg';
 import { Formik } from 'formik';
 import { editTournament } from '../../reducers/editTournament';
-import { useSelector, useDispatch } from "react-redux";
 import { selectStoreToken } from '../../reducers/storeToken';
 import { selectUserData } from '../../reducers/getUserData';
+import styles from '../../css/SubmitModal.module.css';
+import Pencil from '../../images/pencil-fill.svg';
 
 export default function EditTournament(props) {
 
@@ -77,7 +77,6 @@ export default function EditTournament(props) {
           </Formik>
         </Modal.Body>
       </Modal>
-
     </div>
   );
 }

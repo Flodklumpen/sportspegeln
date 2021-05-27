@@ -4,10 +4,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import styles from '../../css/SubmitModal.module.css';
 import { selectUserData } from "../../reducers/getUserData";
 import { createTournament } from "../../reducers/createTournament";
 import { selectStoreToken } from "../../reducers/storeToken";
+import styles from '../../css/SubmitModal.module.css';
 
 export function CreateTournament(props) {
   const [show, setShow] = useState(false);

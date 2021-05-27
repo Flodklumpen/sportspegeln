@@ -1,9 +1,21 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useAuth0 } from "@auth0/auth0-react";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import styles from '../css/Profile.module.css';
+import EditTournament from './tournament/EditTournament';
+import { Match } from './Match';
+import { selectUserData } from "../reducers/getUserData";
+import { selectEditTournament } from '../reducers/editTournament';
+import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
+import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
+import {
+  fetchPastMatches,
+  fetchFutureMatches,
+  selectFutureMatches,
+  selectPastMatches
+} from '../reducers/match';
 import {
   futureMatchReducer,
   pastMatchReducer,
@@ -14,14 +26,7 @@ import {
   selectOwnedTournament,
   selectCompetingTournament
 } from '../reducers/profileList';
-import { Match } from './Match';
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMatches } from '../reducers/match';
-import { selectUserData } from "../reducers/getUserData";
-import { selectEditTournament } from '../reducers/editTournament';
-import EditTournament from './tournament/EditTournament';
-import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
-import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
+import styles from '../css/Profile.module.css';
 
 export function ProfileList() {
   const { user } = useAuth0();

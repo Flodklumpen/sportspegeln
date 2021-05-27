@@ -1,21 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {
-	updateCurrentDefender,
-	selectStoreDefender } from "../../reducers/storeDefender";
-import {
-	updateCanChallenge,
-	selectCanChallenge } from "../../reducers/storeCanChallenge";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Table from "react-bootstrap/Table";
+import { updateCurrentDefender, selectStoreDefender } from "../../reducers/storeDefender";
+import { updateCanChallenge, selectCanChallenge } from "../../reducers/storeCanChallenge";
 import { selectTournament } from "../../reducers/tournament";
-import {fetchRank, selectRank} from "../../reducers/getRank";
+import { fetchRank, selectRank } from "../../reducers/getRank";
 import { selectStoreToken } from "../../reducers/storeToken";
 import { selectUserData } from "../../reducers/getUserData";
 import { joinTournament } from "../../reducers/joinTournament";
 import { createMatch } from "../../reducers/changeMatch";
 import styles from "../../css/Tournament.module.css";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Table from "react-bootstrap/Table";
 
 export function Tournament(props) {
 

@@ -1,27 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import styles from '../css/SubmitModal.module.css';
-import Pencil from '../images/pencil-fill.svg';
-import { Formik } from 'formik';
 import { editMatch, reportMatch } from '../reducers/changeMatch';
 import { useSelector, useDispatch } from "react-redux";
+import styles from '../css/SubmitModal.module.css';
+import Pencil from '../images/pencil-fill.svg';
 
 export function Match(props) {
-  /*
-  Take in a match on the following format-ish:
-  {
-    tournamentName: STRING,
-    date: STRING,
-    time: STRING,
-    challenger: STRING,
-    defender: STRING,
-    scoreChallenger: NUMBER,
-    scoreDefender: NUMBER
-  }
-  */
 
   const dispatch = useDispatch();
 

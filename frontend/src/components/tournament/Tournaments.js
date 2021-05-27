@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { useDispatch } from "react-redux";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import '../../css/Tournaments.module.css';
-import styles from '../../css/Tournaments.module.css';
-import { useDispatch } from "react-redux";
 import { updateTournament } from "../../reducers/tournament";
-import { GetTournaments } from "../../api/GetTournaments";
 import { useSelector } from "react-redux";
-import { selectTournaments } from "../../reducers/getTournaments";
+import {fetchAllTournaments, selectTournaments} from "../../reducers/getTournaments";
+import styles from '../../css/Tournaments.module.css';
 
 export function Tournaments() {
 	const dispatch = useDispatch();
+	let currentState = useSelector((state) => state);
 	const tournaments = useSelector(selectTournaments);
+
+	useEffect(() => {
+		dispatch(fetchAllTournaments());
+	}, [dispatch, currentState.createTournament]);
 
 	const listTournaments = tournaments.sort(
 		function (a, b) {
@@ -25,7 +28,8 @@ export function Tournaments() {
 		}
 	).map((tournament) =>
 	  <tr key={tournament.id}>
-	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament" className={styles.tournamentLink}>{tournament.name}</Link></td>
+	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament"
+	              className={styles.tournamentLink}>{tournament.name}</Link></td>
       <td>{tournament.start_date}</td>
 	    <td>{tournament.owner_name}</td>
     </tr>
@@ -33,8 +37,7 @@ export function Tournaments() {
 
 	return (
 		<div>
-			<GetTournaments />
-			<Table striped bordered hover size="sm" className="tournamentTable">
+			<Table striped bordered hover size="sm">
 			  <thead>
 			    <tr>
 			      <th>Turnering</th>
