@@ -16,6 +16,7 @@ import joinTournamentReducer from "./joinTournament";
 import changeMatchReducer from './changeMatch';
 import matchReducer from './match';
 import createTournamentReducer from "./createTournament";
+import editTournamentReducer from "./editTournament";
 
 const rootReducer = combineReducers({
   tabSelect: tabSelectReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   joinTournament: joinTournamentReducer,
   changeMatch: changeMatchReducer,
   match: matchReducer,
+  editTournament: editTournamentReducer,
 });
 
 export default rootReducer

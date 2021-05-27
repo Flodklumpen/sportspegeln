@@ -58,6 +58,44 @@ def create_tournament():
     return jsonify({'message': 'CreateTournament created', 'data': tournament_id}), 200
 
 
+@tournament_bp.route('/edit_tournament', methods=['PUT'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def edit_tournament():
+    """
+    Edit the dates of a given tournament
+    """
+    data = request.get_json()
+    required_fields = ['tournament_id', 'start_date']
+
+    if not routes_help.existing_fields(data, required_fields):
+        return jsonify({'message': "Missing required field(s)"}), 400
+
+    if not routes_help.filled_fields(data, required_fields):
+        return jsonify({'message': "Required field(s) not filled"}), 400
+
+    # don't need to check that the user exists, since it has gone through auth
+    owner = request.headers.get("User", None)
+    if not query.is_owner_of_tournament(owner, data['tournament_id']):
+        return jsonify({"code": "not_owner",
+                        "description": "Non-owner tried to edit a tournament"}), 401
+
+    start_date = routes_help.get_date_from_string(data['start_date'])
+    if start_date is None:
+        return jsonify({'message': 'Bad format of start_date'}), 400
+
+    if 'end_date' not in data or not data['end_date']:
+        end_date = None
+    else:
+        end_date = routes_help.get_date_from_string(data['end_date'])
+        if end_date is None:
+            return jsonify({'message': 'Bad format of end_date'}), 400
+
+    query.edit_tournament(data['tournament_id'], start_date, end_date)
+
+    return jsonify({'message': 'Tournament edited.'}), 200
+
+
 @tournament_bp.route('/add_competitor', methods=['POST'])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
