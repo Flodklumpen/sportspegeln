@@ -49,7 +49,7 @@ export function Match(props) {
       values.score_challenger, values.score_defender, user.email, token));
     handleCloseConfirm();
     handleClose();
-  }
+  };
 
   const submitMatch = (values) => {
 

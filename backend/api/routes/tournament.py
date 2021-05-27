@@ -303,8 +303,8 @@ def get_past_matches():
     return jsonify({'message': "Found past matches", "data": future_matches}), 200
 
 
-@tournament_bp.route('/get_tournaments', methods=['GET'])
-def get_tournaments():
+@tournament_bp.route('/get_all_tournaments', methods=['GET'])
+def get_all_tournaments():
     """
     Returns all tournaments.
     """

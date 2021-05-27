@@ -1,23 +1,60 @@
 import { client } from "../client";
 
-const initialState = [];
+const initialState = {
+  allTournaments: [],
+  ownedTournaments: [],
+  competingTournaments: []
+};
 
 export default function getTournamentsReducer(state = initialState, action) {
   switch (action.type) {
-    case 'data/tournamentsLoaded': {
-      return action.payload
+    case 'data/allTournaments': {
+      return {
+        ...state,
+        allTournaments: action.payload
+      }
+    }
+    case 'data/ownedTournaments': {
+      return {
+        ...state,
+        ownedTournaments: action.payload
+      }
+    }
+    case 'data/competingTournaments': {
+      return {
+        ...state,
+        competingTournaments: action.payload
+      }
     }
     default:
       return state
   }
 }
 
-export function fetchTournaments() {
-  return async function fetchTournamentsThunk(dispatch) {
-    const response = await client.get('/tournament/get_tournaments', "", "");
-    dispatch({type: 'data/tournamentsLoaded', payload: response.data});
+export function fetchAllTournaments() {
+  return async function fetchAllTournamentsThunk(dispatch) {
+    const response = await client.get('/tournament/get_all_tournaments', "", "");
+    dispatch({type: 'data/allTournaments', payload: response.data});
 
   }
 }
 
-export const selectTournaments = (state) => state.tournaments;
+export function fetchOwnedTournaments(email, token) {
+  return async function fetchOwnedTournamentsThunk(dispatch) {
+    const response = await client.get('/tournament/get_owned_tournaments?email=' + email, email, token);
+    dispatch({type: 'data/ownedTournaments', payload: response.data});
+
+  }
+}
+
+export function fetchCompetingTournaments(email, token) {
+  return async function fetchCompetingTournamentsThunk(dispatch) {
+    const response = await client.get('/tournament/get_competing_tournaments?email=' + email, email, token);
+    dispatch({type: 'data/competingTournamentsLoaded', payload: response.data});
+
+  }
+}
+
+export const selectTournaments = (state) => state.tournaments.allTournaments;
+export const selectOwnedTournaments = (state) => state.tournaments.ownedTournaments;
+export const selectCompetingTournaments = (state) => state.tournaments.competingTournaments;

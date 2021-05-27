@@ -17,11 +17,13 @@ import {
 import { Match } from './Match';
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMatches } from '../reducers/match';
-import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
 import { selectUserData } from "../reducers/getUserData";
-import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getOwnedTournaments";
 import { selectEditTournament } from '../reducers/editTournament';
 import EditTournament from './tournament/EditTournament';
+import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
+import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
+import { selectUserData } from "../reducers/getUserData";
+import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
 
 export function ProfileList() {
   const { user } = useAuth0();

@@ -10,8 +10,6 @@ import registerUserReducer from "./registerUser";
 import getUserDataReducer from "./getUserData";
 import getRankReducer from "./getRank";
 import getTournamentsReducer from "./getTournaments";
-import getCompetingTournamentsReducer from "./getCompetingTournaments";
-import getOwnedTournamentsReducer from "./getOwnedTournaments";
 import joinTournamentReducer from "./joinTournament";
 import changeMatchReducer from './changeMatch';
 import matchReducer from './match';
@@ -30,8 +28,6 @@ const rootReducer = combineReducers({
   userData: getUserDataReducer,
   rank: getRankReducer,
   tournaments: getTournamentsReducer,
-  competingTournaments: getCompetingTournamentsReducer,
-  ownedTournaments: getOwnedTournamentsReducer,
   joinTournament: joinTournamentReducer,
   changeMatch: changeMatchReducer,
   match: matchReducer,
