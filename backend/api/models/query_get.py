@@ -264,9 +264,12 @@ def get_tournament_dates(tournament_id):
     result = db.session.query(Tournament.start_date, Tournament.end_date).filter_by(
         id=tournament_id).first()
     if result is not None:
+        end_date = result.end_date
+        if end_date:
+            end_date = end_date.date()
         dates = {
             'start_date': result.start_date.date(),
-            'end_date': result.end_date.date()
+            'end_date': end_date
         }
         return dates
     return None

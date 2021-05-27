@@ -205,9 +205,9 @@ def edit_match():
         if not tournament_dates:
             return jsonify({'message': 'Failed to get tournament dates'}), 500
 
-        if not (routes_help.is_date_before(tournament_dates['start_date'], date)
-            and routes_help.is_date_before(date, tournament_dates['end_date'])):
-
+        if date and not routes_help.is_date_before(tournament_dates['start_date'], date):
+            return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
+        if date and tournament_dates['end_date'] and not routes_help.is_date_before(date, tournament_dates['end_date']):
             return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
 
     if 'time' not in data or not data['time']:
@@ -259,8 +259,9 @@ def report_match():
     if not tournament_dates:
         return jsonify({'message': 'Failed to get tournament dates'}), 500
 
-    if not (routes_help.is_date_before(tournament_dates['start_date'], date)
-        and routes_help.is_date_before(date, tournament_dates['end_date'])):
+    if date and not routes_help.is_date_before(tournament_dates['start_date'], date):
+        return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
+    if date and tournament_dates['end_date'] and not routes_help.is_date_before(date, tournament_dates['end_date']):
         return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
 
     time = routes_help.get_time_from_string(data['time'])
