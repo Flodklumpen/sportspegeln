@@ -33,9 +33,7 @@ export function Tournaments() {
 
 	return (
 		<div>
-			{console.log("tournaments: ", tournaments)}
 			<GetTournaments />
-			{console.log("tournaments: ", tournaments)}
 			<Table striped bordered hover size="sm" className="tournamentTable">
 			  <thead>
 			    <tr>

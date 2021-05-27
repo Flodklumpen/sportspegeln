@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import {
 	updateCurrentDefender,
@@ -7,10 +7,9 @@ import {
 	updateCanChallenge,
 	selectCanChallenge } from "../../reducers/storeCanChallenge";
 import { selectTournament } from "../../reducers/tournament";
-import { selectRank } from "../../reducers/getRank";
+import {fetchRank, selectRank} from "../../reducers/getRank";
 import { selectStoreToken } from "../../reducers/storeToken";
 import { selectUserData } from "../../reducers/getUserData";
-import { GetRank } from "../../api/GetRank";
 import { joinTournament } from "../../reducers/joinTournament";
 import { createMatch } from "../../reducers/changeMatch";
 import styles from "../../css/Tournament.module.css";
@@ -33,6 +32,12 @@ export function Tournament(props) {
 	const rank = useSelector(selectRank);
 	const currentDefender = useSelector(selectStoreDefender);
 	const canChallenge = useSelector(selectCanChallenge);
+
+	let currentState = useSelector((state) => state);
+
+	useEffect(() => {
+		dispatch(fetchRank(tournament.id));
+  }, [dispatch, tournament.id, currentState.joinTournament]);
 
 	const checkRank = (pos) => {
 		let i;
@@ -58,7 +63,6 @@ export function Tournament(props) {
 
 	return (
 		<div>
-			<GetRank />
 			{ props.authenticated ?
 				<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
 																																					tournament.id, userData.email,
