@@ -100,18 +100,18 @@ export function Match(props) {
                   <Form.Group as={Col} controlId="match-modal-date">
                     <Form.Label>Datum:</Form.Label>
                     { props.report ?
-                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange} required/>
+                      <Form.Control name="date" type="date" value={values.date || ""} onChange={handleChange} required/>
                       :
-                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange}/>
+                      <Form.Control name="date" type="date" value={values.date || ""} onChange={handleChange}/>
                     }
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="match-modal-time">
                     <Form.Label>Tid:</Form.Label>
                     { props.report ?
-                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange} required/>
+                      <Form.Control name="time" type="time" value={values.time || ""} onChange={handleChange} required/>
                       :
-                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange}/>
+                      <Form.Control name="time" type="time" value={values.time || ""} onChange={handleChange}/>
                     }
                   </Form.Group>
                 </Form.Row>
@@ -130,12 +130,12 @@ export function Match(props) {
                     <Form.Row>
                       <Form.Group as={Col} controlId="match-modal-score-challenger">
                         <Form.Label>Utmanare:</Form.Label>
-                        <Form.Control name="score_challenger" type="number" value={values.score_challenger} onChange={handleChange} required/>
+                        <Form.Control name="score_challenger" type="number" value={values.score_challenger || ""} onChange={handleChange} required/>
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="match-modal-score-defender">
                         <Form.Label>Försvarare:</Form.Label>
-                        <Form.Control name="score_defender" type="number" value={values.score_defender} onChange={handleChange} required/>
+                        <Form.Control name="score_defender" type="number" value={values.score_defender || ""} onChange={handleChange} required/>
                       </Form.Group>
                     </Form.Row>
                   </div>

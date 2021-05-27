@@ -20,9 +20,7 @@ import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMa
 import { selectUserData } from "../reducers/getUserData";
 import { selectEditTournament } from '../reducers/editTournament';
 import EditTournament from './tournament/EditTournament';
-import { fetchPastMatches, fetchFutureMatches } from '../reducers/match';
 import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
-import { selectUserData } from "../reducers/getUserData";
 import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
 
 export function ProfileList() {

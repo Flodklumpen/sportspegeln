@@ -34,24 +34,27 @@ export default function getTournamentsReducer(state = initialState, action) {
 export function fetchAllTournaments() {
   return async function fetchAllTournamentsThunk(dispatch) {
     const response = await client.get('/tournament/get_all_tournaments', "", "");
-    dispatch({type: 'data/allTournaments', payload: response.data});
-
+    if (response) {
+      dispatch({type: 'data/allTournaments', payload: response.data});
+    }
   }
 }
 
 export function fetchOwnedTournaments(email, token) {
   return async function fetchOwnedTournamentsThunk(dispatch) {
     const response = await client.get('/tournament/get_owned_tournaments?email=' + email, email, token);
-    dispatch({type: 'data/ownedTournaments', payload: response.data});
-
+    if (response) {
+      dispatch({type: 'data/ownedTournaments', payload: response.data});
+    }
   }
 }
 
 export function fetchCompetingTournaments(email, token) {
   return async function fetchCompetingTournamentsThunk(dispatch) {
     const response = await client.get('/tournament/get_competing_tournaments?email=' + email, email, token);
-    dispatch({type: 'data/competingTournamentsLoaded', payload: response.data});
-
+    if (response) {
+      dispatch({type: 'data/competingTournamentsLoaded', payload: response.data});
+    }
   }
 }
 

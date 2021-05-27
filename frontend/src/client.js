@@ -4,6 +4,14 @@
 export async function client(endpoint, user, token, { body, ...customConfig } = {}) {
   const headers = { 'Content-Type': 'application/json', 'User': user, 'Authorization': token };
 
+  if (typeof user === 'undefined') {
+    return null;
+  }
+
+  if (typeof token === 'undefined') {
+    return null;
+  }
+
   const config = {
     method: body ? 'POST' : 'GET',
     ...customConfig,

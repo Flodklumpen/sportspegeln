@@ -39,7 +39,9 @@ export function createMatch(tournamentID, challenger, defender, token) {
   body['challenger'] = challenger;
   return async function createMatchThunk(dispatch) {
     const response = await client.post('/tournament/create_challenge', body, challenger, token);
-    dispatch({ type: 'data/matchCreate', payload: response });
+    if (response) {
+      dispatch({ type: 'data/matchCreate', payload: response });
+    }
   };
 }
 
