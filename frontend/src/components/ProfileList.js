@@ -96,8 +96,14 @@ export function ProfileList() {
   };
 
   function compareMatches(a, b) {
+    if (!a.reported && !b.reported) {
+      return 0;
+    }
     if (!a.reported) {
       return -1;
+    }
+    if (!b.reported) {
+      return 1;
     }
     if (a.date > b.date) {
       return -1;
@@ -115,11 +121,20 @@ export function ProfileList() {
     return 0;
   }
 
+  const competingTournamentsDict = {};
+  for (const tournament of competingTournaments) {
+    competingTournamentsDict[tournament.id] = tournament;
+  }
+
   const futureMatchList = futureMatches.sort(compareMatches).map((futureMatch, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
-          <Match report={false} match={futureMatch}/>
+          <Match
+            report={false}
+            match={futureMatch}
+            tournament={competingTournamentsDict[futureMatch.tournament_id]}
+          />
         </Col>
         <Col xs={10}>
           <b>Mot {getOpponent(futureMatch)}</b><br />
@@ -134,7 +149,11 @@ export function ProfileList() {
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
-          <Match report={true} match={pastMatch} />
+          <Match
+            report={true}
+            match={pastMatch}
+            tournament={competingTournamentsDict[pastMatch.tournament_id]}
+          />
         </Col>
         <Col xs={10}>
           <b>Mot {getOpponent(pastMatch)}</b><br />

@@ -34,6 +34,11 @@ export function CreateTournament(props) {
       form.noEnd.removeAttribute("required");
     }
 
+    if (form.startDate.value > form.endDate.value) {
+      alert("Start date must be before end date!");
+      return;
+    }
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -42,6 +47,7 @@ export function CreateTournament(props) {
       dispatch(createTournament(form.tourName.value, ownerData['email'], form.startDate.value, form.endDate.value, token));
       handleClose();
     }
+
     setValidated(true);
   };
 

@@ -22,6 +22,10 @@ export default function EditTournament(props) {
   const handleClose = () => setShow(false);
 
   const submitTournament = (values) => {
+    if (values.start_date > values.end_date) {
+      alert("Start date must be before end date!");
+      return;
+    }
     dispatch(editTournament(tournament.id, values.start_date, values.end_date, user.email, token));
     handleClose();
   };

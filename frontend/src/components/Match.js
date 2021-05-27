@@ -27,6 +27,20 @@ export function Match(props) {
     setShowConfirm(false);
   };
 
+  const is_valid_dates = (date) => {
+    if (date) {
+      if (date < props.tournament.start_date) {
+        return false;
+      }
+      if (props.tournament.end_date) {
+        if (date > props.tournament.end_date) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   const dispatchReport = (values) => {
     dispatch(reportMatch(
       match.tournament_id, match.id, values.date, values.time,
@@ -36,7 +50,10 @@ export function Match(props) {
   };
 
   const submitMatch = (values) => {
-
+    if (!is_valid_dates(values.date)) {
+      alert("Dates must be during tournament!");
+      return;
+    }
     if (props.report) {
       setShowConfirm(true);
     } else {

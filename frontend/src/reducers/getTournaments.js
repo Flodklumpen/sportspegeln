@@ -53,7 +53,7 @@ export function fetchCompetingTournaments(email, token) {
   return async function fetchCompetingTournamentsThunk(dispatch) {
     const response = await client.get('/tournament/get_competing_tournaments?email=' + email, email, token);
     if (response) {
-      dispatch({type: 'data/competingTournamentsLoaded', payload: response.data});
+      dispatch({type: 'data/competingTournaments', payload: response.data});
     }
   }
 }
