@@ -26,6 +26,12 @@ export function Tournaments() {
 			if (a.start_date < b.start_date) {
 				return 1;
 			}
+			if (a.end_date > b.end_date) {
+	      return -1;
+	    }
+	    if (a.end_date < b.end_date  || a.end_date === null) {
+	      return 1;
+	    }
 			return 0;
 		}
 	).map((tournament) =>
@@ -33,6 +39,7 @@ export function Tournaments() {
 	    <td><Link onClick={() => dispatch(updateTournament(tournament))} to="/tournament"
 	              className={styles.tournamentLink}>{tournament.name}</Link></td>
       <td>{tournament.start_date}</td>
+			<td>{tournament.end_date || "-"}</td>
 	    <td>{tournament.owner_name}</td>
     </tr>
 	);
@@ -44,6 +51,7 @@ export function Tournaments() {
 			    <tr>
 			      <th>Turnering</th>
 				    <th>Startdatum</th>
+						<th>Slutdatum</th>
 			      <th>Ägare</th>
 			    </tr>
 			  </thead>
