@@ -52,10 +52,16 @@ def get_rank(tournament_id):
 
 
 def add_competitor_to_rank(competitor_id, tournament_id):
+    """
+    Adds a given competitor to the end of a given tournament's rank.
+
+    :param competitor_id: String
+    :param tournament_id: Int
+    """
     if get_leader(tournament_id):
         rank = get_rank(tournament_id)
 
-        competitor_last = rank[-1][1]
+        competitor_last = rank[-1]['email']
         competing_last = db.session.query(Competing).get([competitor_last, tournament_id])
         competing_last.rank_after = competitor_id
         new_competitor = db.session.query(Competing).get([competitor_id, tournament_id])

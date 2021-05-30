@@ -239,6 +239,17 @@ def get_past_matches(email):
 
 
 def get_competitors(tournament_id, match_id):
+    """
+    Returns the competitors of a given match
+
+    :param tournament_id: Int
+    :param match_id: Int
+    :returns: a dict on the form
+        {
+            'defender': String
+            'challenger': String
+        }
+    """
     result = db.session.query(Match.defender, Match.challenger).filter_by(
         tournament=tournament_id, id=match_id).first()
     if result is not None:
