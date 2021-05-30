@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import { updateCurrentDefender, selectStoreDefender } from "../../reducers/storeDefender";
 import { updateCanChallenge, selectCanChallenge } from "../../reducers/storeCanChallenge";
 import { selectTournament } from "../../reducers/tournament";
-import getRank, { fetchRank, selectRank } from "../../reducers/getRank";
+import { fetchRank, selectRank } from "../../reducers/getRank";
 import { selectStoreToken } from "../../reducers/storeToken";
 import { selectUserData } from "../../reducers/getUserData";
 import { joinTournament } from "../../reducers/joinTournament";

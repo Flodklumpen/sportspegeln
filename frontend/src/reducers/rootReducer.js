@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import tabSelectReducer from './tabSelect';
-import showHideListReducer from './profileList';
+import toggleProfileListReducer from './profileList';
 import storeUserTokenReducer from "./storeToken";
 import tournamentReducer from "./tournament";
 import storeDefenderReducer from "./storeDefender";
@@ -18,7 +18,7 @@ import editTournamentReducer from "./editTournament";
 
 const rootReducer = combineReducers({
   tabSelect: tabSelectReducer,
-  profileList: showHideListReducer,
+  toggleProfileList: toggleProfileListReducer,
   userToken: storeUserTokenReducer,
   tournament: tournamentReducer,
   currentDefender: storeDefenderReducer,

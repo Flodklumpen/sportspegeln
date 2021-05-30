@@ -3,19 +3,19 @@ import ArrowDown from '../images/caret-down.svg';
 import ArrowUp from '../images/caret-up.svg';
 
 const initialState = {
-  futureMatch: {
+  futureMatchState: {
     class: "d-none d-sm-block",
     arrow: ArrowDown
   },
-  pastMatch: {
+  pastMatchState: {
     class: "d-none d-sm-block",
     arrow: ArrowDown
   },
-  ownedTournament: {
+  ownedTournamentState: {
     class: "d-none d-sm-block",
     arrow: ArrowDown
   },
-  competingTournament: {
+  competingTournamentState: {
     class: "d-none d-sm-block",
     arrow: ArrowDown
   }
@@ -35,24 +35,24 @@ export const profileListSlice = createSlice({
   name: "profileList",
   initialState,
   reducers: {
-    futureMatchReducer: (state) => { reducerHelp(state.futureMatch) },
-    pastMatchReducer: (state) => { reducerHelp(state.pastMatch) },
-    ownedTournamentReducer: (state) => { reducerHelp(state.ownedTournament) },
-    competingTournamentReducer: (state) => { reducerHelp(state.competingTournament) },
+    toggleFutureMatchState: (state) => { reducerHelp(state.futureMatchState) },
+    togglePastMatchState: (state) => { reducerHelp(state.pastMatchState) },
+    toggleOwnedTournamentState: (state) => { reducerHelp(state.ownedTournamentState) },
+    toggleCompetingTournamentState: (state) => { reducerHelp(state.competingTournamentState) },
   },
 });
 
 export const {
-  futureMatchReducer,
-  pastMatchReducer,
-  ownedTournamentReducer,
-  competingTournamentReducer
+  toggleFutureMatchState,
+  togglePastMatchState,
+  toggleOwnedTournamentState,
+  toggleCompetingTournamentState
 } = profileListSlice.actions;
 
 
-export const selectFutureMatch = (state) => state.profileList.futureMatch;
-export const selectPastMatch = (state) => state.profileList.pastMatch;
-export const selectOwnedTournament = (state) => state.profileList.ownedTournament;
-export const selectCompetingTournament = (state) => state.profileList.competingTournament;
+export const selectFutureMatchState = (state) => state.toggleProfileList.futureMatchState;
+export const selectPastMatchState = (state) => state.toggleProfileList.pastMatchState;
+export const selectOwnedTournamentsState = (state) => state.toggleProfileList.ownedTournamentState;
+export const selectCompetingTournamentsState = (state) => state.toggleProfileList.competingTournamentState;
 
 export default profileListSlice.reducer;

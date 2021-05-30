@@ -18,14 +18,14 @@ import {
   selectPastMatches
 } from '../reducers/match';
 import {
-  futureMatchReducer,
-  pastMatchReducer,
-  ownedTournamentReducer,
-  competingTournamentReducer,
-  selectFutureMatch,
-  selectPastMatch,
-  selectOwnedTournament,
-  selectCompetingTournament
+  toggleFutureMatchState,
+  togglePastMatchState,
+  toggleOwnedTournamentState,
+  toggleCompetingTournamentState,
+  selectFutureMatchState,
+  selectPastMatchState,
+  selectOwnedTournamentsState,
+  selectCompetingTournamentsState
 } from '../reducers/profileList';
 import styles from '../css/Profile.module.css';
 
@@ -207,10 +207,10 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const futureMatch = useSelector(selectFutureMatch);
-  const pastMatch = useSelector(selectPastMatch);
-  const ownedTournament = useSelector(selectOwnedTournament);
-  const competingTournament = useSelector(selectCompetingTournament);
+  const futureMatchState = useSelector(selectFutureMatchState);
+  const pastMatchState = useSelector(selectPastMatchState);
+  const ownedTournamentState = useSelector(selectOwnedTournamentsState);
+  const competingTournamentState = useSelector(selectCompetingTournamentsState);
 
 
 
@@ -219,20 +219,20 @@ export function ProfileList() {
     let resource;
     switch(listName) {
       case "futureMatch":
-        onClickFunction = ()=>dispatch(futureMatchReducer());
-        resource = futureMatch;
+        onClickFunction = ()=>dispatch(toggleFutureMatchState());
+        resource = futureMatchState;
         break;
       case "pastMatch":
-        onClickFunction = ()=>dispatch(pastMatchReducer());
-        resource = pastMatch;
+        onClickFunction = ()=>dispatch(togglePastMatchState());
+        resource = pastMatchState;
         break;
       case "ownedTournament":
-        onClickFunction = ()=>dispatch(ownedTournamentReducer());
-        resource = ownedTournament;
+        onClickFunction = ()=>dispatch(toggleOwnedTournamentState());
+        resource = ownedTournamentState;
         break;
       case "competingTournament":
-        onClickFunction = ()=>dispatch(competingTournamentReducer());
-        resource = competingTournament;
+        onClickFunction = ()=>dispatch(toggleCompetingTournamentState());
+        resource = competingTournamentState;
         break;
       default:
         return (<div>Unknown</div>);
