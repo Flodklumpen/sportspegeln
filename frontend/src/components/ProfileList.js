@@ -31,13 +31,13 @@ import styles from '../css/Profile.module.css';
 
 export function ProfileList() {
 
-  const { user } = useAuth0();
   const dispatch = useDispatch();
   let currentState = useSelector((state) => state);
 
   const token = useSelector(selectStoreToken);
   const userData = useSelector(selectUserData);
   const tournamentEdited = useSelector(selectEditTournament);
+  const userName = userData.first_name + " " + userData.family_name;
 
   useEffect(() => {
     dispatch(fetchFutureMatches(userData.email, token));
@@ -52,7 +52,7 @@ export function ProfileList() {
   const ownedTournaments = useSelector(selectOwnedTournaments);
 
   const getOpponent = (match) => {
-    if (user.name === match.defender) {
+    if (userName === match.defender) {
       return match.challenger;
     } else {
       return match.defender;
@@ -74,7 +74,7 @@ export function ProfileList() {
   const getMatchResult = (match) => {
     let myScore = 0;
     let opponentScore = 0;
-    if (user.name === match.defender) {
+    if (userName === match.defender) {
       myScore = match.score_defender;
       opponentScore = match.score_challenger;
     } else {

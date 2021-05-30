@@ -10,6 +10,7 @@ import { selectStoreToken } from "../reducers/storeToken";
 import { selectUserData } from "../reducers/getUserData";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
+import Pen from '../images/pen-fill.svg';
 
 export function Match(props) {
 
@@ -66,10 +67,12 @@ export function Match(props) {
 
   };
 
+  const icon = (props.report ? Pen : Pencil);
+
   return (
     <div>
       { (props.report && match.reported) ? '' :
-        <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+        <img src={icon} alt="Redigera" onClick={() => setShow(true)}/>
       }
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

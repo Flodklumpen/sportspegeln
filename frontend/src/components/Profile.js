@@ -9,11 +9,7 @@ import styles from '../css/Profile.module.css';
 
 export function Profile() {
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return (<div>Loading...</div>);
-  }
+  const { user, isAuthenticated } = useAuth0();
 
   if (!isAuthenticated) {
     return (<div>Not authenticated</div>);
