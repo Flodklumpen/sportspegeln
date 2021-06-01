@@ -27,16 +27,17 @@ The matches in the tournaments are timebased and the player who has won the most
 ## Technichal specification
 
 - Framework client-side: React + Redux
+- CSS framework: React Bootstrap
 - We use Auth0 to ensure a secure sign in.
-- Server: Flask
+- Server: Flask. Run server using WSGIServer
 - Database: SQLAlchemy
-- Testing: Postman and Selenium. ([Link](https://www.getpostman.com/collections/56f11a2217e705260b7d) to import tests in Postman)
+- Testing: Postman and ~~Selenium~~ React's testing library. ([Link](https://www.getpostman.com/collections/56f11a2217e705260b7d) to import tests in Postman)
 
 ### Techniques for streamlining
 
 - Use seeders and migration of the database, to streamline changes to the database.
-- Write scripts for buildning and running the client/server
-- Write a simple serverstub for the client
+- ~~Write scripts for buildning and running the client/server~~
+- ~~Write a simple serverstub for the client~~
 - Use a specific file/files for contact between frontend and backend
 - Use external libraries for styling the components (like Material UI)
 
