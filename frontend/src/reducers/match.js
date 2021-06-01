@@ -27,16 +27,18 @@ export default function matchReducer(state=initialState, action) {
 export function fetchFutureMatches(email, token) {
   return async function fetchFutureMatchesThunk(dispatch) {
     const response = await client.get('/tournament/get_future_matches?email=' + email, email, token);
-    dispatch({type: 'data/futureMatchesLoaded', payload: response.data});
-
+    if (response) {
+      dispatch({type: 'data/futureMatchesLoaded', payload: response.data});
+    }
   }
 }
 
 export function fetchPastMatches(email, token) {
   return async function fetchPastMatchesThunk(dispatch) {
     const response = await client.get('/tournament/get_past_matches?email=' + email, email, token);
-    dispatch({type: 'data/pastMatchesLoaded', payload: response.data});
-
+    if (response) {
+      dispatch({type: 'data/pastMatchesLoaded', payload: response.data});
+    }
   }
 }
 

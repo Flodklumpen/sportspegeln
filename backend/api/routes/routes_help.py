@@ -49,10 +49,16 @@ def is_date_before(first_date, second_date):
     :param second_date: datetime object
     :returns: bool
     """
-    return first_date < second_date
+    return first_date <= second_date
 
 
 def add_owner_name(tournaments):
+    """
+    Adds the first and last name of the owner to a given list of tournament-dicts
+
+    :param tournaments: Array of dicts
+    :returns: Array of dicts
+    """
     for tournament in tournaments:
         owner_info = query.get_user_data(tournament['owner'])
         tournament['owner_name'] = owner_info['first_name'] + ' ' + owner_info['family_name']

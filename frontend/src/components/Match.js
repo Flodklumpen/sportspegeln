@@ -1,47 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { Formik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
+import { editMatch, reportMatch } from '../reducers/changeMatch';
+import { selectStoreToken } from "../reducers/storeToken";
+import { selectUserData } from "../reducers/getUserData";
 import styles from '../css/SubmitModal.module.css';
 import Pencil from '../images/pencil-fill.svg';
-import { Formik } from 'formik';
-import { editMatch, reportMatch } from '../reducers/changeMatch';
-import { useSelector, useDispatch } from "react-redux";
+import Pen from '../images/pen-fill.svg';
 
 export function Match(props) {
-  /*
-  Take in a match on the following format-ish:
-  {
-    tournamentName: STRING,
-    date: STRING,
-    time: STRING,
-    challenger: STRING,
-    defender: STRING,
-    scoreChallenger: NUMBER,
-    scoreDefender: NUMBER
-  }
-  */
 
   const dispatch = useDispatch();
-
-  let currentState = useSelector((state) => state);
-
-  const token = currentState.userToken['currentUserToken'];
-
-  const user = currentState.userData;
-
   const [show, setShow] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleClose = () => setShow(false);
-
+  const token = useSelector(selectStoreToken);
+  const user = useSelector(selectUserData);
   const match = props.match;
 
-  const [showConfirm, setShowConfirm] = useState(false);
+  const handleClose = () => setShow(false);
 
   const handleCloseConfirm = () => {
     setShowConfirm(false);
   };
+
+  const is_valid_dates = (date) => {
+    if (date) {
+      if (date < props.tournament.start_date) {
+        return false;
+      }
+      if (props.tournament.end_date) {
+        if (date > props.tournament.end_date) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   const dispatchReport = (values) => {
     dispatch(reportMatch(
@@ -49,10 +48,13 @@ export function Match(props) {
       values.score_challenger, values.score_defender, user.email, token));
     handleCloseConfirm();
     handleClose();
-  }
+  };
 
   const submitMatch = (values) => {
-
+    if (!is_valid_dates(values.date)) {
+      alert("Dates must be during tournament!");
+      return;
+    }
     if (props.report) {
       setShowConfirm(true);
     } else {
@@ -65,12 +67,13 @@ export function Match(props) {
 
   };
 
+  const icon = (props.report ? Pen : Pencil);
+
   return (
     <div>
       { (props.report && match.reported) ? '' :
-        <img src={Pencil} alt="Redigera" onClick={() => setShow(true)}/>
+        <img src={icon} alt="Redigera" onClick={() => setShow(true)}/>
       }
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Redigera match</Modal.Title>
@@ -100,18 +103,18 @@ export function Match(props) {
                   <Form.Group as={Col} controlId="match-modal-date">
                     <Form.Label>Datum:</Form.Label>
                     { props.report ?
-                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange} required/>
+                      <Form.Control name="date" type="date" value={values.date || ""} onChange={handleChange} required/>
                       :
-                      <Form.Control name="date" type="date" value={values.date} onChange={handleChange}/>
+                      <Form.Control name="date" type="date" value={values.date || ""} onChange={handleChange}/>
                     }
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="match-modal-time">
                     <Form.Label>Tid:</Form.Label>
                     { props.report ?
-                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange} required/>
+                      <Form.Control name="time" type="time" value={values.time || ""} onChange={handleChange} required/>
                       :
-                      <Form.Control name="time" type="time" value={values.time} onChange={handleChange}/>
+                      <Form.Control name="time" type="time" value={values.time || ""} onChange={handleChange}/>
                     }
                   </Form.Group>
                 </Form.Row>
@@ -130,12 +133,12 @@ export function Match(props) {
                     <Form.Row>
                       <Form.Group as={Col} controlId="match-modal-score-challenger">
                         <Form.Label>Utmanare:</Form.Label>
-                        <Form.Control name="score_challenger" type="number" value={values.score_challenger} onChange={handleChange} required/>
+                        <Form.Control name="score_challenger" type="number" value={values.score_challenger || ""} onChange={handleChange} required/>
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="match-modal-score-defender">
                         <Form.Label>Försvarare:</Form.Label>
-                        <Form.Control name="score_defender" type="number" value={values.score_defender} onChange={handleChange} required/>
+                        <Form.Control name="score_defender" type="number" value={values.score_defender || ""} onChange={handleChange} required/>
                       </Form.Group>
                     </Form.Row>
                   </div>
@@ -186,7 +189,6 @@ export function Match(props) {
           </Formik>
         </Modal.Body>
       </Modal>
-
     </div>
   );
 }

@@ -91,6 +91,9 @@ def edit_tournament():
         if end_date is None:
             return jsonify({'message': 'Bad format of end_date'}), 400
 
+    if end_date and not routes_help.is_date_before(start_date, end_date):
+        return jsonify({'message': 'Start date must not be after end date'}), 400
+
     query.edit_tournament(data['tournament_id'], start_date, end_date)
 
     return jsonify({'message': 'Tournament edited.'}), 200
@@ -198,6 +201,14 @@ def edit_match():
         date = routes_help.get_date_from_string(data['date'])
         if date is None:
             return jsonify({'message': 'Bad format of date'}), 400
+        tournament_dates = query.get_tournament_dates(data['tournament_id'])
+        if not tournament_dates:
+            return jsonify({'message': 'Failed to get tournament dates'}), 500
+
+        if date and not routes_help.is_date_before(tournament_dates['start_date'], date):
+            return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
+        if date and tournament_dates['end_date'] and not routes_help.is_date_before(date, tournament_dates['end_date']):
+            return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
 
     if 'time' not in data or not data['time']:
         time = None
@@ -243,6 +254,15 @@ def report_match():
     date = routes_help.get_date_from_string(data['date'])
     if date is None:
         return jsonify({'message': 'Bad format of date'}), 400
+
+    tournament_dates = query.get_tournament_dates(data['tournament_id'])
+    if not tournament_dates:
+        return jsonify({'message': 'Failed to get tournament dates'}), 500
+
+    if date and not routes_help.is_date_before(tournament_dates['start_date'], date):
+        return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
+    if date and tournament_dates['end_date'] and not routes_help.is_date_before(date, tournament_dates['end_date']):
+        return jsonify({'message': 'Bad date, must be within tournament dates'}), 400
 
     time = routes_help.get_time_from_string(data['time'])
     if time is None:
@@ -303,8 +323,8 @@ def get_past_matches():
     return jsonify({'message': "Found past matches", "data": future_matches}), 200
 
 
-@tournament_bp.route('/get_tournaments', methods=['GET'])
-def get_tournaments():
+@tournament_bp.route('/get_all_tournaments', methods=['GET'])
+def get_all_tournaments():
     """
     Returns all tournaments.
     """

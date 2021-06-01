@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {
-	updateCurrentDefender,
-	selectStoreDefender } from "../../reducers/storeDefender";
-import {
-	updateCanChallenge,
-	selectCanChallenge } from "../../reducers/storeCanChallenge";
-import { selectTournament } from "../../reducers/tournament";
-import { selectRank } from "../../reducers/getRank";
-import { selectStoreToken } from "../../reducers/storeToken";
-import { selectUserData } from "../../reducers/getUserData";
-import { GetRank } from "../../api/GetRank";
-import { joinTournament } from "../../reducers/joinTournament";
-import { createMatch } from "../../reducers/changeMatch";
-import styles from "../../css/Tournament.module.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
+import { updateCurrentDefender, selectStoreDefender } from "../../reducers/storeDefender";
+import { updateCanChallenge, selectCanChallenge } from "../../reducers/storeCanChallenge";
+import { selectTournament } from "../../reducers/tournament";
+import { fetchRank, selectRank } from "../../reducers/getRank";
+import { selectStoreToken } from "../../reducers/storeToken";
+import { selectUserData } from "../../reducers/getUserData";
+import { joinTournament } from "../../reducers/joinTournament";
+import { createMatch } from "../../reducers/changeMatch";
+import styles from "../../css/Tournament.module.css";
 
 export function Tournament(props) {
 
 	const dispatch = useDispatch();
 	const [show, setShow] = useState(false);
-	const handleClose = () => {
-		setShow(false);
-		dispatch(updateCanChallenge(false));
-	};
+	let currentState = useSelector((state) => state);
 
 	const userData = useSelector(selectUserData);
 	const token = useSelector(selectStoreToken);
@@ -34,6 +26,15 @@ export function Tournament(props) {
 	const currentDefender = useSelector(selectStoreDefender);
 	const canChallenge = useSelector(selectCanChallenge);
 
+	const handleClose = () => {
+		setShow(false);
+		dispatch(updateCanChallenge(false));
+	};
+
+	useEffect(() => {
+		dispatch(fetchRank(tournament.id));
+  }, [dispatch, tournament.id, currentState.joinTournament]);
+
 	const checkRank = (pos) => {
 		let i;
 
@@ -41,7 +42,7 @@ export function Tournament(props) {
 			if (!rank[i]) {
 				break;
 			}
-			if (rank[i][1] === userData.email) {
+			if (rank[i].email === userData.email) {
 				dispatch(updateCanChallenge(true));
 			}
 		}
@@ -51,18 +52,21 @@ export function Tournament(props) {
 	const listMaker = rank.map((competitor, index) =>
 	  <tr key={index+1}>
 	    <td className={styles.indexCol}>{ index+1 }</td>
-		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender(competitor));
-		                                                                checkRank(index); }}>{competitor[0]}</td>
+		  <td className={styles.competitorCol} onClick={() => {dispatch(updateCurrentDefender([competitor, index]));
+		                                                                  checkRank(index);}}
+		  >
+			  {competitor.name}</td>
     </tr>
 	);
 
 	return (
 		<div>
-			<GetRank />
 			{ props.authenticated ?
 				<Button className={styles.JoinTournament} onClick={() => dispatch(joinTournament(
-																																					tournament.id, userData.email,
-																																					token))}>Delta</Button>
+					tournament.id, userData.email, token))}
+				>
+					Delta
+				</Button>
 				:
 				''
 			}
@@ -78,14 +82,15 @@ export function Tournament(props) {
 			  { listMaker }
 			  </tbody>
 			</Table>
-				{ props.authenticated ?
+
+			{ props.authenticated ?
 				<Modal show={show} onHide={ handleClose }>
 					<Modal.Header closeButton>
 	          <Modal.Title>Utmaning</Modal.Title>
 	        </Modal.Header>
 							{	canChallenge.canChallenge ?
 									<div>
-										<Modal.Body> Vill du utmana {currentDefender.defender[0]}? </Modal.Body>
+										<Modal.Body> Vill du utmana {currentDefender.name}? </Modal.Body>
 										<Modal.Footer>
 											<Button variant="secondary" onClick={handleClose}>
 			                  Avbryt
@@ -93,7 +98,7 @@ export function Tournament(props) {
 											<Button variant="primary" onClick={ () => {handleClose();
 																																dispatch(createMatch(
 																																	tournament.id, userData.email,
-																																	currentDefender.defender[1], token));
+																																	currentDefender.email, token));
 																																alert("Utmaningen har skickats. Lycka till!")}}>
 			                  Ja
 			                </Button>

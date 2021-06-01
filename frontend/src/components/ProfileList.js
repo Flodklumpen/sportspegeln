@@ -3,36 +3,40 @@ import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import styles from '../css/Profile.module.css';
-import {
-  futureMatchReducer,
-  pastMatchReducer,
-  ownedTournamentReducer,
-  competingTournamentReducer,
-  selectFutureMatch,
-  selectPastMatch,
-  selectOwnedTournament,
-  selectCompetingTournament
-} from '../reducers/profileList';
-import { Match } from './Match';
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchPastMatches, fetchFutureMatches, selectFutureMatches, selectPastMatches } from '../reducers/match';
-import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getCompetingTournaments";
-import { selectUserData } from "../reducers/getUserData";
-import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getOwnedTournaments";
-import { selectEditTournament } from '../reducers/editTournament';
 import EditTournament from './tournament/EditTournament';
+import { Match } from './Match';
+import { selectUserData } from "../reducers/getUserData";
+import { selectEditTournament } from '../reducers/editTournament';
+import { selectStoreToken } from "../reducers/storeToken";
+import { fetchCompetingTournaments, selectCompetingTournaments } from "../reducers/getTournaments";
+import { fetchOwnedTournaments, selectOwnedTournaments } from "../reducers/getTournaments";
+import {
+  fetchPastMatches,
+  fetchFutureMatches,
+  selectFutureMatches,
+  selectPastMatches
+} from '../reducers/match';
+import {
+  toggleFutureMatchState,
+  togglePastMatchState,
+  toggleOwnedTournamentState,
+  toggleCompetingTournamentState,
+  selectFutureMatchState,
+  selectPastMatchState,
+  selectOwnedTournamentsState,
+  selectCompetingTournamentsState
+} from '../reducers/profileList';
+import styles from '../css/Profile.module.css';
 
 export function ProfileList() {
-  const { user } = useAuth0();
-
-  let currentState = useSelector((state) => state);
-
-  const token = currentState.userToken['currentUserToken'];
-  const userData = useSelector(selectUserData);
-  const tournamentEdited = useSelector(selectEditTournament);
 
   const dispatch = useDispatch();
+  let currentState = useSelector((state) => state);
+
+  const token = useSelector(selectStoreToken);
+  const userData = useSelector(selectUserData);
+  const tournamentEdited = useSelector(selectEditTournament);
+  const userName = userData.first_name + " " + userData.family_name;
 
   useEffect(() => {
     dispatch(fetchFutureMatches(userData.email, token));
@@ -47,7 +51,7 @@ export function ProfileList() {
   const ownedTournaments = useSelector(selectOwnedTournaments);
 
   const getOpponent = (match) => {
-    if (user.name === match.defender) {
+    if (userName === match.defender) {
       return match.challenger;
     } else {
       return match.defender;
@@ -69,7 +73,7 @@ export function ProfileList() {
   const getMatchResult = (match) => {
     let myScore = 0;
     let opponentScore = 0;
-    if (user.name === match.defender) {
+    if (userName === match.defender) {
       myScore = match.score_defender;
       opponentScore = match.score_challenger;
     } else {
@@ -91,8 +95,14 @@ export function ProfileList() {
   };
 
   function compareMatches(a, b) {
+    if (!a.reported && !b.reported) {
+      return 0;
+    }
     if (!a.reported) {
       return -1;
+    }
+    if (!b.reported) {
+      return 1;
     }
     if (a.date > b.date) {
       return -1;
@@ -110,11 +120,20 @@ export function ProfileList() {
     return 0;
   }
 
+  const competingTournamentsDict = {};
+  for (const tournament of competingTournaments) {
+    competingTournamentsDict[tournament.id] = tournament;
+  }
+
   const futureMatchList = futureMatches.sort(compareMatches).map((futureMatch, index) =>
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
-          <Match report={false} match={futureMatch}/>
+          <Match
+            report={false}
+            match={futureMatch}
+            tournament={competingTournamentsDict[futureMatch.tournament_id]}
+          />
         </Col>
         <Col xs={10}>
           <b>Mot {getOpponent(futureMatch)}</b><br />
@@ -129,7 +148,11 @@ export function ProfileList() {
     <ListGroup.Item as="li" key={index}>
       <Row>
         <Col xs={2}>
-          <Match report={true} match={pastMatch} />
+          <Match
+            report={true}
+            match={pastMatch}
+            tournament={competingTournamentsDict[pastMatch.tournament_id]}
+          />
         </Col>
         <Col xs={10}>
           <b>Mot {getOpponent(pastMatch)}</b><br />
@@ -183,10 +206,10 @@ export function ProfileList() {
     </ListGroup.Item>
   );
 
-  const futureMatch = useSelector(selectFutureMatch);
-  const pastMatch = useSelector(selectPastMatch);
-  const ownedTournament = useSelector(selectOwnedTournament);
-  const competingTournament = useSelector(selectCompetingTournament);
+  const futureMatchState = useSelector(selectFutureMatchState);
+  const pastMatchState = useSelector(selectPastMatchState);
+  const ownedTournamentState = useSelector(selectOwnedTournamentsState);
+  const competingTournamentState = useSelector(selectCompetingTournamentsState);
 
 
 
@@ -195,20 +218,20 @@ export function ProfileList() {
     let resource;
     switch(listName) {
       case "futureMatch":
-        onClickFunction = ()=>dispatch(futureMatchReducer());
-        resource = futureMatch;
+        onClickFunction = ()=>dispatch(toggleFutureMatchState());
+        resource = futureMatchState;
         break;
       case "pastMatch":
-        onClickFunction = ()=>dispatch(pastMatchReducer());
-        resource = pastMatch;
+        onClickFunction = ()=>dispatch(togglePastMatchState());
+        resource = pastMatchState;
         break;
       case "ownedTournament":
-        onClickFunction = ()=>dispatch(ownedTournamentReducer());
-        resource = ownedTournament;
+        onClickFunction = ()=>dispatch(toggleOwnedTournamentState());
+        resource = ownedTournamentState;
         break;
       case "competingTournament":
-        onClickFunction = ()=>dispatch(competingTournamentReducer());
-        resource = competingTournament;
+        onClickFunction = ()=>dispatch(toggleCompetingTournamentState());
+        resource = competingTournamentState;
         break;
       default:
         return (<div>Unknown</div>);
@@ -224,7 +247,8 @@ export function ProfileList() {
               </h2>
             </Col>
             <Col xs={2}>
-              <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction} src={resource.arrow} alt="Visa/Dölj"/>
+              <img className={`d-block d-sm-none ${styles.show_more_button}`} onClick={onClickFunction}
+                   src={resource.arrow} alt="Visa/Dölj"/>
             </Col>
           </Row>
         </ListGroup.Item>

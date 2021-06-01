@@ -4,12 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from "react-bootstrap/Col";
-import styles from '../../css/SubmitModal.module.css';
 import { selectUserData } from "../../reducers/getUserData";
 import { createTournament } from "../../reducers/createTournament";
 import { selectStoreToken } from "../../reducers/storeToken";
+import styles from '../../css/SubmitModal.module.css';
 
 export function CreateTournament(props) {
+
   const [show, setShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
@@ -33,6 +34,11 @@ export function CreateTournament(props) {
       form.noEnd.removeAttribute("required");
     }
 
+    if (form.startDate.value > form.endDate.value) {
+      alert("Start date must be before end date!");
+      return;
+    }
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
@@ -41,6 +47,7 @@ export function CreateTournament(props) {
       dispatch(createTournament(form.tourName.value, ownerData['email'], form.startDate.value, form.endDate.value, token));
       handleClose();
     }
+
     setValidated(true);
   };
 

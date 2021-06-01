@@ -11,7 +11,6 @@ def api():
     """
     Handles web sockets.
     """
-    print("ws api")
     if request.environ.get('wsgi.websocket'):
         ws = request.environ['wsgi.websocket']
 
@@ -26,7 +25,6 @@ def api():
                 ws_data = json.loads(message)
                 ws_email = ws_data['email']
                 sessions[ws_email] = ws
-                print(sessions)
                 ws.send(json.dumps({"type": "handshake", "data":"connection awake"}))
 
 
@@ -50,4 +48,7 @@ def inform_defender(defender_email, challenger_name):
 
 
 def print_session():
+    """
+    Used for debugging
+    """
     print(sessions)

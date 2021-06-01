@@ -1,19 +1,15 @@
 import React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
-import styles from '../css/Profile.module.css';
 import { ProfileList } from './ProfileList';
-import { useAuth0 } from "@auth0/auth0-react";
+import styles from '../css/Profile.module.css';
 
 export function Profile() {
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return (<div>Loading...</div>);
-  }
+  const { user, isAuthenticated } = useAuth0();
 
   if (!isAuthenticated) {
     return (<div>Not authenticated</div>);

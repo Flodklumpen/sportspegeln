@@ -3,21 +3,17 @@ import { useSelector } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import {
-  Route,
-  HashRouter,
-  Redirect
-} from "react-router-dom";
+import { Route, HashRouter, Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Home from './Home';
 import Profile from "./Profile";
 import Tournament from "./tournament/Tournament";
-import styles from '../css/Menu.module.css';
-import logo from '../images/logo_big.png';
 import { RegisterUser } from "../api/RegisterUser";
 import { GetUserData } from "../api/GetUserData";
 import { ToggleLogInButton } from "./ToggleLogInButton";
 import { selectTournament } from "../reducers/tournament";
+import styles from '../css/Menu.module.css';
+import logo from '../images/logo_big.png';
 
 export function Menu() {
 
@@ -27,9 +23,6 @@ export function Menu() {
   function getTab() {
     if (window.location.href.includes("/profile")) {
         return "#/profile"
-      } else if (window.location.href.includes("/tournament")) {
-        //<Redirect to="/home"/>
-        return "#/"
       } else {
       return "#/"
     }
