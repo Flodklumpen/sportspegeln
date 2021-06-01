@@ -31,7 +31,7 @@ The matches in the tournaments are timebased and the player who has won the most
 - We use Auth0 to ensure a secure sign in.
 - Server: Flask. Run server using WSGIServer
 - Database: SQLAlchemy
-- Testing: Postman and ~~Selenium~~ React's testing library. ([Link](https://www.getpostman.com/collections/56f11a2217e705260b7d) to import tests in Postman)
+- Testing: Postman and ~~Selenium~~ React's testing library. ([Link](https://www.getpostman.com/collections/56f11a2217e705260b7d) to import tests in Postman. If you want to run the tests or check other thing with authentication, feel free to contact us)
 
 ### Techniques for streamlining
 
