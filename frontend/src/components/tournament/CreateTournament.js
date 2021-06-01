@@ -34,8 +34,8 @@ export function CreateTournament(props) {
       form.noEnd.removeAttribute("required");
     }
 
-    if (form.startDate.value > form.endDate.value) {
-      alert("Start date must be before end date!");
+    if (form.endDate.value && form.startDate.value > form.endDate.value) {
+      alert("Startdatum måste vara innan slutdatum!");
       return;
     }
 
