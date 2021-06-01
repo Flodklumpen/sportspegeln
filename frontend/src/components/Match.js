@@ -133,12 +133,12 @@ export function Match(props) {
                     <Form.Row>
                       <Form.Group as={Col} controlId="match-modal-score-challenger">
                         <Form.Label>Utmanare:</Form.Label>
-                        <Form.Control name="score_challenger" type="number" value={values.score_challenger || ""} onChange={handleChange} required/>
+                        <Form.Control name="score_challenger" type="number" value={values.score_challenger || 0} onChange={handleChange} required/>
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="match-modal-score-defender">
                         <Form.Label>Försvarare:</Form.Label>
-                        <Form.Control name="score_defender" type="number" value={values.score_defender || ""} onChange={handleChange} required/>
+                        <Form.Control name="score_defender" type="number" value={values.score_defender || 0} onChange={handleChange} required/>
                       </Form.Group>
                     </Form.Row>
                   </div>
