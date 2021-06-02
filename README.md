@@ -10,10 +10,6 @@ Frida: (link here)
 
 Felicia: [presentation](https://youtu.be/wzxoVoA9D3c)
 
-## Mid course screencast
-
-The video can be found [here](https://youtu.be/2oSD3S4TGCI)
-
 The link to the Postman tests can be found under [Technichal specification](#technichal-specification)
 
 ## Functional specification
