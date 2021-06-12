@@ -2,14 +2,6 @@
 
 _Sportstegen_ is a project written for the course TDDD27 _Advanced Web Programming_ during spring 2021. It is to be a website used for recording and showing the results from sports competitions, primarily tennis.
 
-## Final screencast
-
-Project: (link here)
-
-Frida: (link here)
-
-Felicia: [presentation](https://youtu.be/wzxoVoA9D3c)
-
 The link to the Postman tests can be found under [Technichal specification](#technichal-specification)
 
 ## Functional specification
