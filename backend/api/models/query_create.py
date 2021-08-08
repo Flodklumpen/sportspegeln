@@ -41,7 +41,7 @@ def create_competing(competitor_email, tournament_id):
     """
     Adds a competing to the database.
     """
-    db.session.add(Competing(competitor=competitor_email, tournament=tournament_id))
+    db.session.add(Competing(competitor=competitor_email, tournament=tournament_id, nr_of_challenges=0))
     db.session.commit()
 
 

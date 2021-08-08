@@ -115,3 +115,9 @@ def edit_tournament(tournament_id, start_date, end_date):
     tournament.start_date = start_date
     tournament.end_date = end_date
     db.session.commit()
+
+
+def update_amount_challenges(competitor, tour_id, amount_challenges):
+    competing = Competing.query.get([competitor, tour_id])
+    competing.nr_of_challenges = amount_challenges
+    db.session.commit()

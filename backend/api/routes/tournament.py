@@ -139,7 +139,7 @@ def add_competitor():
 @requires_auth
 def create_challenge():
     """
-    Creates a match between two competitors
+    Creates a match between two competitors.
     """
     data = request.get_json()
     required_fields = ['tournament_id', 'challenger', 'defender']
@@ -176,11 +176,32 @@ def create_challenge():
     return jsonify({'message': 'Match created', 'data': id}), 200
 
 
+@tournament_bp.route('/get_new_challenges', methods=['GET'])
+@cross_origin(headers=["Content-Type", "Authorization"])
+@requires_auth
+def get_new_challenges():
+    """
+    Check if current user has new challenges and in that case returns the name of the challengers and the tournaments.
+    """
+    email = request.args.get('email')
+
+    if not email:
+        return jsonify({'message': 'Missing parameter'}), 400
+
+    if not query.is_competitor(email):
+        return jsonify({'data': ''}), 200
+
+    challenges = query.get_new_challenges(email)
+
+    return jsonify({'data': challenges}), 200
+
+
 @tournament_bp.route('/edit_match', methods=['PUT'])
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def edit_match():
-    """Updates a match with the given information
+    """
+    Updates a match with the given information.
     """
     data = request.get_json()
     required_fields = ['tournament_id', 'match_id']
@@ -226,7 +247,8 @@ def edit_match():
 @cross_origin(headers=["Content-Type", "Authorization"])
 @requires_auth
 def report_match():
-    """Reports the result of a match. All data needs to be included
+    """
+    Reports the result of a match. All data needs to be included.
     """
     data = request.get_json()
     required_fields = [

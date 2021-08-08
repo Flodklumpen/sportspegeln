@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
@@ -10,14 +10,17 @@ import Profile from "./Profile";
 import Tournament from "./tournament/Tournament";
 import { RegisterUser } from "../api/RegisterUser";
 import { GetUserData } from "../api/GetUserData";
+import { GetNrOfChallenges } from "../api/GetNrOfChallenges";
 import { ToggleLogInButton } from "./ToggleLogInButton";
 import { selectTournament } from "../reducers/tournament";
 import styles from '../css/Menu.module.css';
 import logo from '../images/logo_big.png';
+import { resetNrOfChallenges } from "../reducers/getNrOfChallenges";
 
 export function Menu() {
 
   const { isAuthenticated } = useAuth0();
+  const dispatch = useDispatch();
   const tournament = useSelector(selectTournament);
 
   function getTab() {
@@ -34,9 +37,11 @@ export function Menu() {
         <div>
           <RegisterUser />
           <GetUserData />
+          <GetNrOfChallenges />
         </div>
       );
     }
+    dispatch(resetNrOfChallenges());
     return null;
   }
 

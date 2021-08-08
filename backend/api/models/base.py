@@ -24,6 +24,7 @@ class Competing(db.Model):
     tournament = db.Column(db.Integer, db.ForeignKey('tournament.id'), primary_key=True)
     rank_before = db.Column(db.String(120), db.ForeignKey("competitor.email"))
     rank_after = db.Column(db.String(120), db.ForeignKey("competitor.email"))
+    nr_of_challenges = db.Column(db.Integer)
 
 
 class Competitor(db.Model):

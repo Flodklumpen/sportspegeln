@@ -1,8 +1,11 @@
 """ Miscellanious query functions """
 
 from .base import db, User, Tournament, Competing, Match
-from .query_get import get_leader
+from .query_get import \
+    get_leader, get_nr_of_challenges, get_challenges,\
+    get_tournament_name_from_id, get_user_name_from_email
 from .query_create import create_rank
+from .query_edit import update_amount_challenges
 
 
 def get_next_match_id(tournament_id):
@@ -99,3 +102,35 @@ def can_challenge(challenger_email, defender_email, tournament_id):
             return True
         current = all_competitors.filter_by(rank_after=current).first().competitor
     return False
+
+
+def get_new_challenges(email):
+    """
+    Returns new challenges since user has been logged out.
+
+    :param email: String
+    :return: Dictionary
+    """
+
+    new_challenges = []
+    tournaments = db.session.query(Competing.tournament).filter_by(competitor=email).all()
+
+    for tour in tournaments:
+        tour_id = tour[0]
+        amount_challenges = get_nr_of_challenges(email, tour_id)
+        challenges = get_challenges(email, tour_id)
+        new_amount_challenges = len(challenges)
+
+        if amount_challenges != new_amount_challenges:
+            start = amount_challenges
+
+            for challenge in challenges[start:]:
+                user_name = get_user_name_from_email(challenge[0])
+                tour_name = get_tournament_name_from_id(challenge[1])
+
+                new_challenges.append({
+                    'challenger': user_name,
+                    'tournament': tour_name
+                })
+            update_amount_challenges(email, tour_id, new_amount_challenges)
+    return new_challenges

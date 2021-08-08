@@ -38,6 +38,21 @@ def get_user_id_from_email(user_email):
         return None
 
 
+def get_user_name_from_email(user_email):
+    """
+    Attempts to find the user name connected to a given email.
+
+    :param user_email: String
+    :return: a user name on success, else None
+    """
+    result = db.session.query(User.first_name, User.family_name).filter_by(email=user_email).first()
+    if result is not None:
+        user_name = result[0] + " " + result[1]
+        return user_name
+    else:
+        return None
+
+
 def get_tournaments():
     """
     Returns all tournaments in the database.
@@ -158,6 +173,25 @@ def get_tournament_name_from_id(tour_id):
     """
     result = db.session.query(Tournament.name).filter_by(id=tour_id).first()
     return result[0]
+
+
+def get_nr_of_challenges(email, tour_id):
+    """
+    Get a user's number of challenges in a given tournament.
+
+    :param email: String
+    :param tour_id: Integer
+    :return: Integer
+    """
+    result = db.session.query(Competing.nr_of_challenges).filter_by(
+        competitor=email, tournament=tour_id).first()
+    return result[0]
+
+
+def get_challenges(email, tour_id):
+    challenges = db.session.query(Match.challenger, Match.tournament, Match.id).filter_by(
+        defender=email, tournament=tour_id).all()
+    return challenges
 
 
 def get_future_matches(email):
